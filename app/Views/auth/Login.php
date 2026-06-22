@@ -120,20 +120,11 @@
             </div>
 
             <!-- Lupa Password -->
-            <div class="flex justify-end mb-4">
 
-                <a href="<?= site_url('forgot-password') ?>"
-                    class="text-sm text-blue-600 hover:text-blue-800 font-medium">
-
-                    Lupa Password?
-
-                </a>
-
-            </div>
 
             <button
                 type="submit"
-                class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold">
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold mt-4">
 
                 Login
 
@@ -141,20 +132,6 @@
 
         </form>
 
-        <div class="text-center mt-5">
-
-            <span class="text-gray-600">
-                Belum punya akun?
-            </span>
-
-            <a href="<?= site_url('register') ?>"
-                class="text-blue-600 hover:text-blue-800 font-semibold">
-
-                Register
-
-            </a>
-
-        </div>
 
     </div>
 

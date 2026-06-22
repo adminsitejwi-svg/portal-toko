@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Pemilik Projek</title>
+    <title>Pelanggan</title>
     <link rel="icon" type="image/png" href="<?= base_url('store.png') ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
@@ -524,7 +524,7 @@
 
                         <li><a href="<?= site_url('Vendor') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Vendor</a></li>
                         <li><a href="<?= site_url('LayananVendor') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Layanan Vendor</a></li>
-                        <li><a href="#" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">DC</a></li>
+                        <li><a href="<?= site_url('DCAdmin') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">DC</a></li>
                         <li><a href="<?= site_url('MediaKoneksi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Media Koneksi</a></li>
                         <li><a href="<?= site_url('PemilikProject') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pemilik Projek</a></li>
                         <li><a href="<?= site_url('LayananJwi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Layanan jwi group</a></li>
@@ -538,7 +538,7 @@
                         <i data-feather="chevron-right" class="arrow w-4 h-4 transition-transform"></i>
                     </a>
                     <ul class="submenu bg-black/20">
-                        <li><a href="<?= site_url('Pelanggan') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pelanggan</a></li>
+                        <li><a href="#" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pelanggan</a></li>
 
 
                     </ul>
@@ -601,8 +601,8 @@
         <div class="p-6">
             <!-- breadcrumb -->
             <div class="flex items-center justify-between mb-6">
-                <h5 class="font-medium text-lg">Pemilik Projek</h5>
-                <a href="<?= site_url('PemilikProject/create') ?>" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition">
+                <h5 class="font-medium text-lg">Pelanggan</h5>
+                <a href="<?= site_url('Pelanggan/create') ?>" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition">
                     <i class="ti ti-plus"></i> Tambah
                 </a>
             </div>
@@ -628,10 +628,7 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Nama Pemilik</th>
-                                    <th>Alamat Lengkap</th>
-                                    <th>PIC Projek</th>
-                                    <th>Nomor HP PIC</th>
+                                    <th>Kategori Pelanggan</th>
                                     <th>Status</th>
                                     <th>Keterangan</th>
                                     <th>Created At</th>
@@ -639,15 +636,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if (!empty($MD_pemilik_project)) : ?>
+                                <?php if (!empty($MD_pelanggan)) : ?>
                                     <?php $no = 1; ?>
-                                    <?php foreach ($MD_pemilik_project as $row) : ?>
+                                    <?php foreach ($MD_pelanggan as $row) : ?>
                                         <tr>
                                             <td><?= $no++; ?></td>
-                                            <td><?= esc($row['nama_pemilik']); ?></td>
-                                            <td><?= esc($row['alamat_lengkap']); ?></td>
-                                            <td><?= esc($row['pic_projek']); ?></td>
-                                            <td><?= esc($row['nomor_hp_pic']); ?></td>
+                                            <td><?= esc($row['kategori_pelanggan']); ?></td>
+
                                             <td>
                                                 <?php if ($row['status'] == 0) : ?>
                                                     <span class="badge badge-paid">Aktif</span>
@@ -662,10 +657,8 @@
                                                     type="button"
                                                     onclick="openEditModal(
                                                     '<?= $row['id'] ?>',
-                                                    '<?= esc($row['nama_pemilik']) ?>',
-                                                    '<?= esc($row['alamat_lengkap']) ?>',
-                                                    '<?= esc($row['pic_projek']) ?>',
-                                                    '<?= esc($row['nomor_hp_pic']) ?>',
+                                                    '<?= esc($row['kategori_pelanggan']) ?>',
+  
                                                     '<?= esc($row['status']) ?>',
                                                     '<?= esc($row['keterangan']) ?>',
                                                     )"
@@ -697,59 +690,28 @@
                             <div class="bg-white rounded-xl shadow-xl w-full max-w-2xl p-6">
 
                                 <div class="flex justify-between items-center mb-6">
-                                    <h3 class="text-xl font-bold">Edit Data Pemilik Projek</h3>
+                                    <h3 class="text-xl font-bold">Edit Data kategori pelanggan</h3>
                                     <button onclick="closeEditModal()"><i class="ti ti-x text-2xl"></i></button>
                                 </div>
 
-                                <form action="<?= site_url('PemilikProject/update') ?>" method="POST">
+                                <form action="<?= site_url('Pelanggan/update') ?>" method="POST">
                                     <?= csrf_field() ?>
                                     <input type="hidden" name="id" id="edit_id">
 
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                                         <div class="md:col-span-2 relative">
-                                            <input type="text" id="edit_nama_pemilik" name="nama_pemilik" placeholder=" "
+                                            <input type="text" id="edit_kategori_pelanggan" name="kategori_pelanggan" placeholder=" "
                                                 class="peer w-full border rounded-lg px-3 pt-5 pb-2 outline-none focus:border-blue-500" />
-                                            <label for="edit_nama_pemilik"
+                                            <label for="edit_kategori_pelanggan"
                                                 class="absolute left-3 top-3.5 text-gray-500 text-sm transition-all
                                peer-focus:top-1 peer-focus:text-xs peer-focus:text-blue-500
                                peer-[:not(:placeholder-shown)]:top-1 peer-[:not(:placeholder-shown)]:text-xs">
-                                                Nama Pemilik
+                                                Kategori Pelanggan
                                             </label>
                                         </div>
 
-                                        <div class="md:col-span-2 relative">
-                                            <input type="text" id="edit_alamat_lengkap" name="alamat_lengkap" placeholder=" "
-                                                class="peer w-full border rounded-lg px-3 pt-5 pb-2 outline-none focus:border-blue-500" />
-                                            <label for="edit_alamat_lengkap"
-                                                class="absolute left-3 top-3.5 text-gray-500 text-sm transition-all
-                               peer-focus:top-1 peer-focus:text-xs peer-focus:text-blue-500
-                               peer-[:not(:placeholder-shown)]:top-1 peer-[:not(:placeholder-shown)]:text-xs">
-                                                Alamat Lengkap
-                                            </label>
-                                        </div>
 
-                                        <div class="md:col-span-2 relative">
-                                            <input type="text" id="edit_pic_projek" name="pic_projek" placeholder=" "
-                                                class="peer w-full border rounded-lg px-3 pt-5 pb-2 outline-none focus:border-blue-500" />
-                                            <label for="edit_pic_projek"
-                                                class="absolute left-3 top-3.5 text-gray-500 text-sm transition-all
-                               peer-focus:top-1 peer-focus:text-xs peer-focus:text-blue-500
-                               peer-[:not(:placeholder-shown)]:top-1 peer-[:not(:placeholder-shown)]:text-xs">
-                                                PIC Proyek
-                                            </label>
-                                        </div>
-
-                                        <div class="md:col-span-2 relative">
-                                            <input type="text" id="edit_nomor_hp_pic" name="nomor_hp_pic" placeholder=" "
-                                                class="peer w-full border rounded-lg px-3 pt-5 pb-2 outline-none focus:border-blue-500" />
-                                            <label for="edit_nomor_hp_pic"
-                                                class="absolute left-3 top-3.5 text-gray-500 text-sm transition-all
-                               peer-focus:top-1 peer-focus:text-xs peer-focus:text-blue-500
-                               peer-[:not(:placeholder-shown)]:top-1 peer-[:not(:placeholder-shown)]:text-xs">
-                                                Nomor HP PIC
-                                            </label>
-                                        </div>
 
                                         <div class="md:col-span-2 relative">
                                             <select id="edit_status" name="status"
@@ -907,7 +869,7 @@
                     buttons: [{
                             extend: 'copyHtml5',
                             text: '<i class="ti ti-copy"></i> Copy',
-                            title: 'Data Pemilik Project',
+                            title: 'Data Pelanggan',
                             ...exportConfig,
                             action: function(e, dt, button, config) {
                                 if (isTableEmpty(dt)) return showEmptyExportAlert();
@@ -917,7 +879,7 @@
                         {
                             extend: 'csvHtml5',
                             text: '<i class="ti ti-file-text"></i> Export CSV',
-                            title: 'Data Pemilik Project',
+                            title: 'Data Pelanggan',
                             ...exportConfig,
                             action: function(e, dt, button, config) {
                                 if (isTableEmpty(dt)) return showEmptyExportAlert();
@@ -927,7 +889,7 @@
                         {
                             extend: 'excelHtml5',
                             text: '<i class="ti ti-file-spreadsheet"></i> Export Excel',
-                            title: 'Data Pemilik Project',
+                            title: 'Data Pelanggan',
                             ...exportConfig,
                             action: function(e, dt, button, config) {
                                 if (isTableEmpty(dt)) return showEmptyExportAlert();
@@ -937,7 +899,7 @@
                         {
                             extend: 'pdfHtml5',
                             text: '<i class="ti ti-file-type-pdf"></i> Export PDF',
-                            title: 'Data Pemilik Project',
+                            title: 'Data Pelanggan',
                             orientation: 'landscape',
                             pageSize: 'A4',
                             ...exportConfig,
@@ -979,7 +941,7 @@
                     info: "Showing _START_ to _END_ of _TOTAL_ entries",
                     infoEmpty: "Showing 0 to 0 of 0 entries",
                     infoFiltered: "(filtered from _MAX_ total entries)",
-                    emptyTable: "Data Pemilik Project belum tersedia",
+                    emptyTable: "Data Pelanggan belum tersedia",
                     zeroRecords: "Tidak ada data yang cocok dengan pencarian",
                     paginate: {
                         previous: "Previous",
@@ -1031,7 +993,7 @@
 
                 if (result.isConfirmed) {
                     window.location.href =
-                        "<?= site_url('PemilikProject/delete/') ?>" + id;
+                        "<?= site_url('Pelanggan/delete/') ?>" + id;
                 }
 
             });
@@ -1039,13 +1001,11 @@
         }
     </script>
     <script>
-        function openEditModal(id, nama_pemilik, alamat_lengkap, pic_projek, nomor_hp_pic, status, keterangan) {
+        function openEditModal(id, kategori_pelanggan, status, keterangan) {
 
             document.getElementById('edit_id').value = id;
-            document.getElementById('edit_nama_pemilik').value = nama_pemilik;
-            document.getElementById('edit_alamat_lengkap').value = alamat_lengkap;
-            document.getElementById('edit_pic_projek').value = pic_projek;
-            document.getElementById('edit_nomor_hp_pic').value = nomor_hp_pic;
+            document.getElementById('edit_kategori_pelanggan').value = kategori_pelanggan;
+
             document.getElementById('edit_status').value = status;
             document.getElementById('edit_keterangan').value = keterangan;
 

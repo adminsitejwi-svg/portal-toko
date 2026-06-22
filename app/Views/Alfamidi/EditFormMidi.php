@@ -895,7 +895,7 @@
                 <li class="hasmenu">
                     <a href="#" onclick="toggleSub(this);return false;" class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
                         <span class="pc-micon w-5"><i class="ti ti-category"></i></span>
-                        <span class="flex-1">Master Data</span>
+                        <span class="flex-1">Master Data 1</span>
                         <i data-feather="chevron-right" class="arrow w-4 h-4 transition-transform"></i>
                     </a>
                     <ul class="submenu bg-black/20">
@@ -908,6 +908,18 @@
                         <li><a href="<?= site_url('MediaKoneksi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Media Koneksi</a></li>
                         <li><a href="<?= site_url('PemilikProjek') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pemilik Projek</a></li>
                         <li><a href="<?= site_url('LayananJwi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Layanan jwi group</a></li>
+
+                    </ul>
+                </li>
+                <li class="hasmenu">
+                    <a href="#" onclick="toggleSub(this);return false;" class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
+                        <span class="pc-micon w-5"><i class="ti ti-category"></i></span>
+                        <span class="flex-1">Master Data 2</span>
+                        <i data-feather="chevron-right" class="arrow w-4 h-4 transition-transform"></i>
+                    </a>
+                    <ul class="submenu bg-black/20">
+                        <li><a href="<?= site_url('Pelanggan') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pelanggan</a></li>
+
 
                     </ul>
                 </li>
@@ -1094,14 +1106,19 @@
                             </div>
                             <div class="form-group">
                                 <label>Merk Perangkat <span class="req">*</span></label>
-                                <select name="merk_perangkat_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
+                                <select name="merk_perangkat_id" id="merk_perangkat_select" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
                                     <option value="">— Pilih —</option>
                                     <?php foreach ($perangkat as $row): ?>
-                                        <option value="<?= $row['id'] ?>"
-                                            <?= $midi['merk_perangkat_id'] == $row['id'] ? 'selected' : '' ?>>
+                                        <option value="<?= $row['id'] ?>" <?= $midi['merk_perangkat_id'] == $row['id'] ? 'selected' : '' ?>>
                                             <?= esc($row['merk_perangkat']) ?>
                                         </option>
                                     <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Type Perangkat <span class="req">*</span></label>
+                                <select name="type_perangkat" id="type_perangkat_select" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
+                                    <option value="">— Pilih —</option>
                                 </select>
                             </div>
                         </div>
@@ -1114,19 +1131,8 @@
                                 <input type="text" name="ip_address"
                                     value="<?= esc($midi['ip_address']) ?>" placeholder="192.168.x.x">
                             </div>
-                            <div class="form-group">
-                                <label>Type Perangkat <span class="req">*</span></label>
-                                <select name="type_perangkat" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
-                                    <option value="">— Pilih —</option>
-                                    <?php foreach ($type_perangkat as $row): ?>
-                                        <option value="<?= $row['id'] ?>"
-                                            <?= $midi['type_perangkat'] == $row['id'] ? 'selected' : '' ?>>
-                                            <?= esc($row['type_perangkat']) ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="form-group">
+
+                            <div class="form-group" style="grid-column: span 2">
                                 <label>Serial Number Perangkat</label>
                                 <input type="text" name="serial_number_perangkat"
                                     value="<?= esc($midi['serial_number_perangkat']) ?>" placeholder="S/N perangkat">
@@ -1799,6 +1805,49 @@
             if (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) e.preventDefault();
             if (e.ctrlKey && e.key.toUpperCase() === 'U') e.preventDefault(); // view-source
         });
+    </script>
+    <script>
+        const ALL_TYPES = <?= json_encode(array_map(function ($t) {
+                                return [
+                                    'id'                 => $t['id'],
+                                    'merek_perangkat_id' => $t['merek_perangkat_id'],
+                                    'type_perangkat'     => $t['type_perangkat'],
+                                ];
+                            }, $type_perangkat ?? []), JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
+
+        (function() {
+            const merkSel = document.getElementById('merk_perangkat_select');
+            const typeSel = document.getElementById('type_perangkat_select');
+            if (!merkSel || !typeSel) return;
+
+            function refreshTypes(selectedTypeId) {
+                const merkId = merkSel.value;
+                typeSel.innerHTML = '';
+
+                if (!merkId) {
+                    typeSel.add(new Option('— Pilih Merk dulu —', ''));
+                    return;
+                }
+
+                const matched = ALL_TYPES.filter(t => String(t.merek_perangkat_id) === String(merkId));
+                if (matched.length === 0) {
+                    typeSel.add(new Option('— Tidak ada type untuk merk ini —', ''));
+                    return;
+                }
+
+                typeSel.add(new Option('— Pilih —', ''));
+                matched.forEach(t => {
+                    const o = new Option(t.type_perangkat, t.id);
+                    if (selectedTypeId && String(selectedTypeId) === String(t.id)) o.selected = true;
+                    typeSel.add(o);
+                });
+            }
+
+            merkSel.addEventListener('change', () => refreshTypes());
+
+            // saat halaman dibuka: merk sudah ter-set (selected), langsung filter + pilih type tersimpan
+            refreshTypes(<?= (int) ($midi['type_perangkat'] ?? 0) ?>);
+        })();
     </script>
 </body>
 

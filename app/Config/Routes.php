@@ -20,6 +20,8 @@ use App\Controllers\Lawson;
 use App\Controllers\Alfamart;
 use App\Controllers\Map;
 use App\Controllers\TypePerangkat;
+use App\Controllers\Pelanggan;
+
 
 
 
@@ -137,4 +139,10 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->post('TypePerangkat/save', 'TypePerangkat::save');
     $routes->post('TypePerangkat/update', 'TypePerangkat::update');
     $routes->get('TypePerangkat/delete/(:num)', 'TypePerangkat::delete/$1');
+
+    $routes->get('Pelanggan', [Pelanggan::class, 'index']);
+    $routes->get('Pelanggan/create', 'Pelanggan::create');
+    $routes->post('Pelanggan/save', 'Pelanggan::save');
+    $routes->post('Pelanggan/update', 'Pelanggan::update');
+    $routes->get('Pelanggan/delete/(:num)', 'Pelanggan::delete/$1');
 });
