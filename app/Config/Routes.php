@@ -21,7 +21,9 @@ use App\Controllers\Alfamart;
 use App\Controllers\Map;
 use App\Controllers\TypePerangkat;
 use App\Controllers\Pelanggan;
-
+use App\Controllers\DataCelullar;
+use App\Controllers\NomorInet;
+use App\Controllers\QuotaSIMCARD;
 
 
 
@@ -145,4 +147,22 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->post('Pelanggan/save', 'Pelanggan::save');
     $routes->post('Pelanggan/update', 'Pelanggan::update');
     $routes->get('Pelanggan/delete/(:num)', 'Pelanggan::delete/$1');
+
+    $routes->get('DataCelullar', [DataCelullar::class, 'index']);
+    $routes->get('DataCelullar/create', 'DataCelullar::create');
+    $routes->post('DataCelullar/save', 'DataCelullar::save');
+    $routes->post('DataCelullar/update', 'DataCelullar::update');
+    $routes->get('DataCelullar/delete/(:num)', 'DataCelullar::delete/$1');
+
+    $routes->get('NomorInet', [NomorInet::class, 'index']);
+    $routes->get('NomorInet/create', 'NomorInet::create');
+    $routes->post('NomorInet/save', 'NomorInet::save');
+    $routes->post('NomorInet/update', 'NomorInet::update');
+    $routes->get('NomorInet/delete/(:num)', 'NomorInet::delete/$1');
+
+    $routes->get('QuotaSIMCARD', [QuotaSIMCARD::class, 'index']);
+    $routes->get('QuotaSIMCARD/create', 'QuotaSIMCARD::create');
+    $routes->post('QuotaSIMCARD/save', 'QuotaSIMCARD::save');
+    $routes->post('QuotaSIMCARD/update', 'QuotaSIMCARD::update');
+    $routes->get('QuotaSIMCARD/delete/(:num)', 'QuotaSIMCARD::delete/$1');
 });

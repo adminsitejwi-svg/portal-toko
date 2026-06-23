@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="<?= base_url('store.png') ?>">
-    <title>DCAdmin</title>
+    <title>Data Celullar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -619,7 +619,7 @@
                 </li>
 
                 <li class="hasmenu">
-                    <a href="#" onclick="toggleSub(this);return false;" class="pc-link active flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
+                    <a href="#" onclick="toggleSub(this);return false;" class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
                         <span class="pc-micon w-5"><i class="ti ti-category"></i></span>
                         <span class="flex-1">Master Data 1</span>
                         <i data-feather="chevron-right" class="arrow w-4 h-4 transition-transform"></i>
@@ -638,7 +638,7 @@
                     </ul>
                 </li>
                 <li class="hasmenu">
-                    <a href="#" onclick="toggleSub(this);return false;" class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
+                    <a href="#" onclick="toggleSub(this);return false;" class="pc-link active flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
                         <span class="pc-micon w-5"><i class="ti ti-category"></i></span>
                         <span class="flex-1">Master Data 2</span>
                         <i data-feather="chevron-right" class="arrow w-4 h-4 transition-transform"></i>
@@ -707,23 +707,27 @@
 
         <div class="p-6">
             <div class="form-container">
-                <h2>Form Pendaftaran DC</h2>
-                <form action="<?= site_url('DCAdmin/save') ?>" method="POST" id="dcForm">
+                <h2>Form Pendaftaran Data Celullar</h2>
+                <form action="<?= site_url('DataCelullar/save') ?>" method="POST" id="dcForm">
                     <div class="form-group mt-5">
-                        <label>Nama DC <span style="color:red">*</span></label>
+                        <label>Nama Vendor / Penyedia Layanan <span style="color:red">*</span></label>
+                        <select name="vendor_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
+                            <option value="">Pilih</option>
+                            <?php foreach ($MD_vendor as $vendor): ?>
+                                <option value="<?= $vendor['id'] ?>">
+                                    <?= esc($vendor['nama_vendor']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-group mt-5">
+                        <label>Nama Paket Data <span style="color:red">*</span></label>
                         <input type="text"
-                            name="nama_dc"
-                            id="nama_dc"
+                            name="nama_paket_data"
+                            id="nama_paket_data"
                             required>
                     </div>
 
-                    <div class="form-group">
-                        <label>Alamat DC <span style="color:red">*</span></label>
-                        <textarea name="alamat_dc"
-                            id="alamat_dc"
-                            rows="3"
-                            required></textarea>
-                    </div>
 
                     <div class="form-group">
                         <label>Status <span style="color:red">*</span></label>
@@ -747,7 +751,7 @@
                             rows="4"
                             required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none"></textarea>
                     </div>
-                    <div class="d-flex"> <button type="submit"> Simpan </button> <button type="button" class="btn-back" onclick="window.location.href='<?= site_url('DCAdmin') ?>'"> Kembali </button> </div>
+                    <div class="d-flex"> <button type="submit"> Simpan </button> <button type="button" class="btn-back" onclick="window.location.href='<?= site_url('DataCelullar') ?>'"> Kembali </button> </div>
                 </form>
             </div>
         </div>
@@ -835,14 +839,14 @@
     <script>
         document.getElementById('dcForm').addEventListener('submit', function(e) {
 
-            const namaDC = document.getElementById('nama_dc').value.trim();
-            const alamatDC = document.getElementById('alamat_dc').value.trim();
+            const namaPelanggan = document.getElementById('kategori_pelanggan').value.trim();
+
             const status = document.getElementById('status').value.trim();
             const keterangan = document.getElementById('keterangan').value.trim();
 
             if (
-                namaDC === '' ||
-                alamatDC === '' ||
+                namaPelanggan === '' ||
+
                 status === '' ||
                 keterangan === ''
             ) {

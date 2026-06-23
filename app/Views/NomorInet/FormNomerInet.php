@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="<?= base_url('store.png') ?>">
-    <title>DCAdmin</title>
+    <title>Data Celullar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -528,6 +528,47 @@
         .btn-back:hover {
             box-shadow: 0 8px 25px rgba(75, 85, 99, 0.4);
         }
+
+        .bandwidth-row {
+            display: flex;
+            gap: 10px;
+            align-items: stretch;
+        }
+
+        .bandwidth-row select {
+            flex: 1;
+            /* select mengisi sisa ruang */
+            width: auto;
+            /* batalkan width:100% bawaan */
+        }
+
+        .btn-add-bw {
+            flex-shrink: 0;
+            /* tombol tidak ikut menyusut */
+            width: auto;
+            /* batalkan width:100% dari rule "button" global */
+            height: auto;
+            padding: 0 18px;
+            white-space: nowrap;
+            background: #185a82;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background .2s ease;
+        }
+
+        .btn-add-bw:hover {
+            background: #134866;
+            transform: none;
+            /* batalkan translateY dari button:hover global */
+        }
+
+        .req {
+            color: red;
+        }
     </style>
 </head>
 
@@ -619,7 +660,7 @@
                 </li>
 
                 <li class="hasmenu">
-                    <a href="#" onclick="toggleSub(this);return false;" class="pc-link active flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
+                    <a href="#" onclick="toggleSub(this);return false;" class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
                         <span class="pc-micon w-5"><i class="ti ti-category"></i></span>
                         <span class="flex-1">Master Data 1</span>
                         <i data-feather="chevron-right" class="arrow w-4 h-4 transition-transform"></i>
@@ -638,7 +679,7 @@
                     </ul>
                 </li>
                 <li class="hasmenu">
-                    <a href="#" onclick="toggleSub(this);return false;" class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
+                    <a href="#" onclick="toggleSub(this);return false;" class="pc-link active flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
                         <span class="pc-micon w-5"><i class="ti ti-category"></i></span>
                         <span class="flex-1">Master Data 2</span>
                         <i data-feather="chevron-right" class="arrow w-4 h-4 transition-transform"></i>
@@ -707,24 +748,62 @@
 
         <div class="p-6">
             <div class="form-container">
-                <h2>Form Pendaftaran DC</h2>
-                <form action="<?= site_url('DCAdmin/save') ?>" method="POST" id="dcForm">
+                <h2>Form Pendaftaran Nomor INET</h2>
+                <form action="<?= site_url('NomorInet/save') ?>" method="POST" id="dcForm">
                     <div class="form-group mt-5">
-                        <label>Nama DC <span style="color:red">*</span></label>
+                        <label>Nama Vendor / Penyedia Layanan <span style="color:red">*</span></label>
+                        <select name="vendor_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
+                            <option value="">Pilih</option>
+                            <?php foreach ($MD_vendor as $vendor): ?>
+                                <option value="<?= $vendor['id'] ?>">
+                                    <?= esc($vendor['nama_vendor']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-group mt-5">
+                        <label>Nama Paket Layanan <span style="color:red">*</span></label>
                         <input type="text"
-                            name="nama_dc"
-                            id="nama_dc"
+                            name="nama_paket_layanan"
+                            id="nama_paket_layanan"
                             required>
                     </div>
-
                     <div class="form-group">
-                        <label>Alamat DC <span style="color:red">*</span></label>
-                        <textarea name="alamat_dc"
-                            id="alamat_dc"
-                            rows="3"
-                            required></textarea>
+                        <label>Kecepetan Bandwidth <span class="req">*</span></label>
+                        <div class="bandwidth-row">
+                            <select name="kecepatan_bandwidth" id="kecepatan_bandwidth" class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
+                                <option value="">— Pilih —</option>
+                                <option value="1 Mbps">1 Mbps</option>
+                                <option value="2 Mbps">2 Mbps</option>
+                                <option value="5 Mbps">5 Mbps</option>
+                                <option value="10 Mbps">10 Mbps</option>
+                                <option value="20 Mbps">20 Mbps</option>
+                                <option value="50 Mbps">50 Mbps</option>
+                                <option value="100 Mbps">100 Mbps</option>
+                            </select>
+                            <button type="button" class="btn-add-bw" id="btn_add_bw" title="Tambah opsi bandwidth baru">+ Baru</button>
+                        </div>
                     </div>
 
+                    <div class="form-group mt-5">
+                        <label>Harga Layanan <span style="color:red">*</span></label>
+                        <input type="text"
+                            id="harga_layanan_display"
+                            inputmode="numeric"
+                            placeholder="Rp 0"
+                            autocomplete="off"
+                            required>
+                        <!-- nilai mentah (angka polos) yang dikirim ke server -->
+                        <input type="hidden" name="harga_layanan" id="harga_layanan">
+                    </div>
+
+                    <div class="form-group mt-5">
+                        <label>Nomor INET/ID Pelanggan <span style="color:red">*</span></label>
+                        <input type="text"
+                            name="nomor_inet_pelanggan"
+                            id="nomor_inet_pelanggan"
+                            required>
+                    </div>
                     <div class="form-group">
                         <label>Status <span style="color:red">*</span></label>
 
@@ -747,12 +826,28 @@
                             rows="4"
                             required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none"></textarea>
                     </div>
-                    <div class="d-flex"> <button type="submit"> Simpan </button> <button type="button" class="btn-back" onclick="window.location.href='<?= site_url('DCAdmin') ?>'"> Kembali </button> </div>
+                    <div class="d-flex"> <button type="submit"> Simpan </button> <button type="button" class="btn-back" onclick="window.location.href='<?= site_url('NomorInet') ?>'"> Kembali </button> </div>
                 </form>
             </div>
         </div>
     </div>
+    <script>
+        (function() {
+            const display = document.getElementById('harga_layanan_display');
+            const hidden = document.getElementById('harga_layanan');
 
+            function formatRupiah(angka) {
+                if (angka === '') return '';
+                return 'Rp ' + angka.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            }
+
+            display.addEventListener('input', function() {
+                const raw = this.value.replace(/\D/g, ''); // ambil digit saja
+                hidden.value = raw; // utk server: 1000000
+                this.value = formatRupiah(raw); // utk user: Rp 1.000.000
+            });
+        })();
+    </script>
     <script>
         // ---- Sidebar ----
         let collapsed = false;
@@ -835,14 +930,19 @@
     <script>
         document.getElementById('dcForm').addEventListener('submit', function(e) {
 
-            const namaDC = document.getElementById('nama_dc').value.trim();
-            const alamatDC = document.getElementById('alamat_dc').value.trim();
+            const namaPaketLayanan = document.getElementById('nama_paket_layanan').value.trim();
+            const kecepatanBandwidth = document.getElementById('kecepatan_bandwidth').value.trim();
+            const hargaLayanan = document.getElementById('harga_layanan').value.trim();
+            const nomorInetPelanggan = document.getElementById('nomor_inet_pelanggan').value.trim();
             const status = document.getElementById('status').value.trim();
             const keterangan = document.getElementById('keterangan').value.trim();
 
             if (
-                namaDC === '' ||
-                alamatDC === '' ||
+                namaPaketLayanan === '' ||
+                kecepatanBandwidth === '' ||
+                hargaLayanan === '' ||
+                nomorInetPelanggan === '' ||
+
                 status === '' ||
                 keterangan === ''
             ) {
@@ -859,6 +959,69 @@
                 return false;
             }
 
+        });
+
+        /* ════════════════════════════════════════════════
+          2. BANDWIDTH – Tambah opsi baru
+          ════════════════════════════════════════════════ */
+        document.getElementById('btn_add_bw').addEventListener('click', function() {
+            Swal.fire({
+                title: 'Tambah Kapasitas Bandwidth',
+                html: `
+            <div style="text-align:left;margin-bottom:8px">
+                <label style="font-size:13px;font-weight:600;color:#374151">Nilai Bandwidth</label>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center">
+                <input type="number" id="swal_bw_val" class="swal2-input" placeholder="Cth: 25" min="1" style="flex:1;margin:0">
+                <select id="swal_bw_unit" class="swal2-input" style="flex:1;margin:0">
+                    <option value="Mbps">Mbps</option>
+                    <option value="Gbps">Gbps</option>
+                    <option value="Kbps">Kbps</option>
+                </select>
+            </div>
+        `,
+                showCancelButton: true,
+                confirmButtonText: 'Tambahkan',
+                cancelButtonText: 'Batal',
+                confirmButtonColor: '#185a82',
+                preConfirm: () => {
+                    const val = document.getElementById('swal_bw_val').value.trim();
+                    const unit = document.getElementById('swal_bw_unit').value;
+                    if (!val || isNaN(val) || parseFloat(val) <= 0) {
+                        Swal.showValidationMessage('Masukkan nilai bandwidth yang valid');
+                        return false;
+                    }
+                    return `${val} ${unit}`;
+                }
+            }).then(result => {
+                if (result.isConfirmed) {
+                    const newVal = result.value;
+                    const sel = document.getElementById('kapasitas_bandwidth');
+                    // Cek duplikat
+                    const exists = Array.from(sel.options).some(o => o.value === newVal);
+                    if (exists) {
+                        sel.value = newVal;
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Sudah ada',
+                            text: `Opsi "${newVal}" sudah tersedia.`,
+                            confirmButtonColor: '#185a82',
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                        return;
+                    }
+                    const opt = new Option(newVal, newVal, true, true);
+                    sel.add(opt);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil',
+                        text: `Opsi "${newVal}" ditambahkan.`,
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                }
+            });
         });
     </script>
     <script>
