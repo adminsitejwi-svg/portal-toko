@@ -20,6 +20,14 @@ class DashboardManager extends BaseController
         $mediaKoneksiModel = new \App\Models\MediaKoneksiModel();
         $layananJwiModel   = new \App\Models\LayananJwiModel();
         $alfamartModel     = new \App\Models\AlfamartModel();
+        $pelangganModel    = new \App\Models\PelangganModel();
+        $dataCelullarModel = new \App\Models\DataCelullarModel();
+        $nomerInetModel    = new \App\Models\NomerInetModel();
+
+        $db = \Config\Database::connect();
+        $data['totalPelanggan']    = $db->table('md_pelanggan')->countAllResults();
+        $data['totalDataCelullar'] = $db->table('md_data_celullar')->countAllResults();
+        $data['totalNomorInet']    = $db->table('md_nomer_inet')->countAllResults();
 
         $merekPerangkat = $perangkatModel
             ->select('merk_perangkat, COUNT(*) as jumlah')

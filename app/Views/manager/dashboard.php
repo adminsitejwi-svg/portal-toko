@@ -433,6 +433,53 @@
                         </div>
                     </a>
 
+                    <a href="<?= site_url('Pelanggan') ?>" class="col-span-12 xl:col-span-4 md:col-span-6">
+                        <div class="card hover:shadow-lg transition-all duration-300 cursor-pointer">
+                            <div class="card-header !border-b-0 ">
+                                <h5>Total Pelanggan</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="flex items-center justify-between flex-wrap gap-3">
+                                    <h3 class="text-2xl font-light flex items-center">
+                                        <i class="ti ti-users text-success-500 text-2xl mr-2"></i>
+                                        <?= $totalPelanggan ?? 0 ?>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="<?= site_url('DataCelullar') ?>" class="col-span-12 xl:col-span-4 md:col-span-6">
+                        <div class="card hover:shadow-lg transition-all duration-300 cursor-pointer">
+                            <div class="card-header !border-b-0 ">
+                                <h5>Total Data Celullar</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="flex items-center justify-between flex-wrap gap-3">
+                                    <h3 class="text-2xl font-light flex items-center">
+                                        <i class="ti ti-device-mobile text-success-500 text-2xl mr-2"></i>
+                                        <?= $totalDataCelullar ?? 0 ?>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+
+                    <a href="<?= site_url('NomorInet') ?>" class="col-span-12 xl:col-span-4 md:col-span-6">
+                        <div class="card hover:shadow-lg transition-all duration-300 cursor-pointer">
+                            <div class="card-header !border-b-0 ">
+                                <h5>Total Nomor INET</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="flex items-center justify-between flex-wrap gap-3">
+                                    <h3 class="text-2xl font-light flex items-center">
+                                        <i class="ti ti-router text-success-500 text-2xl mr-2"></i>
+                                        <?= $totalNomorInet ?? 0 ?>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
                     <!-- Facebook -->
                     <div class="col-span-12 xl:col-span-4">
                         <div class="card">
