@@ -4,8 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="<?= base_url('store.png') ?>">
-
-    <title>Nomor INET</title>
+    <title>Simcard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -147,12 +146,12 @@
         }
 
         /* ===== INVOICE-STYLE TABLE ===== */
-        #mediaKoneksiTable {
+        #dcTable {
             width: 100% !important;
             border-collapse: collapse;
         }
 
-        #mediaKoneksiTable thead th {
+        #dcTable thead th {
             background: #f7f9fb;
             color: #6b7785;
             font-weight: 500;
@@ -164,13 +163,13 @@
             white-space: nowrap;
         }
 
-        .dark #mediaKoneksiTable thead th {
+        .dark #dcTable thead th {
             background: #2b3543;
             color: #9fb0c2;
             border-color: #37404c;
         }
 
-        #mediaKoneksiTable tbody td {
+        #dcTable tbody td {
             padding: 16px;
             font-size: 14px;
             color: #3b4754;
@@ -179,25 +178,25 @@
             white-space: nowrap;
         }
 
-        .dark #mediaKoneksiTable tbody td {
+        .dark #dcTable tbody td {
             color: #bfc8d6;
             border-color: #37404c;
         }
 
-        #mediaKoneksiTable tbody tr:hover {
+        #dcTable tbody tr:hover {
             background: #fafbfc;
         }
 
-        .dark #mediaKoneksiTable tbody tr:hover {
+        .dark #dcTable tbody tr:hover {
             background: rgba(255, 255, 255, .03);
         }
 
-        #mediaKoneksiTable tbody td.col-bold {
+        #dcTable tbody td.col-bold {
             font-weight: 600;
             color: #2b3540;
         }
 
-        .dark #mediaKoneksiTable tbody td.col-bold {
+        .dark #dcTable tbody td.col-bold {
             color: #e7eaf0;
         }
 
@@ -423,34 +422,6 @@
         .table-scroll table {
             min-width: 760px;
         }
-
-        .bandwidth-row {
-            display: flex;
-            gap: 10px;
-            align-items: stretch;
-        }
-
-        .bandwidth-row select {
-            flex: 1;
-            width: auto;
-        }
-
-        .btn-add-bw {
-            flex-shrink: 0;
-            padding: 0 18px;
-            white-space: nowrap;
-            background: #185a82;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .btn-add-bw:hover {
-            background: #134866;
-        }
     </style>
 </head>
 
@@ -541,19 +512,19 @@
                     </ul>
                 </li>
                 <li class="hasmenu">
-                    <a href="#" onclick="toggleSub(this);return false;" class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
+                    <a href="#" onclick="toggleSub(this);return false;" class="pc-link active flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
                         <span class="pc-micon w-5"><i class="ti ti-brand-databricks"></i></span>
                         <span class="flex-1">All Data</span>
                         <i data-feather="chevron-right" class="arrow w-4 h-4 transition-transform"></i>
                     </a>
                     <ul class="submenu bg-black/20">
-                        <li><a href="<?= site_url('DataSI') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Simcard</a></li>
+                        <li><a href="#" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Simcard</a></li>
                         <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor Inet</a></li>
 
                     </ul>
                 </li>
                 <li class="hasmenu">
-                    <a href="#" onclick="toggleSub(this);return false;" class="pc-link  flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
+                    <a href="#" onclick="toggleSub(this);return false;" class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
                         <span class="pc-micon w-5"><i class="ti ti-category"></i></span>
                         <span class="flex-1">Master Data 1</span>
                         <i data-feather="chevron-right" class="arrow w-4 h-4 transition-transform"></i>
@@ -562,7 +533,6 @@
                         <li><a href="<?= site_url('Perangkat') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Merek Perangkat</a></li>
                         <li><a href="<?= site_url('Jns_perangkat') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Jenis Perangkat</a></li>
                         <li><a href="<?= site_url('TypePerangkat') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Type Perangkat</a></li>
-
                         <li><a href="<?= site_url('Vendor') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Vendor</a></li>
                         <li><a href="<?= site_url('LayananVendor') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Layanan Vendor</a></li>
                         <li><a href="<?= site_url('DCAdmin') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">DC</a></li>
@@ -573,7 +543,7 @@
                     </ul>
                 </li>
                 <li class="hasmenu">
-                    <a href="#" onclick="toggleSub(this);return false;" class="pc-link active flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
+                    <a href="#" onclick="toggleSub(this);return false;" class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
                         <span class="pc-micon w-5"><i class="ti ti-category"></i></span>
                         <span class="flex-1">Master Data 2</span>
                         <i data-feather="chevron-right" class="arrow w-4 h-4 transition-transform"></i>
@@ -643,9 +613,10 @@
 
         <div class="p-6">
             <!-- breadcrumb -->
-            <div class="flex items-center justify-between mb-6">
-                <h5 class="font-medium text-lg">Nomor INET</h5>
-                <a href="<?= site_url('NomorInet/create') ?>" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition">
+            <div class="flex items-center justify-between mb-6 gap-4 flex-wrap">
+                <h5 class="font-medium text-lg">Simcard</h5>
+
+                <a href="<?= site_url('DataSI/create') ?>" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition">
                     <i class="ti ti-plus"></i> Tambah
                 </a>
             </div>
@@ -667,15 +638,18 @@
 
                     <!-- TABLE (bisa digeser kiri-kanan saat layar sempit) -->
                     <div class="table-scroll">
-                        <table id="mediaKoneksiTable" class="display nowrap" style="width:100%">
+                        <table id="dcTable" class="display nowrap" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Nama Vendor / Penyedia Layanan</th>
-                                    <th>Nama Paket Layanan</th>
-                                    <th>Kecepatan/Bandwidth</th>
-                                    <th>Harga Layanan</th>
-                                    <th>Nomor INET/ID Pelanggan</th>
+                                    <th>Nama Vendor /<br>Penyedia Layanan</th>
+                                    <th>Nama Paket Data</th>
+                                    <th>Isi Quota<br>Internet Sim Card</th>
+                                    <th>Harga Paket Quota</th>
+                                    <th>Nomor MSISDN</th>
+                                    <th>Nomor ISSID / IME</th>
+                                    <th>Kategori Pelanggan</th>
+
                                     <th>Status</th>
                                     <th>Keterangan</th>
                                     <th>Created At</th>
@@ -683,20 +657,23 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if (!empty($MD_nomer_inet)) : ?>
+                                <?php if (!empty($MD_simcard)) : ?>
                                     <?php $no = 1; ?>
-                                    <?php foreach ($MD_nomer_inet as $row) : ?>
+                                    <?php foreach ($MD_simcard as $row) : ?>
                                         <tr>
                                             <td><?= $no++; ?></td>
-                                            <td><?= esc($row['nama_vendor']); ?></td>
-                                            <td><?= esc($row['nama_paket_layanan']) ?></td>
-                                            <td><?= esc($row['kecepatan_bandwidth']) ?></td>
+                                            <td><?= esc($row['nama_vendor'] ?? '-'); ?></td>
+                                            <td><?= esc($row['nama_paket_data'] ?? '-'); ?></td>
+                                            <td><?= esc($row['isi_quota_internet'] ?? '-'); ?></td>
                                             <td>
-                                                <?= $row['harga_layanan'] !== null && $row['harga_layanan'] !== ''
-                                                    ? 'Rp ' . number_format((float) $row['harga_layanan'], 0, ',', '.')
+                                                <?= isset($row['harga_quota_internet']) && $row['harga_quota_internet'] !== null && $row['harga_quota_internet'] !== ''
+                                                    ? 'Rp ' . number_format((float) $row['harga_quota_internet'], 0, ',', '.')
                                                     : '-' ?>
                                             </td>
-                                            <td><?= esc($row['nomor_inet_pelanggan']) ?></td>
+                                            <td><?= esc($row['nomor_msisdn'] ?? '-'); ?></td>
+                                            <td><?= esc($row['nomor_issid_ime'] ?? '-'); ?></td>
+                                            <td><?= esc($row['kategori_pelanggan'] ?? '-'); ?></td>
+
                                             <td>
                                                 <?php if ($row['status'] == 0) : ?>
                                                     <span class="badge badge-paid">Aktif</span>
@@ -704,144 +681,22 @@
                                                     <span class="badge badge-due">Non Aktif</span>
                                                 <?php endif; ?>
                                             </td>
-                                            <td><?= esc($row['keterangan']); ?></td>
-                                            <td><?= date('d-m-Y H:i', strtotime($row['created_at'])); ?></td>
+                                            <td><?= esc($row['keterangan'] ?? '-'); ?></td>
+                                            <td><?= !empty($row['created_at']) ? date('d-m-Y H:i', strtotime($row['created_at'])) : '-'; ?></td>
                                             <td>
-                                                <button
-                                                    type="button"
-                                                    onclick="openEditModal(
-                                                   '<?= $row['id'] ?>',
-                                                '<?= esc($row['vendor_id']) ?>',
-                                                '<?= esc($row['nama_paket_layanan'], 'js') ?>',
-                                                '<?= esc($row['kecepatan_bandwidth'], 'js') ?>',
-                                                '<?= esc($row['harga_layanan']) ?>',
-                                                '<?= esc($row['nomor_inet_pelanggan'], 'js') ?>',
-                                                '<?= esc($row['status']) ?>',
-                                                '<?= esc($row['keterangan'], 'js') ?>'
-                                                    )"
-                                                    class="btn btn-sm btn-primary">
-
+                                                <a href="<?= site_url('DataSI/edit/' . $row['id']) ?>" class="btn btn-sm btn-primary">
                                                     <i class="ti ti-edit"></i>
-
-                                                </button>
-
-
-                                                <button
-                                                    type="button"
-                                                    onclick="confirmDelete(<?= $row['id'] ?>)"
-                                                    class="btn btn-sm btn-danger">
-
+                                                </a>
+                                                <button type="button" onclick="confirmDelete(<?= $row['id'] ?>)" class="btn btn-sm btn-danger">
                                                     <i class="ti ti-trash"></i>
-
                                                 </button>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </tbody>
-
-
                         </table>
-                        <div id="editModal" class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center">
-                            <div class="bg-white rounded-xl shadow-xl w-full max-w-2xl p-6 max-h-[90vh] overflow-y-auto">
 
-                                <div class="flex justify-between items-center mb-6">
-                                    <h3 class="text-xl font-bold">Edit Data Nomor INET</h3>
-                                    <button onclick="closeEditModal()"><i class="ti ti-x text-2xl"></i></button>
-                                </div>
-
-                                <form action="<?= site_url('NomorInet/update') ?>" method="POST">
-                                    <?= csrf_field() ?>
-                                    <input type="hidden" name="id" id="edit_id">
-
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-4">
-
-                                        <!-- Vendor (full) -->
-                                        <div class="md:col-span-2">
-                                            <label class="block text-sm font-medium text-gray-600 mb-1.5">Nama Vendor / Penyedia Layanan</label>
-                                            <select id="edit_vendor_id" name="vendor_id"
-                                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-lg bg-white focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition">
-                                                <option value="">Pilih Vendor</option>
-                                                <?php if (!empty($md_vendor)) : ?>
-                                                    <?php foreach ($md_vendor as $v) : ?>
-                                                        <option value="<?= $v['id']; ?>"><?= esc($v['nama_vendor']); ?></option>
-                                                    <?php endforeach; ?>
-                                                <?php endif; ?>
-                                            </select>
-                                        </div>
-
-                                        <!-- Nama Paket | Nomor INET (2 kolom) -->
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-600 mb-1.5">Nama Paket Layanan</label>
-                                            <input type="text" id="edit_nama_paket_layanan" name="nama_paket_layanan"
-                                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-lg focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition">
-                                        </div>
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-600 mb-1.5">Nomor INET / ID Pelanggan</label>
-                                            <input type="text" id="edit_nomor_inet_pelanggan" name="nomor_inet_pelanggan"
-                                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-lg focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition">
-                                        </div>
-
-                                        <!-- Bandwidth | Harga (2 kolom) -->
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-600 mb-1.5">Kecepatan Bandwidth</label>
-                                            <div class="flex gap-2">
-                                                <select id="edit_kecepatan_bandwidth" name="kecepatan_bandwidth"
-                                                    class="flex-1 min-w-0 px-3.5 py-2.5 text-sm border border-gray-200 rounded-lg bg-white focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition">
-                                                    <option value="">— Pilih —</option>
-                                                    <option value="1 Mbps">1 Mbps</option>
-                                                    <option value="2 Mbps">2 Mbps</option>
-                                                    <option value="5 Mbps">5 Mbps</option>
-                                                    <option value="10 Mbps">10 Mbps</option>
-                                                    <option value="20 Mbps">20 Mbps</option>
-                                                    <option value="50 Mbps">50 Mbps</option>
-                                                    <option value="100 Mbps">100 Mbps</option>
-                                                </select>
-                                                <button type="button" id="edit_btn_add_bw"
-                                                    class="shrink-0 px-3 rounded-lg bg-[#185a82] hover:bg-[#134866] text-white text-sm font-semibold transition">+ Baru</button>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-600 mb-1.5">Harga Layanan</label>
-                                            <input type="text" id="edit_harga_layanan_display" inputmode="numeric" placeholder="Rp 0" autocomplete="off"
-                                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-lg focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition">
-                                            <input type="hidden" name="harga_layanan" id="edit_harga_layanan">
-                                        </div>
-
-                                        <!-- Password | Status (2 kolom) -->
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-600 mb-1.5">Password INET / ID Pelanggan</label>
-                                            <input type="password" id="edit_password_inet_pelanggan" name="password_inet_pelanggan"
-                                                placeholder="Kosongkan jika tidak diubah" autocomplete="new-password"
-                                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-lg focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition">
-                                        </div>
-                                        <div>
-                                            <label class="block text-sm font-medium text-gray-600 mb-1.5">Status</label>
-                                            <select id="edit_status" name="status"
-                                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-lg bg-white focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition">
-                                                <option value="0">Aktif</option>
-                                                <option value="1">Non Aktif</option>
-                                            </select>
-                                        </div>
-
-                                        <!-- Keterangan (full) -->
-                                        <div class="md:col-span-2">
-                                            <label class="block text-sm font-medium text-gray-600 mb-1.5">Keterangan</label>
-                                            <textarea id="edit_keterangan" name="keterangan" rows="2"
-                                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-lg focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition resize-none"></textarea>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="flex justify-end gap-3 mt-5 pt-5 border-t border-gray-100">
-                                        <button type="button" onclick="closeEditModal()"
-                                            class="px-5 py-2.5 text-sm font-medium bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition">Batal</button>
-                                        <button type="submit"
-                                            class="px-5 py-2.5 text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition">Update</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
                     </div>
 
                 </div>
@@ -944,7 +799,7 @@
                 }
             };
 
-            const table = $('#mediaKoneksiTable').DataTable({
+            const table = $('#dcTable').DataTable({
                 pageLength: 10,
                 lengthMenu: [
                     [10, 15, 25, 50, -1],
@@ -966,7 +821,7 @@
                     buttons: [{
                             extend: 'copyHtml5',
                             text: '<i class="ti ti-copy"></i> Copy',
-                            title: 'Data Nomor INET',
+                            title: 'Data Simcard',
                             ...exportConfig,
                             action: function(e, dt, button, config) {
                                 if (isTableEmpty(dt)) return showEmptyExportAlert();
@@ -976,7 +831,7 @@
                         {
                             extend: 'csvHtml5',
                             text: '<i class="ti ti-file-text"></i> Export CSV',
-                            title: 'Data MediaKoneksi',
+                            title: 'Data Simcard',
                             ...exportConfig,
                             action: function(e, dt, button, config) {
                                 if (isTableEmpty(dt)) return showEmptyExportAlert();
@@ -986,7 +841,7 @@
                         {
                             extend: 'excelHtml5',
                             text: '<i class="ti ti-file-spreadsheet"></i> Export Excel',
-                            title: 'Data Nomor INET',
+                            title: 'Data Simcard',
                             ...exportConfig,
                             action: function(e, dt, button, config) {
                                 if (isTableEmpty(dt)) return showEmptyExportAlert();
@@ -996,7 +851,7 @@
                         {
                             extend: 'pdfHtml5',
                             text: '<i class="ti ti-file-type-pdf"></i> Export PDF',
-                            title: 'Data Nomor INET',
+                            title: 'Data Simcard',
                             orientation: 'landscape',
                             pageSize: 'A4',
                             ...exportConfig,
@@ -1021,7 +876,7 @@
                                     alignment: 'left'
                                 };
                                 doc.defaultStyle.fontSize = 10;
-                                doc.content[1].table.widths = ['4%', '9%', '13%', '16%', '14%', '7%', '10%', '13%', '10%', '4%'];
+                                doc.content[1].table.widths = ['3%', '9%', '10%', '9%', '10%', '10%', '10%', '10%', '6%', '9%', '10%', '4%'];
                                 doc.content[1].layout = {
                                     hLineWidth: () => 0.5,
                                     vLineWidth: () => 0.5,
@@ -1038,7 +893,7 @@
                     info: "Showing _START_ to _END_ of _TOTAL_ entries",
                     infoEmpty: "Showing 0 to 0 of 0 entries",
                     infoFiltered: "(filtered from _MAX_ total entries)",
-                    emptyTable: "Data Nomor INET belum tersedia",
+                    emptyTable: "Data Simcard belum tersedia",
                     zeroRecords: "Tidak ada data yang cocok dengan pencarian",
                     paginate: {
                         previous: "Previous",
@@ -1090,49 +945,11 @@
 
                 if (result.isConfirmed) {
                     window.location.href =
-                        "<?= site_url('NomorInet/delete/') ?>" + id;
+                        "<?= site_url('DataSI/delete/') ?>" + id;
                 }
 
             });
 
-        }
-    </script>
-    <script>
-        function formatRupiah(angka) {
-            if (angka === '') return '';
-            return 'Rp ' + String(angka).replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-        }
-
-
-        function openEditModal(id, vendor_id, nama_paket_layanan, kecepatan_bandwidth, harga_layanan, nomor_inet_pelanggan, status, keterangan) {
-            document.getElementById('edit_id').value = id;
-            document.getElementById('edit_vendor_id').value = vendor_id;
-            document.getElementById('edit_nama_paket_layanan').value = nama_paket_layanan;
-            document.getElementById('edit_nomor_inet_pelanggan').value = nomor_inet_pelanggan;
-
-            document.getElementById('edit_status').value = status;
-            document.getElementById('edit_keterangan').value = keterangan;
-
-            // bandwidth: kalau value tidak ada di option, tambahkan dulu
-            const selBw = document.getElementById('edit_kecepatan_bandwidth');
-            if (kecepatan_bandwidth) {
-                const ada = Array.from(selBw.options).some(o => o.value === kecepatan_bandwidth);
-                if (!ada) selBw.add(new Option(kecepatan_bandwidth, kecepatan_bandwidth));
-            }
-            selBw.value = kecepatan_bandwidth;
-
-            // harga: tampilan Rupiah, hidden = angka polos
-            const rawHarga = String(harga_layanan).replace(/\D/g, '');
-            document.getElementById('edit_harga_layanan').value = rawHarga;
-            document.getElementById('edit_harga_layanan_display').value = formatRupiah(rawHarga);
-
-            document.getElementById('editModal').classList.remove('hidden');
-        }
-
-        function closeEditModal() {
-            document
-                .getElementById('editModal')
-                .classList.add('hidden');
         }
 
         function isTableEmpty(table) {
@@ -1150,72 +967,22 @@
             });
         }
     </script>
-    <script>
-        // Format Rupiah untuk input harga di modal edit
-        (function() {
-            const display = document.getElementById('edit_harga_layanan_display');
-            const hidden = document.getElementById('edit_harga_layanan');
-            if (!display || !hidden) return;
-            display.addEventListener('input', function() {
-                const raw = this.value.replace(/\D/g, '');
-                hidden.value = raw;
-                this.value = formatRupiah(raw);
-            });
-        })();
 
-        // Tombol "+ Baru" bandwidth di modal edit
-        document.getElementById('edit_btn_add_bw').addEventListener('click', function() {
-            Swal.fire({
-                title: 'Tambah Kecepatan Bandwidth',
-                html: `
-            <div style="display:flex;gap:8px;align-items:center">
-                <input type="number" id="swal_bw_val" class="swal2-input" placeholder="Cth: 25" min="1" style="flex:1;margin:0">
-                <select id="swal_bw_unit" class="swal2-input" style="flex:1;margin:0">
-                    <option value="Mbps">Mbps</option>
-                    <option value="Gbps">Gbps</option>
-                    <option value="Kbps">Kbps</option>
-                </select>
-            </div>`,
-                showCancelButton: true,
-                confirmButtonText: 'Tambahkan',
-                cancelButtonText: 'Batal',
-                confirmButtonColor: '#185a82',
-                preConfirm: () => {
-                    const val = document.getElementById('swal_bw_val').value.trim();
-                    const unit = document.getElementById('swal_bw_unit').value;
-                    if (!val || isNaN(val) || parseFloat(val) <= 0) {
-                        Swal.showValidationMessage('Masukkan nilai bandwidth yang valid');
-                        return false;
-                    }
-                    return `${val} ${unit}`;
-                }
-            }).then(result => {
-                if (!result.isConfirmed) return;
-                const newVal = result.value;
-                const sel = document.getElementById('edit_kecepatan_bandwidth');
-                const ada = Array.from(sel.options).some(o => o.value === newVal);
-                if (ada) {
-                    sel.value = newVal;
-                    return;
-                }
-                sel.add(new Option(newVal, newVal, true, true));
-            });
-        });
-    </script>
-    <script>
-        // PENGHALANG KOSMETIK SAJA — bukan security, mudah dilewati
-        document.addEventListener('contextmenu', e => e.preventDefault()); // klik kanan
-        document.addEventListener('keydown', e => {
-            if (e.key === 'F12') e.preventDefault(); // F12
-            if (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) e.preventDefault();
-            if (e.ctrlKey && e.key.toUpperCase() === 'U') e.preventDefault(); // view-source
-        });
-    </script>
+
     <?php if (!session()->get('logged_in')) : ?>
         <script>
             window.location.href = "<?= base_url('/login') ?>";
         </script>
     <?php endif; ?>
 </body>
+<script>
+    // PENGHALANG KOSMETIK SAJA — bukan security, mudah dilewati
+    document.addEventListener('contextmenu', e => e.preventDefault()); // klik kanan
+    document.addEventListener('keydown', e => {
+        if (e.key === 'F12') e.preventDefault(); // F12
+        if (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) e.preventDefault();
+        if (e.ctrlKey && e.key.toUpperCase() === 'U') e.preventDefault(); // view-source
+    });
+</script>
 
 </html>
