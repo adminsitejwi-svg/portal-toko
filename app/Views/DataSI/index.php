@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="<?= base_url('store.png') ?>">
-    <title>Data Celullar</title>
+    <title>Simcard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -146,12 +146,12 @@
         }
 
         /* ===== INVOICE-STYLE TABLE ===== */
-        #mediaKoneksiTable {
+        #dcTable {
             width: 100% !important;
             border-collapse: collapse;
         }
 
-        #mediaKoneksiTable thead th {
+        #dcTable thead th {
             background: #f7f9fb;
             color: #6b7785;
             font-weight: 500;
@@ -163,13 +163,13 @@
             white-space: nowrap;
         }
 
-        .dark #mediaKoneksiTable thead th {
+        .dark #dcTable thead th {
             background: #2b3543;
             color: #9fb0c2;
             border-color: #37404c;
         }
 
-        #mediaKoneksiTable tbody td {
+        #dcTable tbody td {
             padding: 16px;
             font-size: 14px;
             color: #3b4754;
@@ -178,25 +178,25 @@
             white-space: nowrap;
         }
 
-        .dark #mediaKoneksiTable tbody td {
+        .dark #dcTable tbody td {
             color: #bfc8d6;
             border-color: #37404c;
         }
 
-        #mediaKoneksiTable tbody tr:hover {
+        #dcTable tbody tr:hover {
             background: #fafbfc;
         }
 
-        .dark #mediaKoneksiTable tbody tr:hover {
+        .dark #dcTable tbody tr:hover {
             background: rgba(255, 255, 255, .03);
         }
 
-        #mediaKoneksiTable tbody td.col-bold {
+        #dcTable tbody td.col-bold {
             font-weight: 600;
             color: #2b3540;
         }
 
-        .dark #mediaKoneksiTable tbody td.col-bold {
+        .dark #dcTable tbody td.col-bold {
             color: #e7eaf0;
         }
 
@@ -423,112 +423,6 @@
             min-width: 760px;
         }
     </style>
-
-    <style>
-        .form-container {
-            background-color: #ffffff;
-            padding: 30px;
-            margin-top: 140px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, .1);
-            width: 100%;
-            max-width: 1000px;
-            margin: 20px auto;
-        }
-
-        h2 {
-            text-align: center;
-            color: #185a82;
-
-            font-size: 42px;
-            font-weight: 800;
-
-            text-transform: uppercase;
-            letter-spacing: 2px;
-
-            margin-bottom: 35px;
-            padding-bottom: 15px;
-
-            border-bottom: 3px solid #185a82;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #185a82;
-            font-weight: bold;
-        }
-
-        input[type="text"],
-        textarea,
-        select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        input[readonly] {
-            background: #f1f5f9;
-        }
-
-        button {
-            width: 100%;
-            height: 55px;
-
-            border: none;
-            border-radius: 10px;
-
-            font-size: 17px;
-            font-weight: 600;
-
-            cursor: pointer;
-            transition: all .3s ease;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-        }
-
-        .d-flex {
-            display: flex;
-            gap: 20px;
-            margin-top: 25px;
-        }
-
-        .d-flex button {
-            flex: 1;
-        }
-
-        button[type="submit"] {
-            background: linear-gradient(135deg, #185a82, #2196f3);
-            color: white;
-            box-shadow: 0 4px 15px rgba(24, 90, 130, 0.3);
-        }
-
-        button[type="submit"]:hover {
-            box-shadow: 0 8px 25px rgba(24, 90, 130, 0.4);
-        }
-
-        .btn-back {
-            background: linear-gradient(135deg, #6b7280, #4b5563);
-            color: white;
-            box-shadow: 0 4px 15px rgba(75, 85, 99, 0.3);
-        }
-
-        .btn-back:hover {
-            box-shadow: 0 8px 25px rgba(75, 85, 99, 0.4);
-        }
-    </style>
 </head>
 
 <body class="text-[#37474f] dark:text-[#bfc8d6]">
@@ -618,13 +512,13 @@
                     </ul>
                 </li>
                 <li class="hasmenu">
-                    <a href="#" onclick="toggleSub(this);return false;" class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
+                    <a href="#" onclick="toggleSub(this);return false;" class="pc-link active flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
                         <span class="pc-micon w-5"><i class="ti ti-brand-databricks"></i></span>
                         <span class="flex-1">All Data</span>
                         <i data-feather="chevron-right" class="arrow w-4 h-4 transition-transform"></i>
                     </a>
                     <ul class="submenu bg-black/20">
-                        <li><a href="<?= site_url('DataSI') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Simcard</a></li>
+                        <li><a href="#" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Simcard</a></li>
 
 
                     </ul>
@@ -649,7 +543,7 @@
                     </ul>
                 </li>
                 <li class="hasmenu">
-                    <a href="#" onclick="toggleSub(this);return false;" class="pc-link active flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
+                    <a href="#" onclick="toggleSub(this);return false;" class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
                         <span class="pc-micon w-5"><i class="ti ti-category"></i></span>
                         <span class="flex-1">Master Data 2</span>
                         <i data-feather="chevron-right" class="arrow w-4 h-4 transition-transform"></i>
@@ -718,53 +612,94 @@
         </header>
 
         <div class="p-6">
-            <div class="form-container">
-                <h2>Form Pendaftaran Data Celullar</h2>
-                <form action="<?= site_url('DataCelullar/save') ?>" method="POST" id="dcForm">
-                    <div class="form-group mt-5">
-                        <label>Nama Vendor / Penyedia Layanan <span style="color:red">*</span></label>
-                        <select name="vendor_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
-                            <option value="">Pilih</option>
-                            <?php foreach ($MD_vendor as $vendor): ?>
-                                <option value="<?= $vendor['id'] ?>">
-                                    <?= esc($vendor['nama_vendor']) ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="form-group mt-5">
-                        <label>Nama Paket Data <span style="color:red">*</span></label>
-                        <input type="text"
-                            name="nama_paket_data"
-                            id="nama_paket_data"
-                            required>
-                    </div>
+            <!-- breadcrumb -->
+            <div class="flex items-center justify-between mb-6 gap-4 flex-wrap">
+                <h5 class="font-medium text-lg">Simcard</h5>
 
+                <a href="<?= site_url('DataSI/create') ?>" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition">
+                    <i class="ti ti-plus"></i> Tambah
+                </a>
+            </div>
 
-                    <div class="form-group">
-                        <label>Status <span style="color:red">*</span></label>
+            <div class="card">
+                <div class="card-body">
 
-                        <select name="status"
-                            id="status"
-                            required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
-
-                            <option value="">Pilih Status</option>
-                            <option value="0">Aktif</option>
-                            <option value="1">Non Aktif</option>
-
-                        </select>
+                    <!-- TOOLBAR: dropdown Show (kiri) + Search & Export (kanan) -->
+                    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+                        <div id="lengthArea"></div>
+                        <div class="flex items-center gap-3 flex-wrap">
+                            <div class="custom-search">
+                                <input type="text" id="customSearch" placeholder="search..." />
+                                <button class="go-btn" type="button"></button>
+                            </div>
+                            <div id="exportArea"></div>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>Keterangan <span style="color:red">*</span></label>
+                    <!-- TABLE (bisa digeser kiri-kanan saat layar sempit) -->
+                    <div class="table-scroll">
+                        <table id="dcTable" class="display nowrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nama Vendor /<br>Penyedia Layanan</th>
+                                    <th>Nama Paket Data</th>
+                                    <th>Isi Quota<br>Internet Sim Card</th>
+                                    <th>Harga Paket Quota</th>
+                                    <th>Nomor MSISDN</th>
+                                    <th>Nomor ISSID / IME</th>
+                                    <th>Kategori Pelanggan</th>
 
-                        <textarea name="keterangan"
-                            id="keterangan"
-                            rows="4"
-                            required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none"></textarea>
+                                    <th>Status</th>
+                                    <th>Keterangan</th>
+                                    <th>Created At</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (!empty($MD_simcard)) : ?>
+                                    <?php $no = 1; ?>
+                                    <?php foreach ($MD_simcard as $row) : ?>
+                                        <tr>
+                                            <td><?= $no++; ?></td>
+                                            <td><?= esc($row['nama_vendor'] ?? '-'); ?></td>
+                                            <td><?= esc($row['nama_paket_data'] ?? '-'); ?></td>
+                                            <td><?= esc($row['isi_quota_internet'] ?? '-'); ?></td>
+                                            <td>
+                                                <?= isset($row['harga_quota_internet']) && $row['harga_quota_internet'] !== null && $row['harga_quota_internet'] !== ''
+                                                    ? 'Rp ' . number_format((float) $row['harga_quota_internet'], 0, ',', '.')
+                                                    : '-' ?>
+                                            </td>
+                                            <td><?= esc($row['nomor_msisdn'] ?? '-'); ?></td>
+                                            <td><?= esc($row['nomor_issid_ime'] ?? '-'); ?></td>
+                                            <td><?= esc($row['kategori_pelanggan'] ?? '-'); ?></td>
+
+                                            <td>
+                                                <?php if ($row['status'] == 0) : ?>
+                                                    <span class="badge badge-paid">Aktif</span>
+                                                <?php else : ?>
+                                                    <span class="badge badge-due">Non Aktif</span>
+                                                <?php endif; ?>
+                                            </td>
+                                            <td><?= esc($row['keterangan'] ?? '-'); ?></td>
+                                            <td><?= !empty($row['created_at']) ? date('d-m-Y H:i', strtotime($row['created_at'])) : '-'; ?></td>
+                                            <td>
+                                                <a href="<?= site_url('DataSI/edit/' . $row['id']) ?>" class="btn btn-sm btn-primary">
+                                                    <i class="ti ti-edit"></i>
+                                                </a>
+                                                <button type="button" onclick="confirmDelete(<?= $row['id'] ?>)" class="btn btn-sm btn-danger">
+                                                    <i class="ti ti-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+
                     </div>
-                    <div class="d-flex"> <button type="submit"> Simpan </button> <button type="button" class="btn-back" onclick="window.location.href='<?= site_url('DataCelullar') ?>'"> Kembali </button> </div>
-                </form>
+
+                </div>
             </div>
         </div>
     </div>
@@ -848,49 +783,206 @@
             }
         });
     </script>
+
     <script>
-        document.getElementById('dcForm').addEventListener('submit', function(e) {
+        $(document).ready(function() {
+            const exportConfig = {
+                exportOptions: {
+                    columns: ':visible',
+                    format: {
+                        body: function(data) {
+                            const tmp = document.createElement('div');
+                            tmp.innerHTML = data;
+                            return tmp.textContent.trim();
+                        }
+                    }
+                }
+            };
 
-            const namaPelanggan = document.getElementById('kategori_pelanggan').value.trim();
+            const table = $('#dcTable').DataTable({
+                pageLength: 10,
+                lengthMenu: [
+                    [10, 15, 25, 50, -1],
+                    [10, 15, 25, 50, "Semua"]
+                ],
+                order: [
+                    [1, 'asc']
+                ],
+                columnDefs: [{
+                    targets: 0, // kolom No
+                    orderable: false, // tidak bisa di-sort
+                    searchable: false // tidak ikut pencarian
+                }],
+                dom: "lBfrtip",
+                buttons: [{
+                    extend: 'collection',
+                    text: '<i class="ti ti-download"></i> Export',
+                    className: 'export-toggle',
+                    buttons: [{
+                            extend: 'copyHtml5',
+                            text: '<i class="ti ti-copy"></i> Copy',
+                            title: 'Data Simcard',
+                            ...exportConfig,
+                            action: function(e, dt, button, config) {
+                                if (isTableEmpty(dt)) return showEmptyExportAlert();
+                                $.fn.dataTable.ext.buttons.copyHtml5.action.call(this, e, dt, button, config);
+                            }
+                        },
+                        {
+                            extend: 'csvHtml5',
+                            text: '<i class="ti ti-file-text"></i> Export CSV',
+                            title: 'Data Simcard',
+                            ...exportConfig,
+                            action: function(e, dt, button, config) {
+                                if (isTableEmpty(dt)) return showEmptyExportAlert();
+                                $.fn.dataTable.ext.buttons.csvHtml5.action.call(this, e, dt, button, config);
+                            }
+                        },
+                        {
+                            extend: 'excelHtml5',
+                            text: '<i class="ti ti-file-spreadsheet"></i> Export Excel',
+                            title: 'Data Simcard',
+                            ...exportConfig,
+                            action: function(e, dt, button, config) {
+                                if (isTableEmpty(dt)) return showEmptyExportAlert();
+                                $.fn.dataTable.ext.buttons.excelHtml5.action.call(this, e, dt, button, config);
+                            }
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            text: '<i class="ti ti-file-type-pdf"></i> Export PDF',
+                            title: 'Data Simcard',
+                            orientation: 'landscape',
+                            pageSize: 'A4',
+                            ...exportConfig,
 
-            const status = document.getElementById('status').value.trim();
-            const keterangan = document.getElementById('keterangan').value.trim();
+                            action: function(e, dt, button, config) {
+                                if (isTableEmpty(dt)) return showEmptyExportAlert();
 
-            if (
-                namaPelanggan === '' ||
+                                $.fn.dataTable.ext.buttons.pdfHtml5.action.call(
+                                    this,
+                                    e,
+                                    dt,
+                                    button,
+                                    config
+                                );
+                            },
 
-                status === '' ||
-                keterangan === ''
-            ) {
+                            customize: function(doc) {
+                                doc.styles.tableHeader = {
+                                    fillColor: '#04a9f5',
+                                    color: '#fff',
+                                    bold: true,
+                                    alignment: 'left'
+                                };
+                                doc.defaultStyle.fontSize = 10;
+                                doc.content[1].table.widths = ['3%', '9%', '10%', '9%', '10%', '10%', '10%', '10%', '6%', '9%', '10%', '4%'];
+                                doc.content[1].layout = {
+                                    hLineWidth: () => 0.5,
+                                    vLineWidth: () => 0.5,
+                                    hLineColor: () => '#e0e0e0',
+                                    vLineColor: () => '#e0e0e0'
+                                };
 
-                e.preventDefault();
-
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Form Belum Lengkap',
-                    text: 'Semua field wajib diisi.',
-                    confirmButtonColor: '#185a82'
+                            }
+                        }
+                    ]
+                }],
+                language: {
+                    lengthMenu: "_MENU_",
+                    info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                    infoEmpty: "Showing 0 to 0 of 0 entries",
+                    infoFiltered: "(filtered from _MAX_ total entries)",
+                    emptyTable: "Data Simcard belum tersedia",
+                    zeroRecords: "Tidak ada data yang cocok dengan pencarian",
+                    paginate: {
+                        previous: "Previous",
+                        next: "Next"
+                    }
+                }
+            });
+            table.on('draw.dt order.dt search.dt', function() {
+                let i = table.page.info().start;
+                table.column(0, {
+                    page: 'current',
+                    search: 'applied',
+                    order: 'applied'
+                }).nodes().each(function(cell) {
+                    cell.innerHTML = ++i;
                 });
+            });
+            table.draw();
+            // pindahkan dropdown Show & tombol Export ke toolbar custom
+            $('#lengthArea').append($('.dataTables_length'));
+            $('#exportArea').append($('.dt-buttons'));
 
-                return false;
-            }
-
+            // custom search + tombol Go
+            $('#customSearch').on('keyup', function() {
+                table.search(this.value).draw();
+            });
+            $('.go-btn').on('click', function() {
+                table.search($('#customSearch').val()).draw();
+            });
+            $('#customSearch').on('keypress', function(e) {
+                if (e.which === 13) table.search(this.value).draw();
+            });
         });
     </script>
+
     <script>
-        // PENGHALANG KOSMETIK SAJA — bukan security, mudah dilewati
-        document.addEventListener('contextmenu', e => e.preventDefault()); // klik kanan
-        document.addEventListener('keydown', e => {
-            if (e.key === 'F12') e.preventDefault(); // F12
-            if (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) e.preventDefault();
-            if (e.ctrlKey && e.key.toUpperCase() === 'U') e.preventDefault(); // view-source
-        });
+        function confirmDelete(id) {
+
+            Swal.fire({
+                title: 'Hapus Data?',
+                text: 'Data yang dihapus tidak dapat dikembalikan.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#dc2626',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Ya, Hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+                    window.location.href =
+                        "<?= site_url('DataSI/delete/') ?>" + id;
+                }
+
+            });
+
+        }
+
+        function isTableEmpty(table) {
+            return table.rows({
+                search: 'applied'
+            }).data().length === 0;
+        }
+
+        function showEmptyExportAlert() {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Data Kosong',
+                text: 'Tidak ada data yang bisa diexport.',
+                confirmButtonColor: '#04a9f5'
+            });
+        }
     </script>
+
+
     <?php if (!session()->get('logged_in')) : ?>
         <script>
             window.location.href = "<?= base_url('/login') ?>";
         </script>
     <?php endif; ?>
 </body>
+<script>
+    // PENGHALANG KOSMETIK SAJA — bukan security, mudah dilewati
+    document.addEventListener('contextmenu', e => e.preventDefault()); // klik kanan
+    document.addEventListener('keydown', e => {
+        if (e.key === 'F12') e.preventDefault(); // F12
+        if (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) e.preventDefault();
+        if (e.ctrlKey && e.key.toUpperCase() === 'U') e.preventDefault(); // view-source
+    });
+</script>
 
 </html>

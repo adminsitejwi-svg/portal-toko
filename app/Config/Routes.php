@@ -24,6 +24,7 @@ use App\Controllers\Pelanggan;
 use App\Controllers\DataCelullar;
 use App\Controllers\NomorInet;
 use App\Controllers\QuotaSIMCARD;
+use App\Controllers\DataSI;
 
 
 
@@ -159,11 +160,17 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->post('NomorInet/save', 'NomorInet::save');
     $routes->post('NomorInet/update', 'NomorInet::update');
     $routes->get('NomorInet/delete/(:num)', 'NomorInet::delete/$1');
-    $routes->get('NomorInet/edit/(:num)', 'NomorInet::edit/$1');
 
     $routes->get('QuotaSIMCARD', [QuotaSIMCARD::class, 'index']);
     $routes->get('QuotaSIMCARD/create', 'QuotaSIMCARD::create');
     $routes->post('QuotaSIMCARD/save', 'QuotaSIMCARD::save');
     $routes->post('QuotaSIMCARD/update', 'QuotaSIMCARD::update');
     $routes->get('QuotaSIMCARD/delete/(:num)', 'QuotaSIMCARD::delete/$1');
+
+    $routes->get('DataSI', [DataSI::class, 'index']);
+    $routes->get('DataSI/create', 'DataSI::create');
+    $routes->post('DataSI/save', 'DataSI::save');
+    $routes->post('DataSI/update', 'DataSI::update');
+    $routes->get('DataSI/delete/(:num)', 'DataSI::delete/$1');
+    $routes->get('DataSI/edit/(:num)', 'DataSI::edit/$1');
 });

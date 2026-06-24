@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="<?= base_url('store.png') ?>">
-    <title>Data Celullar</title>
+    <title>Simcard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -146,12 +146,12 @@
         }
 
         /* ===== INVOICE-STYLE TABLE ===== */
-        #mediaKoneksiTable {
+        #dcTable {
             width: 100% !important;
             border-collapse: collapse;
         }
 
-        #mediaKoneksiTable thead th {
+        #dcTable thead th {
             background: #f7f9fb;
             color: #6b7785;
             font-weight: 500;
@@ -163,13 +163,13 @@
             white-space: nowrap;
         }
 
-        .dark #mediaKoneksiTable thead th {
+        .dark #dcTable thead th {
             background: #2b3543;
             color: #9fb0c2;
             border-color: #37404c;
         }
 
-        #mediaKoneksiTable tbody td {
+        #dcTable tbody td {
             padding: 16px;
             font-size: 14px;
             color: #3b4754;
@@ -178,25 +178,25 @@
             white-space: nowrap;
         }
 
-        .dark #mediaKoneksiTable tbody td {
+        .dark #dcTable tbody td {
             color: #bfc8d6;
             border-color: #37404c;
         }
 
-        #mediaKoneksiTable tbody tr:hover {
+        #dcTable tbody tr:hover {
             background: #fafbfc;
         }
 
-        .dark #mediaKoneksiTable tbody tr:hover {
+        .dark #dcTable tbody tr:hover {
             background: rgba(255, 255, 255, .03);
         }
 
-        #mediaKoneksiTable tbody td.col-bold {
+        #dcTable tbody td.col-bold {
             font-weight: 600;
             color: #2b3540;
         }
 
-        .dark #mediaKoneksiTable tbody td.col-bold {
+        .dark #dcTable tbody td.col-bold {
             color: #e7eaf0;
         }
 
@@ -423,110 +423,183 @@
             min-width: 760px;
         }
     </style>
-
     <style>
-        .form-container {
-            background-color: #ffffff;
-            padding: 30px;
-            margin-top: 140px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, .1);
-            width: 100%;
-            max-width: 1000px;
-            margin: 20px auto;
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        h2 {
-            text-align: center;
-            color: #185a82;
 
-            font-size: 42px;
-            font-weight: 800;
 
+        .page-wrapper {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, #185a82 0%, #0f3d5c 100%);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .page-header h2 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .page-header .subtitle {
+            font-size: 13px;
+            opacity: .75;
+        }
+
+        .form-card {
+            background: #fff;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .08);
+            padding: 30px;
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: .8px;
+            color: #185a82;
+            border-left: 3px solid #185a82;
+            padding-left: 10px;
+            margin: 28px 0 16px;
+        }
 
-            margin-bottom: 35px;
-            padding-bottom: 15px;
+        .section-title:first-child {
+            margin-top: 0;
+        }
 
-            border-bottom: 3px solid #185a82;
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
         }
 
         label {
-            display: block;
-            margin-bottom: 5px;
-            color: #185a82;
-            font-weight: bold;
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        label .req {
+            color: #e53e3e;
+            margin-left: 2px;
         }
 
         input[type="text"],
         textarea,
         select {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
+            padding: 9px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #1f2937;
+            background: #fff;
+            transition: border-color .2s, box-shadow .2s;
         }
 
-        input[readonly] {
-            background: #f1f5f9;
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #185a82;
+            box-shadow: 0 0 0 3px rgba(24, 90, 130, .12);
         }
 
-        button {
-            width: 100%;
-            height: 55px;
+        input:disabled,
+        select:disabled {
+            background: #f3f4f6;
+            color: #9ca3af;
+            cursor: not-allowed;
+        }
 
-            border: none;
-            border-radius: 10px;
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
 
-            font-size: 17px;
-            font-weight: 600;
+        .readonly-box {
+            padding: 9px 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 14px;
+            background: #f9fafb;
+            color: #374151;
+            min-height: 40px;
+        }
 
-            cursor: pointer;
-            transition: all .3s ease;
+        .hint {
+            font-size: 11px;
+            color: #9ca3af;
+            font-weight: 400;
+        }
 
+        .action-bar {
             display: flex;
-            align-items: center;
-            justify-content: center;
+            gap: 12px;
+            margin-top: 28px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
         }
 
-        button:hover {
-            transform: translateY(-2px);
-        }
-
-        .d-flex {
-            display: flex;
-            gap: 20px;
-            margin-top: 25px;
-        }
-
-        .d-flex button {
+        .btn-save {
             flex: 1;
-        }
-
-        button[type="submit"] {
-            background: linear-gradient(135deg, #185a82, #2196f3);
+            padding: 12px;
+            background: linear-gradient(135deg, #185a82, #0f3d5c);
             color: white;
-            box-shadow: 0 4px 15px rgba(24, 90, 130, 0.3);
+            border: none;
+            border-radius: 7px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
         }
 
-        button[type="submit"]:hover {
-            box-shadow: 0 8px 25px rgba(24, 90, 130, 0.4);
+        .btn-save:hover {
+            opacity: .9;
         }
 
         .btn-back {
-            background: linear-gradient(135deg, #6b7280, #4b5563);
+            padding: 12px 24px;
+            background: #6b7280;
             color: white;
-            box-shadow: 0 4px 15px rgba(75, 85, 99, 0.3);
+            border: none;
+            border-radius: 7px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
         }
 
         .btn-back:hover {
-            box-shadow: 0 8px 25px rgba(75, 85, 99, 0.4);
+            background: #4b5563;
+        }
+
+        @media (max-width: 640px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .form-card {
+                padding: 18px;
+            }
         }
     </style>
 </head>
@@ -618,7 +691,7 @@
                     </ul>
                 </li>
                 <li class="hasmenu">
-                    <a href="#" onclick="toggleSub(this);return false;" class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
+                    <a href="#" onclick="toggleSub(this);return false;" class="pc-link active flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
                         <span class="pc-micon w-5"><i class="ti ti-brand-databricks"></i></span>
                         <span class="flex-1">All Data</span>
                         <i data-feather="chevron-right" class="arrow w-4 h-4 transition-transform"></i>
@@ -649,7 +722,7 @@
                     </ul>
                 </li>
                 <li class="hasmenu">
-                    <a href="#" onclick="toggleSub(this);return false;" class="pc-link active flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
+                    <a href="#" onclick="toggleSub(this);return false;" class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
                         <span class="pc-micon w-5"><i class="ti ti-category"></i></span>
                         <span class="flex-1">Master Data 2</span>
                         <i data-feather="chevron-right" class="arrow w-4 h-4 transition-transform"></i>
@@ -718,54 +791,132 @@
         </header>
 
         <div class="p-6">
-            <div class="form-container">
-                <h2>Form Pendaftaran Data Celullar</h2>
-                <form action="<?= site_url('DataCelullar/save') ?>" method="POST" id="dcForm">
-                    <div class="form-group mt-5">
-                        <label>Nama Vendor / Penyedia Layanan <span style="color:red">*</span></label>
-                        <select name="vendor_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
-                            <option value="">Pilih</option>
-                            <?php foreach ($MD_vendor as $vendor): ?>
-                                <option value="<?= $vendor['id'] ?>">
-                                    <?= esc($vendor['nama_vendor']) ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
+            <!-- breadcrumb -->
+            <div class="page-wrapper">
+
+                <div class="page-header">
+                    <div>
+                        <h2>Tambah Data Simcard</h2>
+                        <div class="subtitle">Lengkapi data berikut untuk menambah simcard baru</div>
                     </div>
-                    <div class="form-group mt-5">
-                        <label>Nama Paket Data <span style="color:red">*</span></label>
-                        <input type="text"
-                            name="nama_paket_data"
-                            id="nama_paket_data"
-                            required>
-                    </div>
+                </div>
 
+                <div class="form-card">
+                    <form action="<?= site_url('DataSI/save') ?>" method="POST" id="FormDataSI">
+                        <?= csrf_field() ?>
 
-                    <div class="form-group">
-                        <label>Status <span style="color:red">*</span></label>
+                        <!-- ═══ DATA PAKET & QUOTA ═══ -->
+                        <div class="section-title">Data Paket & Quota</div>
+                        <div class="grid-2">
 
-                        <select name="status"
-                            id="status"
-                            required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
+                            <div class="form-group">
+                                <label>Nama Paket Data <span class="req">*</span></label>
+                                <select name="data_cellular_id" id="data_cellular_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
+                                    <option value="">— Pilih Paket Data —</option>
+                                    <?php foreach ($md_data_celullar as $dc): ?>
+                                        <option value="<?= $dc['id'] ?>"
+                                            data-vendor="<?= esc($dc['nama_vendor'] ?? '-', 'attr') ?>">
+                                            <?= esc($dc['nama_paket_data']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
 
-                            <option value="">Pilih Status</option>
-                            <option value="0">Aktif</option>
-                            <option value="1">Non Aktif</option>
+                            <div class="form-group">
+                                <label>Nama Vendor / Penyedia Layanan</label>
+                                <div class="readonly-box" id="vendor_display">—</div>
+                            </div>
 
-                        </select>
-                    </div>
+                            <div class="form-group">
+                                <label>Paket Quota <span class="req">*</span></label>
+                                <select name="quota_simcard_id" id="quota_simcard_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
+                                    <option value="">— Pilih Quota —</option>
+                                    <?php foreach ($md_quota_simcard as $q): ?>
+                                        <option value="<?= $q['id'] ?>"
+                                            data-isi="<?= esc($q['isi_quota_internet'] ?? '', 'attr') ?>"
+                                            data-harga="<?= esc($q['harga_quota_internet'] ?? '', 'attr') ?>">
+                                            <?= esc($q['isi_quota_internet'] ?? '-') ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
 
-                    <div class="form-group">
-                        <label>Keterangan <span style="color:red">*</span></label>
+                            <div class="form-group">
+                                <label>Harga Paket Quota</label>
+                                <div class="readonly-box" id="harga_display">—</div>
+                            </div>
+                        </div>
 
-                        <textarea name="keterangan"
-                            id="keterangan"
-                            rows="4"
-                            required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none"></textarea>
-                    </div>
-                    <div class="d-flex"> <button type="submit"> Simpan </button> <button type="button" class="btn-back" onclick="window.location.href='<?= site_url('DataCelullar') ?>'"> Kembali </button> </div>
-                </form>
+                        <!-- ═══ DATA SIMCARD ═══ -->
+                        <div class="section-title">Data Simcard</div>
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Nomor MSISDN <span class="req">*</span></label>
+                                <input type="text" name="nomor_msisdn" id="nomor_msisdn" required placeholder="Isi manual">
+                            </div>
+                            <div class="form-group">
+                                <label>Nomor ISSID / IME <span class="req">*</span></label>
+                                <input type="text" name="nomor_issid_ime" id="nomor_issid_ime" required placeholder="Isi manual">
+                            </div>
+                        </div>
+
+                        <!-- ═══ PELANGGAN ═══ -->
+                        <div class="section-title">Data Pelanggan</div>
+                        <div class="grid-2">
+
+                            <div class="form-group">
+                                <label>Kategori Pelanggan <span class="req">*</span></label>
+                                <select name="pelanggan_id" id="pelanggan_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
+                                    <option value="">— Pilih Kategori Pelanggan —</option>
+                                    <?php foreach ($md_pelanggan as $p): ?>
+                                        <option value="<?= $p['id'] ?>"
+                                            data-kategori="<?= esc($p['kategori_pelanggan'] ?? '', 'attr') ?>">
+                                            <?= esc($p['kategori_pelanggan'] ?? '-') ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <span class="hint" id="kategori_note"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Status <span class="req">*</span></label>
+                                <select name="status" id="status" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
+                                    <option value="">— Pilih Status —</option>
+                                    <option value="0">Aktif</option>
+                                    <option value="1">Non Aktif</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>ID Pelanggan
+                                    <span class="hint">(Personal / Perusahaan / Sekolah)</span>
+                                </label>
+                                <input type="text" name="id_pelanggan" id="id_pelanggan" placeholder="Isi manual" disabled>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Kode Toko
+                                    <span class="hint">(Alfamidi / Alfamart / Lawson)</span>
+                                </label>
+                                <input type="text" name="kode_toko" id="kode_toko" placeholder="Isi manual" disabled>
+                            </div>
+                        </div>
+
+                        <!-- ═══ KETERANGAN ═══ -->
+                        <div class="section-title">Keterangan</div>
+                        <div class="form-group">
+                            <textarea name="keterangan" id="keterangan" rows="3" class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none"></textarea>
+                        </div>
+
+                        <div class="action-bar">
+                            <button type="submit" class="btn-save">Simpan</button>
+                            <button type="button" class="btn-back"
+                                onclick="window.location.href='<?= site_url('DataSI') ?>'">Kembali</button>
+                        </div>
+                    </form>
+                </div>
             </div>
+
         </div>
     </div>
 
@@ -848,49 +999,85 @@
             }
         });
     </script>
+
     <script>
-        document.getElementById('dcForm').addEventListener('submit', function(e) {
+        feather.replace();
 
-            const namaPelanggan = document.getElementById('kategori_pelanggan').value.trim();
+        function toRupiah(angka) {
+            if (angka === '' || angka === null || isNaN(angka)) return '—';
+            return 'Rp ' + String(angka).replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        }
 
-            const status = document.getElementById('status').value.trim();
-            const keterangan = document.getElementById('keterangan').value.trim();
+        /* Vendor otomatis dari Paket Data */
+        const paketSel = document.getElementById('data_cellular_id');
+        const vendorBox = document.getElementById('vendor_display');
+        paketSel.addEventListener('change', function() {
+            const opt = paketSel.options[paketSel.selectedIndex];
+            vendorBox.textContent = (opt && opt.dataset.vendor) ? opt.dataset.vendor : '—';
+        });
 
-            if (
-                namaPelanggan === '' ||
+        /* Harga otomatis dari Quota */
+        const quotaSel = document.getElementById('quota_simcard_id');
+        const hargaBox = document.getElementById('harga_display');
+        quotaSel.addEventListener('change', function() {
+            const opt = quotaSel.options[quotaSel.selectedIndex];
+            hargaBox.textContent = (opt && opt.dataset.harga) ? toRupiah(opt.dataset.harga) : '—';
+        });
 
-                status === '' ||
-                keterangan === ''
-            ) {
+        /* Kategori → aktifkan ID Pelanggan ATAU Kode Toko */
+        const pelangganSel = document.getElementById('pelanggan_id');
+        const idPelangganInp = document.getElementById('id_pelanggan');
+        const kodeTokoInp = document.getElementById('kode_toko');
+        const kategoriNote = document.getElementById('kategori_note');
+        const KATEGORI_TOKO = ['alfamidi', 'alfamart', 'lawson'];
 
-                e.preventDefault();
+        function applyKategori() {
+            const opt = pelangganSel.options[pelangganSel.selectedIndex];
+            const kategori = (opt && opt.dataset.kategori ? opt.dataset.kategori : '').toLowerCase().trim();
 
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Form Belum Lengkap',
-                    text: 'Semua field wajib diisi.',
-                    confirmButtonColor: '#185a82'
-                });
-
-                return false;
+            let pakaiToko = false,
+                pakaiId = false;
+            if (kategori !== '') {
+                pakaiToko = KATEGORI_TOKO.includes(kategori);
+                pakaiId = !pakaiToko;
             }
 
+            idPelangganInp.disabled = !pakaiId;
+            if (!pakaiId) idPelangganInp.value = '';
+
+            kodeTokoInp.disabled = !pakaiToko;
+            if (!pakaiToko) kodeTokoInp.value = '';
+
+            if (kategori === '') kategoriNote.textContent = '';
+            else if (pakaiToko) kategoriNote.textContent = 'Isi Kode Toko di bawah.';
+            else kategoriNote.textContent = 'Isi ID Pelanggan di bawah.';
+        }
+        pelangganSel.addEventListener('change', applyKategori);
+        applyKategori();
+
+        /* Sebelum submit: aktifkan field disabled agar tetap terkirim sebagai kosong */
+        document.getElementById('FormDataSI').addEventListener('submit', function() {
+            idPelangganInp.disabled = false;
+            kodeTokoInp.disabled = false;
         });
     </script>
-    <script>
-        // PENGHALANG KOSMETIK SAJA — bukan security, mudah dilewati
-        document.addEventListener('contextmenu', e => e.preventDefault()); // klik kanan
-        document.addEventListener('keydown', e => {
-            if (e.key === 'F12') e.preventDefault(); // F12
-            if (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) e.preventDefault();
-            if (e.ctrlKey && e.key.toUpperCase() === 'U') e.preventDefault(); // view-source
-        });
-    </script>
+
+
+
     <?php if (!session()->get('logged_in')) : ?>
         <script>
             window.location.href = "<?= base_url('/login') ?>";
         </script>
     <?php endif; ?>
 </body>
+<script>
+    // PENGHALANG KOSMETIK SAJA — bukan security, mudah dilewati
+    document.addEventListener('contextmenu', e => e.preventDefault()); // klik kanan
+    document.addEventListener('keydown', e => {
+        if (e.key === 'F12') e.preventDefault(); // F12
+        if (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) e.preventDefault();
+        if (e.ctrlKey && e.key.toUpperCase() === 'U') e.preventDefault(); // view-source
+    });
+</script>
 
 </html>
