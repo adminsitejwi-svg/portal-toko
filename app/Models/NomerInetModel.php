@@ -15,6 +15,7 @@ class NomerInetModel extends Model
         'kecepatan_bandwidth',
         'harga_layanan',
         'nomor_inet_pelanggan',
+        'password_inet_pelanggan',
         'status',
         'keterangan',
         'created_at'

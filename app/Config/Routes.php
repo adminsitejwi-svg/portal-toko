@@ -159,6 +159,7 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->post('NomorInet/save', 'NomorInet::save');
     $routes->post('NomorInet/update', 'NomorInet::update');
     $routes->get('NomorInet/delete/(:num)', 'NomorInet::delete/$1');
+    $routes->get('NomorInet/edit/(:num)', 'NomorInet::edit/$1');
 
     $routes->get('QuotaSIMCARD', [QuotaSIMCARD::class, 'index']);
     $routes->get('QuotaSIMCARD/create', 'QuotaSIMCARD::create');

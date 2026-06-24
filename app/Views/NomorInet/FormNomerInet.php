@@ -692,6 +692,8 @@
 
                     </ul>
                 </li>
+                <li><a href="<?= site_url('DataS&I') ?>" class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white"><span class="pc-micon w-5"><i class="ti ti-device-sd-card"></i></span><span>Simcard & <br> Nomor Inet</span></a></li>
+
                 <li><a href="<?= site_url('Map') ?>" class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white"><span class="pc-micon w-5"><i class="ti ti-map-pin"></i></span><span>Lokasi</span></a></li>
 
                 <li class="px-6 py-3 text-[11px] uppercase tracking-wide text-[#5b6b7f] font-semibold">Pengaturan
@@ -803,6 +805,13 @@
                             name="nomor_inet_pelanggan"
                             id="nomor_inet_pelanggan"
                             required>
+                    </div>
+                    <div class="form-group mt-5">
+                        <label>Password INET/ID Pelanggan <span style="color:red">*</span></label>
+                        <input type="password"
+                            name="password_inet_pelanggan"
+                            id="password_inet_pelanggan"
+                            required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
                     </div>
                     <div class="form-group">
                         <label>Status <span style="color:red">*</span></label>
@@ -934,6 +943,7 @@
             const kecepatanBandwidth = document.getElementById('kecepatan_bandwidth').value.trim();
             const hargaLayanan = document.getElementById('harga_layanan').value.trim();
             const nomorInetPelanggan = document.getElementById('nomor_inet_pelanggan').value.trim();
+            const passwordInetPelanggan = document.getElementById('password_inet_pelanggan').value.trim();
             const status = document.getElementById('status').value.trim();
             const keterangan = document.getElementById('keterangan').value.trim();
 
@@ -942,6 +952,7 @@
                 kecepatanBandwidth === '' ||
                 hargaLayanan === '' ||
                 nomorInetPelanggan === '' ||
+                passwordInetPelanggan === '' ||
 
                 status === '' ||
                 keterangan === ''

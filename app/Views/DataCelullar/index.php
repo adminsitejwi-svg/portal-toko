@@ -545,6 +545,7 @@
 
                     </ul>
                 </li>
+                <li><a href="<?= site_url('DataS&I') ?>" class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white"><span class="pc-micon w-5"><i class="ti ti-device-sd-card"></i></span><span>Simcard & <br> Nomor Inet</span></a></li>
 
                 <li><a href="<?= site_url('Map') ?>" class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white"><span class="pc-micon w-5"><i class="ti ti-map-pin"></i></span><span>Lokasi</span></a></li>
 
@@ -693,7 +694,7 @@
                             <div class="bg-white rounded-xl shadow-xl w-full max-w-2xl p-6">
 
                                 <div class="flex justify-between items-center mb-6">
-                                    <h3 class="text-xl font-bold">Edit Data kategori data celullar</h3>
+                                    <h3 class="text-xl font-bold">Edit Data data celullar</h3>
                                     <button onclick="closeEditModal()"><i class="ti ti-x text-2xl"></i></button>
                                 </div>
 

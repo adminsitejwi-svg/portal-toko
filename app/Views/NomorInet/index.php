@@ -574,6 +574,8 @@
 
                     </ul>
                 </li>
+                <li><a href="<?= site_url('DataS&I') ?>" class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white"><span class="pc-micon w-5"><i class="ti ti-device-sd-card"></i></span><span>Simcard & <br> Nomor Inet</span></a></li>
+
                 <li><a href="<?= site_url('Map') ?>" class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white"><span class="pc-micon w-5"><i class="ti ti-map-pin"></i></span><span>Lokasi</span></a></li>
 
                 <li class="px-6 py-3 text-[11px] uppercase tracking-wide text-[#5b6b7f] font-semibold">Pengaturan
@@ -741,11 +743,13 @@
                                     <?= csrf_field() ?>
                                     <input type="hidden" name="id" id="edit_id">
 
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-4">
 
+                                        <!-- Vendor (full) -->
                                         <div class="md:col-span-2">
-                                            <label>Nama Vendor / Penyedia Layanan</label>
-                                            <select id="edit_vendor_id" name="vendor_id" class="w-full border rounded-lg p-3">
+                                            <label class="block text-sm font-medium text-gray-600 mb-1.5">Nama Vendor / Penyedia Layanan</label>
+                                            <select id="edit_vendor_id" name="vendor_id"
+                                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-lg bg-white focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition">
                                                 <option value="">Pilih Vendor</option>
                                                 <?php if (!empty($md_vendor)) : ?>
                                                     <?php foreach ($md_vendor as $v) : ?>
@@ -755,17 +759,24 @@
                                             </select>
                                         </div>
 
-                                        <div class="md:col-span-2">
-                                            <label>Nama Paket Layanan</label>
+                                        <!-- Nama Paket | Nomor INET (2 kolom) -->
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-600 mb-1.5">Nama Paket Layanan</label>
                                             <input type="text" id="edit_nama_paket_layanan" name="nama_paket_layanan"
-                                                class="w-full border rounded-lg p-3">
+                                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-lg focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-600 mb-1.5">Nomor INET / ID Pelanggan</label>
+                                            <input type="text" id="edit_nomor_inet_pelanggan" name="nomor_inet_pelanggan"
+                                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-lg focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition">
                                         </div>
 
-                                        <div class="md:col-span-2">
-                                            <label>Kecepatan Bandwidth</label>
-                                            <div class="bandwidth-row">
+                                        <!-- Bandwidth | Harga (2 kolom) -->
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-600 mb-1.5">Kecepatan Bandwidth</label>
+                                            <div class="flex gap-2">
                                                 <select id="edit_kecepatan_bandwidth" name="kecepatan_bandwidth"
-                                                    class="w-full border rounded-lg p-3">
+                                                    class="flex-1 min-w-0 px-3.5 py-2.5 text-sm border border-gray-200 rounded-lg bg-white focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition">
                                                     <option value="">— Pilih —</option>
                                                     <option value="1 Mbps">1 Mbps</option>
                                                     <option value="2 Mbps">2 Mbps</option>
@@ -775,42 +786,47 @@
                                                     <option value="50 Mbps">50 Mbps</option>
                                                     <option value="100 Mbps">100 Mbps</option>
                                                 </select>
-                                                <button type="button" class="btn-add-bw" id="edit_btn_add_bw" title="Tambah opsi bandwidth baru">+ Baru</button>
+                                                <button type="button" id="edit_btn_add_bw"
+                                                    class="shrink-0 px-3 rounded-lg bg-[#185a82] hover:bg-[#134866] text-white text-sm font-semibold transition">+ Baru</button>
                                             </div>
                                         </div>
-
-                                        <div class="md:col-span-2">
-                                            <label>Harga Layanan</label>
-                                            <input type="text" id="edit_harga_layanan_display" inputmode="numeric"
-                                                placeholder="Rp 0" autocomplete="off" class="w-full border rounded-lg p-3">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-600 mb-1.5">Harga Layanan</label>
+                                            <input type="text" id="edit_harga_layanan_display" inputmode="numeric" placeholder="Rp 0" autocomplete="off"
+                                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-lg focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition">
                                             <input type="hidden" name="harga_layanan" id="edit_harga_layanan">
                                         </div>
 
-                                        <div class="md:col-span-2">
-                                            <label>Nomor INET / ID Pelanggan</label>
-                                            <input type="text" id="edit_nomor_inet_pelanggan" name="nomor_inet_pelanggan"
-                                                class="w-full border rounded-lg p-3">
+                                        <!-- Password | Status (2 kolom) -->
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-600 mb-1.5">Password INET / ID Pelanggan</label>
+                                            <input type="password" id="edit_password_inet_pelanggan" name="password_inet_pelanggan"
+                                                placeholder="Kosongkan jika tidak diubah" autocomplete="new-password"
+                                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-lg focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition">
                                         </div>
-
-                                        <div class="md:col-span-2">
-                                            <label>Status</label>
-                                            <select id="edit_status" name="status" class="w-full border rounded-lg p-3">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-600 mb-1.5">Status</label>
+                                            <select id="edit_status" name="status"
+                                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-lg bg-white focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition">
                                                 <option value="0">Aktif</option>
                                                 <option value="1">Non Aktif</option>
                                             </select>
                                         </div>
 
+                                        <!-- Keterangan (full) -->
                                         <div class="md:col-span-2">
-                                            <label>Keterangan</label>
-                                            <textarea id="edit_keterangan" name="keterangan" rows="3"
-                                                class="w-full border rounded-lg p-3"></textarea>
+                                            <label class="block text-sm font-medium text-gray-600 mb-1.5">Keterangan</label>
+                                            <textarea id="edit_keterangan" name="keterangan" rows="2"
+                                                class="w-full px-3.5 py-2.5 text-sm border border-gray-200 rounded-lg focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition resize-none"></textarea>
                                         </div>
 
                                     </div>
 
-                                    <div class="flex justify-end gap-3 mt-6">
-                                        <button type="button" onclick="closeEditModal()" class="px-4 py-2 bg-gray-500 text-white rounded-lg">Batal</button>
-                                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg">Update</button>
+                                    <div class="flex justify-end gap-3 mt-5 pt-5 border-t border-gray-100">
+                                        <button type="button" onclick="closeEditModal()"
+                                            class="px-5 py-2.5 text-sm font-medium bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition">Batal</button>
+                                        <button type="submit"
+                                            class="px-5 py-2.5 text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition">Update</button>
                                     </div>
                                 </form>
                             </div>
@@ -1082,6 +1098,7 @@
             document.getElementById('edit_vendor_id').value = vendor_id;
             document.getElementById('edit_nama_paket_layanan').value = nama_paket_layanan;
             document.getElementById('edit_nomor_inet_pelanggan').value = nomor_inet_pelanggan;
+
             document.getElementById('edit_status').value = status;
             document.getElementById('edit_keterangan').value = keterangan;
 
