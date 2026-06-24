@@ -519,8 +519,7 @@
                     </a>
                     <ul class="submenu bg-black/20">
                         <li><a href="<?= site_url('DataSI') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Simcard</a></li>
-
-
+                        <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor Inet</a></li>
                     </ul>
                 </li>
                 <li class="hasmenu">
@@ -554,7 +553,6 @@
                         <li><a href="#" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Data Celullar</a></li>
                         <li><a href="<?= site_url('NomorInet') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                         <li><a href="<?= site_url('QuotaSIMCARD') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Kuota Simcard</a></li>
-
                     </ul>
                 </li>
 
@@ -1033,6 +1031,21 @@
 
             });
 
+        }
+
+        function isTableEmpty(table) {
+            return table.rows({
+                search: 'applied'
+            }).data().length === 0;
+        }
+
+        function showEmptyExportAlert() {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Data Kosong',
+                text: 'Tidak ada data yang bisa diexport.',
+                confirmButtonColor: '#04a9f5'
+            });
         }
     </script>
     <script>
