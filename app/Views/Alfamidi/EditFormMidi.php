@@ -953,6 +953,18 @@
 
                     </a>
                 </li>
+                <li>
+                    <a href="<?= site_url('Logs') ?>"
+                        class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
+
+                        <span class="pc-micon w-5">
+                            <i class="ti ti-report-search"></i>
+                        </span>
+
+                        <span>Log</span>
+
+                    </a>
+                </li>
             </ul>
         </div>
     </nav>
