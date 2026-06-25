@@ -905,7 +905,7 @@
                         <!-- ═══ KETERANGAN ═══ -->
                         <div class="section-title">Keterangan</div>
                         <div class="form-group">
-                            <textarea name="keterangan" id="keterangan" rows="3" class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none"></textarea>
+                            <textarea name="keterangan" id="keterangan" rows="3" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none"></textarea>
                         </div>
 
                         <div class="action-bar">

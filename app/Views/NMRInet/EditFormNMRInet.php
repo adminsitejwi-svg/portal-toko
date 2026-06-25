@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="<?= base_url('store.png') ?>">
-    <title>Simcard</title>
+    <title>Nomer Inet</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -423,7 +423,6 @@
             min-width: 760px;
         }
     </style>
-
     <style>
         *,
         *::before,
@@ -488,12 +487,6 @@
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-
-        .grid-3 {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
             gap: 16px;
         }
 
@@ -602,16 +595,8 @@
             background: #4b5563;
         }
 
-        @media (max-width: 900px) {
-            .grid-3 {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
         @media (max-width: 640px) {
-
-            .grid-2,
-            .grid-3 {
+            .grid-2 {
                 grid-template-columns: 1fr;
             }
 
@@ -813,76 +798,61 @@
 
                 <div class="page-header">
                     <div>
-                        <h2>Edit Data Simcard</h2>
-                        <div class="subtitle">ID: <?= esc($simcard['id']) ?> &bull; MSISDN: <?= esc($simcard['nomor_msisdn']) ?></div>
+                        <h2>Edit Data Nomor Inet</h2>
+                        <div class="subtitle">ID: <?= esc($inet['id']) ?></div>
                     </div>
                 </div>
 
                 <div class="form-card">
-                    <form action="<?= site_url('DataSI/update') ?>" method="POST" id="FormEditSimcard">
+                    <form action="<?= site_url('NMRInet/update') ?>" method="POST" id="FormEditNMRInet">
                         <?= csrf_field() ?>
-                        <input type="hidden" name="id" value="<?= esc($simcard['id']) ?>">
+                        <input type="hidden" name="id" value="<?= esc($inet['id']) ?>">
 
-                        <!-- ═══ DATA LAYANAN (dari Master) ═══ -->
-                        <div class="section-title">Data Paket & Quota</div>
+                        <!-- ═══ DATA LAYANAN (dari Master Nomor INET) ═══ -->
+                        <div class="section-title">Data Layanan</div>
                         <div class="grid-2">
 
-                            <!-- Paket Data (cascading: pilih paket → vendor otomatis) -->
                             <div class="form-group">
-                                <label>Nama Paket Data <span class="req">*</span></label>
-                                <select name="data_cellular_id" id="data_cellular_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
-                                    <option value="">— Pilih Paket Data —</option>
-                                    <?php foreach ($md_data_celullar as $dc): ?>
-                                        <option value="<?= $dc['id'] ?>"
-                                            data-vendor="<?= esc($dc['nama_vendor'] ?? '-', 'attr') ?>"
-                                            <?= $simcard['data_cellular_id'] == $dc['id'] ? 'selected' : '' ?>>
-                                            <?= esc($dc['nama_paket_data']) ?>
+                                <label>Nama Paket Layanan <span class="req">*</span></label>
+                                <select name="nomor_inet_id" id="nomor_inet_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
+                                    <option value="">— Pilih Paket Layanan —</option>
+                                    <?php foreach ($md_nomer_inet as $ni): ?>
+                                        <option value="<?= $ni['id'] ?>"
+                                            data-vendor="<?= esc($ni['nama_vendor'] ?? '-', 'attr') ?>"
+                                            data-bw="<?= esc($ni['kecepatan_bandwidth'] ?? '-', 'attr') ?>"
+                                            data-harga="<?= esc($ni['harga_layanan'] ?? '', 'attr') ?>"
+                                            data-nomor="<?= esc($ni['nomor_inet_pelanggan'] ?? '-', 'attr') ?>"
+                                            data-haspass="<?= !empty($ni['password_inet_pelanggan']) ? '1' : '0' ?>"
+                                            <?= $inet['nomor_inet_id'] == $ni['id'] ? 'selected' : '' ?>>
+                                            <?= esc($ni['nama_paket_layanan']) ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
 
-                            <!-- Vendor (tampil otomatis, read-only) -->
                             <div class="form-group">
                                 <label>Nama Vendor / Penyedia Layanan</label>
-                                <div class="readonly-box" id="vendor_display">—</div>
+                                <div class="readonly-box" id="vendor_display" class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">—</div>
                             </div>
 
-                            <!-- Quota (pilih → isi & harga otomatis) -->
                             <div class="form-group">
-                                <label>Paket Quota <span class="req">*</span></label>
-                                <select name="quota_simcard_id" id="quota_simcard_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
-                                    <option value="">— Pilih Quota —</option>
-                                    <?php foreach ($md_quota_simcard as $q): ?>
-                                        <option value="<?= $q['id'] ?>"
-                                            data-isi="<?= esc($q['isi_quota_internet'] ?? '', 'attr') ?>"
-                                            data-harga="<?= esc($q['harga_quota_internet'] ?? '', 'attr') ?>"
-                                            <?= $simcard['quota_simcard_id'] == $q['id'] ? 'selected' : '' ?>>
-                                            <?= esc($q['isi_quota_internet'] ?? '-') ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
+                                <label>Kecepatan / Bandwidth</label>
+                                <div class="readonly-box" id="bw_display" class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">—</div>
                             </div>
 
-                            <!-- Harga Quota (tampil otomatis, read-only) -->
                             <div class="form-group">
-                                <label>Harga Paket Quota</label>
-                                <div class="readonly-box" id="harga_display">—</div>
+                                <label>Harga Layanan</label>
+                                <div class="readonly-box" id="harga_display" class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">—</div>
                             </div>
-                        </div>
 
-                        <!-- ═══ DATA SIMCARD (Manual) ═══ -->
-                        <div class="section-title">Data Simcard</div>
-                        <div class="grid-2">
                             <div class="form-group">
-                                <label>Nomor MSISDN <span class="req">*</span></label>
-                                <input type="text" name="nomor_msisdn" id="nomor_msisdn"
-                                    value="<?= esc($simcard['nomor_msisdn']) ?>" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
+                                <label>Nomor INET / ID Pelanggan</label>
+                                <div class="readonly-box" id="nomor_display" class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">—</div>
                             </div>
+
                             <div class="form-group">
-                                <label>Nomor ISSID / IME <span class="req">*</span></label>
-                                <input type="text" name="nomor_issid_ime" id="nomor_issid_ime"
-                                    value="<?= esc($simcard['nomor_issid_ime']) ?>" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
+                                <label>Password INET / ID Pelanggan</label>
+                                <div class="readonly-box" id="pass_display" class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">—</div>
                             </div>
                         </div>
 
@@ -890,7 +860,6 @@
                         <div class="section-title">Data Pelanggan</div>
                         <div class="grid-2">
 
-                            <!-- Kategori Pelanggan -->
                             <div class="form-group">
                                 <label>Kategori Pelanggan <span class="req">*</span></label>
                                 <select name="pelanggan_id" id="pelanggan_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
@@ -898,7 +867,7 @@
                                     <?php foreach ($md_pelanggan as $p): ?>
                                         <option value="<?= $p['id'] ?>"
                                             data-kategori="<?= esc($p['kategori_pelanggan'] ?? '', 'attr') ?>"
-                                            <?= $simcard['pelanggan_id'] == $p['id'] ? 'selected' : '' ?>>
+                                            <?= $inet['pelanggan_id'] == $p['id'] ? 'selected' : '' ?>>
                                             <?= esc($p['kategori_pelanggan'] ?? '-') ?>
                                         </option>
                                     <?php endforeach; ?>
@@ -906,47 +875,42 @@
                                 <span class="hint" id="kategori_note"></span>
                             </div>
 
-                            <!-- Status -->
                             <div class="form-group">
                                 <label>Status <span class="req">*</span></label>
                                 <select name="status" id="status" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
                                     <option value="">— Pilih Status —</option>
-                                    <option value="0" <?= $simcard['status'] == '0' ? 'selected' : '' ?>>Aktif</option>
-                                    <option value="1" <?= $simcard['status'] == '1' ? 'selected' : '' ?>>Non Aktif</option>
+                                    <option value="0" <?= $inet['status'] == '0' ? 'selected' : '' ?>>Aktif</option>
+                                    <option value="1" <?= $inet['status'] == '1' ? 'selected' : '' ?>>Non Aktif</option>
                                 </select>
                             </div>
 
-                            <!-- ID Pelanggan (aktif jika Personal/Perusahaan/Sekolah) -->
                             <div class="form-group">
                                 <label>ID Pelanggan
                                     <span class="hint">(Personal / Perusahaan / Sekolah)</span>
                                 </label>
                                 <input type="text" name="id_pelanggan" id="id_pelanggan"
-                                    value="<?= esc($simcard['id_pelanggan']) ?>"
-                                    placeholder="Isi manual">
+                                    value="<?= esc($inet['id_pelanggan']) ?>" placeholder="Isi manual">
                             </div>
 
-                            <!-- Kode Toko (aktif jika Alfamidi/Alfamart/Lawson) -->
                             <div class="form-group">
                                 <label>Kode Toko
                                     <span class="hint">(Alfamidi / Alfamart / Lawson)</span>
                                 </label>
                                 <input type="text" name="kode_toko" id="kode_toko"
-                                    value="<?= esc($simcard['kode_toko']) ?>"
-                                    placeholder="Isi manual">
+                                    value="<?= esc($inet['kode_toko']) ?>" placeholder="Isi manual">
                             </div>
                         </div>
 
                         <!-- ═══ KETERANGAN ═══ -->
                         <div class="section-title">Keterangan</div>
                         <div class="form-group">
-                            <textarea name="keterangan" id="keterangan" rows="3" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none"><?= esc($simcard['keterangan']) ?></textarea>
+                            <textarea name="keterangan" id="keterangan" rows="3" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none"><?= esc($inet['keterangan']) ?></textarea>
                         </div>
 
                         <div class="action-bar">
                             <button type="submit" class="btn-save">Simpan Perubahan</button>
                             <button type="button" class="btn-back"
-                                onclick="window.location.href='<?= site_url('DataSI') ?>'">Kembali</button>
+                                onclick="window.location.href='<?= site_url('NMRInet') ?>'">Kembali</button>
                         </div>
                     </form>
                 </div>
@@ -1010,7 +974,95 @@
 
         feather.replace();
     </script>
+    <script>
+        feather.replace();
 
+        function toRupiah(angka) {
+            if (angka === '' || angka === null || isNaN(angka)) return '—';
+            return 'Rp ' + String(angka).replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        }
+
+        /* Isi field read-only dari master Nomor INET */
+        const inetSel = document.getElementById('nomor_inet_id');
+        const vendorBox = document.getElementById('vendor_display');
+        const bwBox = document.getElementById('bw_display');
+        const hargaBox = document.getElementById('harga_display');
+        const nomorBox = document.getElementById('nomor_display');
+        const passBox = document.getElementById('pass_display');
+
+        function refreshInet() {
+            const opt = inetSel.options[inetSel.selectedIndex];
+            if (!opt || !opt.value) {
+                vendorBox.textContent = bwBox.textContent = hargaBox.textContent =
+                    nomorBox.textContent = passBox.textContent = '—';
+                return;
+            }
+            vendorBox.textContent = opt.dataset.vendor || '—';
+            bwBox.textContent = opt.dataset.bw || '—';
+            hargaBox.textContent = opt.dataset.harga ? toRupiah(opt.dataset.harga) : '—';
+            nomorBox.textContent = opt.dataset.nomor || '—';
+            passBox.textContent = opt.dataset.haspass === '1' ? '•••••• (tersimpan)' : '—';
+        }
+        inetSel.addEventListener('change', refreshInet);
+
+        /* Kategori → aktifkan ID Pelanggan ATAU Kode Toko */
+        const pelangganSel = document.getElementById('pelanggan_id');
+        const idPelangganInp = document.getElementById('id_pelanggan');
+        const kodeTokoInp = document.getElementById('kode_toko');
+        const kategoriNote = document.getElementById('kategori_note');
+        const KATEGORI_TOKO = ['alfamidi', 'alfamart', 'lawson'];
+
+        function applyKategori() {
+            const opt = pelangganSel.options[pelangganSel.selectedIndex];
+            const kategori = (opt && opt.dataset.kategori ? opt.dataset.kategori : '').toLowerCase().trim();
+
+            let pakaiToko = false,
+                pakaiId = false;
+            if (kategori !== '') {
+                pakaiToko = KATEGORI_TOKO.includes(kategori);
+                pakaiId = !pakaiToko;
+            }
+
+            idPelangganInp.disabled = !pakaiId;
+            if (!pakaiId) idPelangganInp.value = '';
+
+            kodeTokoInp.disabled = !pakaiToko;
+            if (!pakaiToko) kodeTokoInp.value = '';
+
+            if (kategori === '') kategoriNote.textContent = '';
+            else if (pakaiToko) kategoriNote.textContent = 'Isi Kode Toko di bawah.';
+            else kategoriNote.textContent = 'Isi ID Pelanggan di bawah.';
+        }
+        pelangganSel.addEventListener('change', applyKategori);
+
+        /* Jalankan saat halaman dibuka (isi nilai awal) */
+        refreshInet();
+        applyKategori();
+        // pulihkan nilai lama setelah applyKategori (karena field nonaktif dikosongkan)
+        (function restoreOld() {
+            const oldId = <?= json_encode($inet['id_pelanggan'] ?? '') ?>;
+            const oldKode = <?= json_encode($inet['kode_toko'] ?? '') ?>;
+            if (!idPelangganInp.disabled && oldId) idPelangganInp.value = oldId;
+            if (!kodeTokoInp.disabled && oldKode) kodeTokoInp.value = oldKode;
+        })();
+
+        /* Validasi submit: keterangan wajib + aktifkan field disabled */
+        document.getElementById('FormEditNMRInet').addEventListener('submit', function(e) {
+            const keterangan = document.getElementById('keterangan').value.trim();
+            if (keterangan === '') {
+                e.preventDefault();
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Keterangan Wajib Diisi',
+                    text: 'Silakan isi kolom keterangan terlebih dahulu.',
+                    confirmButtonColor: '#185a82'
+                });
+                return false;
+            }
+            idPelangganInp.disabled = false;
+            kodeTokoInp.disabled = false;
+        });
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const alertBox = document.getElementById('successAlert');
@@ -1034,92 +1086,6 @@
         });
     </script>
 
-    <script>
-        feather.replace();
-
-        /* ══ Format Rupiah util ══ */
-        function toRupiah(angka) {
-            if (angka === '' || angka === null || isNaN(angka)) return '—';
-            return 'Rp ' + String(angka).replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-        }
-
-        /* ══ Vendor otomatis dari Paket Data ══ */
-        const paketSel = document.getElementById('data_cellular_id');
-        const vendorBox = document.getElementById('vendor_display');
-
-        function refreshVendor() {
-            const opt = paketSel.options[paketSel.selectedIndex];
-            vendorBox.textContent = (opt && opt.dataset.vendor) ? opt.dataset.vendor : '—';
-        }
-        paketSel.addEventListener('change', refreshVendor);
-
-        /* ══ Harga otomatis dari Quota ══ */
-        const quotaSel = document.getElementById('quota_simcard_id');
-        const hargaBox = document.getElementById('harga_display');
-
-        function refreshHarga() {
-            const opt = quotaSel.options[quotaSel.selectedIndex];
-            hargaBox.textContent = (opt && opt.dataset.harga) ? toRupiah(opt.dataset.harga) : '—';
-        }
-        quotaSel.addEventListener('change', refreshHarga);
-
-        /* ══ Kategori → aktifkan ID Pelanggan ATAU Kode Toko ══ */
-        const pelangganSel = document.getElementById('pelanggan_id');
-        const idPelangganInp = document.getElementById('id_pelanggan');
-        const kodeTokoInp = document.getElementById('kode_toko');
-        const kategoriNote = document.getElementById('kategori_note');
-
-        const KATEGORI_TOKO = ['alfamidi', 'alfamart', 'lawson'];
-
-        function applyKategori() {
-            const opt = pelangganSel.options[pelangganSel.selectedIndex];
-            const kategori = (opt && opt.dataset.kategori ? opt.dataset.kategori : '').toLowerCase().trim();
-
-            // default: dua-duanya nonaktif sampai kategori dipilih
-            let pakaiToko = false;
-            let pakaiId = false;
-
-            if (kategori !== '') {
-                pakaiToko = KATEGORI_TOKO.includes(kategori);
-                pakaiId = !pakaiToko; // selain toko → Personal/Perusahaan/Sekolah
-            }
-
-            // ID Pelanggan
-            idPelangganInp.disabled = !pakaiId;
-            if (!pakaiId) idPelangganInp.value = '';
-
-            // Kode Toko
-            kodeTokoInp.disabled = !pakaiToko;
-            if (!pakaiToko) kodeTokoInp.value = '';
-
-            // catatan kecil
-            if (kategori === '') kategoriNote.textContent = '';
-            else if (pakaiToko) kategoriNote.textContent = 'Isi Kode Toko di bawah.';
-            else kategoriNote.textContent = 'Isi ID Pelanggan di bawah.';
-        }
-        pelangganSel.addEventListener('change', applyKategori);
-
-        /* ══ Jalankan saat halaman dibuka (isi nilai awal) ══ */
-        refreshVendor();
-        refreshHarga();
-        applyKategori();
-        // pulihkan nilai lama setelah applyKategori (karena applyKategori mengosongkan field nonaktif)
-        // -> hanya pulihkan jika field memang aktif
-        (function restoreOld() {
-            const oldId = <?= json_encode($simcard['id_pelanggan'] ?? '') ?>;
-            const oldKode = <?= json_encode($simcard['kode_toko'] ?? '') ?>;
-            if (!idPelangganInp.disabled && oldId) idPelangganInp.value = oldId;
-            if (!kodeTokoInp.disabled && oldKode) kodeTokoInp.value = oldKode;
-        })();
-
-        /* ══ Validasi submit ══ */
-        document.getElementById('FormEditSimcard').addEventListener('submit', function(e) {
-            // pastikan field disabled tetap terkirim sebagai kosong (disabled tidak ikut POST,
-            // jadi kita aktifkan sesaat sebelum submit agar terkirim nilai kosong yang benar)
-            idPelangganInp.disabled = false;
-            kodeTokoInp.disabled = false;
-        });
-    </script>
 
     <script>
         function confirmDelete(id) {
@@ -1137,7 +1103,7 @@
 
                 if (result.isConfirmed) {
                     window.location.href =
-                        "<?= site_url('DataSI/delete/') ?>" + id;
+                        "<?= site_url('NMRInet/delete/') ?>" + id;
                 }
 
             });

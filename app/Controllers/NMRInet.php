@@ -2,137 +2,108 @@
 
 namespace App\Controllers;
 
-
-class DataSI extends BaseController
+class NMRInet extends BaseController
 {
     public function index()
     {
         $db = \Config\Database::connect();
 
-        $data['MD_simcard'] = $db->table('d_simcard s')
+        $data['MD_inet'] = $db->table('d_nomor_inet s')
             ->select('
-            s.*,
-            v.nama_vendor,
-            dc.nama_paket_data,
-            qs.isi_quota_internet,
-            qs.harga_quota_internet,
-            p.kategori_pelanggan
-        ')
-            ->join('md_data_celullar dc', 'dc.id = s.data_cellular_id', 'left')
-            ->join('md_vendor v',         'v.id = dc.vendor_id',        'left')
-            ->join('md_quota_simcard qs', 'qs.id = s.quota_simcard_id', 'left')
-            ->join('md_pelanggan p',      'p.id = s.pelanggan_id',      'left')
+                s.*,
+                v.nama_vendor,
+                ni.nama_paket_layanan,
+                ni.kecepatan_bandwidth,
+                ni.harga_layanan,
+                ni.nomor_inet_pelanggan,
+                ni.password_inet_pelanggan,
+                p.kategori_pelanggan
+            ')
+            ->join('md_nomer_inet ni', 'ni.id = s.nomor_inet_id', 'left')
+            ->join('md_vendor v',      'v.id = ni.vendor_id',     'left')
+            ->join('md_pelanggan p',   'p.id = s.pelanggan_id',   'left')
             ->orderBy('s.id', 'DESC')
             ->get()
             ->getResultArray();
 
-        return view('DataSI/index', $data);
+        return view('NMRInet/index', $data);
     }
+
     public function create()
     {
         $db = \Config\Database::connect();
 
-        $data['md_data_celullar'] = $db->table('md_data_celullar dc')
-            ->select('dc.*, v.nama_vendor')
-            ->join('md_vendor v', 'v.id = dc.vendor_id', 'left')
-            ->orderBy('dc.nama_paket_data', 'ASC')->get()->getResultArray();
-        $data['md_quota_simcard'] = $db->table('md_quota_simcard')->get()->getResultArray();
-        $data['md_pelanggan']     = $db->table('md_pelanggan')->get()->getResultArray();
+        $data['md_nomer_inet'] = $db->table('md_nomer_inet ni')
+            ->select('ni.*, v.nama_vendor')
+            ->join('md_vendor v', 'v.id = ni.vendor_id', 'left')
+            ->orderBy('ni.nama_paket_layanan', 'ASC')->get()->getResultArray();
+        $data['md_pelanggan'] = $db->table('md_pelanggan')->get()->getResultArray();
 
-        return view('DataSI/FormDataSI', $data);
+        return view('NMRInet/FormNMRInet', $data);
     }
+
     public function save()
     {
         date_default_timezone_set('Asia/Jakarta');
-
-        $model = new \App\Models\DataSIModel();
-
-        // cegah MSISDN ganda
-        $msisdn = trim((string) $this->request->getPost('nomor_msisdn'));
-        if ($msisdn !== '' && $model->where('nomor_msisdn', $msisdn)->first()) {
-            return redirect()->back()->withInput()
-                ->with('error', 'Nomor MSISDN "' . $msisdn . '" sudah ada. Data tidak boleh ganda.');
-        }
+        $model = new \App\Models\NMRInetModel();
 
         $model->save([
-            'data_cellular_id' => $this->request->getPost('data_cellular_id'),
-            'quota_simcard_id' => $this->request->getPost('quota_simcard_id'),
-            'pelanggan_id'     => $this->request->getPost('pelanggan_id'),
-            'nomor_msisdn'     => $msisdn,
-            'nomor_issid_ime'  => $this->request->getPost('nomor_issid_ime'),
-            'id_pelanggan'     => $this->request->getPost('id_pelanggan'),
-            'kode_toko'        => $this->request->getPost('kode_toko'),
-            'status'           => $this->request->getPost('status'),
-            'keterangan'       => $this->request->getPost('keterangan'),
-            'created_at'       => date('Y-m-d H:i:s'),
+            'nomor_inet_id' => $this->request->getPost('nomor_inet_id'),
+            'pelanggan_id'  => $this->request->getPost('pelanggan_id'),
+            'id_pelanggan'  => $this->request->getPost('id_pelanggan'),
+            'kode_toko'     => $this->request->getPost('kode_toko'),
+            'status'        => $this->request->getPost('status'),
+            'keterangan'    => $this->request->getPost('keterangan'),
+            'created_at'    => date('Y-m-d H:i:s'),
         ]);
 
-        return redirect()->to('/DataSI')
-            ->with('success', 'Data Simcard berhasil disimpan.');
+        return redirect()->to('/NMRInet')->with('success', 'Data Nomor Inet berhasil disimpan.');
     }
-    public function delete($id)
+
+    public function edit($id)
     {
-        $model = new \App\Models\DataSIModel();
+        $model = new \App\Models\NMRInetModel();
+        $data['inet'] = $model->find($id);
 
-        $data = $model->find($id);
-
-        if (!$data) {
-            return redirect()->back()
-                ->with('error', 'Data tidak ditemukan.');
+        if (!$data['inet']) {
+            return redirect()->to('/NMRInet')->with('error', 'Data tidak ditemukan.');
         }
 
-        $model->delete($id);
+        $db = \Config\Database::connect();
+        $data['md_nomer_inet'] = $db->table('md_nomer_inet ni')
+            ->select('ni.*, v.nama_vendor')
+            ->join('md_vendor v', 'v.id = ni.vendor_id', 'left')
+            ->orderBy('ni.nama_paket_layanan', 'ASC')->get()->getResultArray();
+        $data['md_pelanggan'] = $db->table('md_pelanggan')->get()->getResultArray();
 
-        return redirect()->to('/DataSI')
-            ->with('success', 'Data berhasil dihapus.');
+        return view('NMRInet/EditFormNMRInet', $data);
     }
+
     public function update()
     {
         date_default_timezone_set('Asia/Jakarta');
-
         $id    = $this->request->getPost('id');
-        $model = new \App\Models\DataSIModel();
-
-        // cegah MSISDN ganda (kecuali baris ini sendiri)
-        $msisdn = trim((string) $this->request->getPost('nomor_msisdn'));
-        if ($msisdn !== '' && $model->where('nomor_msisdn', $msisdn)->where('id !=', $id)->first()) {
-            return redirect()->back()->withInput()
-                ->with('error', 'Nomor MSISDN "' . $msisdn . '" sudah ada. Data tidak boleh ganda.');
-        }
+        $model = new \App\Models\NMRInetModel();
 
         $model->update($id, [
-            'data_cellular_id' => $this->request->getPost('data_cellular_id'),
-            'quota_simcard_id' => $this->request->getPost('quota_simcard_id'),
-            'pelanggan_id'     => $this->request->getPost('pelanggan_id'),
-            'nomor_msisdn'     => $msisdn,
-            'nomor_issid_ime'  => $this->request->getPost('nomor_issid_ime'),
-            'id_pelanggan'     => $this->request->getPost('id_pelanggan'),
-            'kode_toko'        => $this->request->getPost('kode_toko'),
-            'status'           => $this->request->getPost('status'),
-            'keterangan'       => $this->request->getPost('keterangan'),
+            'nomor_inet_id' => $this->request->getPost('nomor_inet_id'),
+            'pelanggan_id'  => $this->request->getPost('pelanggan_id'),
+            'id_pelanggan'  => $this->request->getPost('id_pelanggan'),
+            'kode_toko'     => $this->request->getPost('kode_toko'),
+            'status'        => $this->request->getPost('status'),
+            'keterangan'    => $this->request->getPost('keterangan'),
         ]);
 
-        return redirect()->to('/DataSI')
-            ->with('success', 'Data Simcard berhasil diperbarui.');
+        return redirect()->to('/NMRInet')->with('success', 'Data Nomor Inet berhasil diperbarui.');
     }
-    public function edit($id)
+
+    public function delete($id)
     {
-        $model = new \App\Models\DataSIModel();
-        $data['simcard'] = $model->find($id);
-
-        if (!$data['simcard']) {
-            return redirect()->to('/DataSI')->with('error', 'Data tidak ditemukan.');
+        $model = new \App\Models\NMRInetModel();
+        if (!$model->find($id)) {
+            return redirect()->back()->with('error', 'Data tidak ditemukan.');
         }
-
-        // kirim juga master data yang dibutuhkan form edit (vendor, paket, quota, pelanggan)
-        $db = \Config\Database::connect();
-        $data['md_data_celullar'] = $db->table('md_data_celullar dc')
-            ->select('dc.*, v.nama_vendor')
-            ->join('md_vendor v', 'v.id = dc.vendor_id', 'left')
-            ->orderBy('dc.nama_paket_data', 'ASC')->get()->getResultArray();
-        $data['md_quota_simcard'] = $db->table('md_quota_simcard')->get()->getResultArray();
-        $data['md_pelanggan']     = $db->table('md_pelanggan')->get()->getResultArray();
-
-        return view('DataSI/EditFormDataSimcard', $data);
+        $model->delete($id);
+        return redirect()->to('/NMRInet')->with('success', 'Data berhasil dihapus.');
     }
 }

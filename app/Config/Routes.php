@@ -25,6 +25,7 @@ use App\Controllers\DataCelullar;
 use App\Controllers\NomorInet;
 use App\Controllers\QuotaSIMCARD;
 use App\Controllers\DataSI;
+use App\Controllers\NMRInet;
 
 
 
@@ -173,4 +174,11 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->post('DataSI/update', 'DataSI::update');
     $routes->get('DataSI/delete/(:num)', 'DataSI::delete/$1');
     $routes->get('DataSI/edit/(:num)', 'DataSI::edit/$1');
+
+    $routes->get('NMRInet', [NMRInet::class, 'index']);
+    $routes->get('NMRInet/create', 'NMRInet::create');
+    $routes->post('NMRInet/save', 'NMRInet::save');
+    $routes->post('NMRInet/update', 'NMRInet::update');
+    $routes->get('NMRInet/delete/(:num)', 'NMRInet::delete/$1');
+    $routes->get('NMRInet/edit/(:num)', 'NMRInet::edit/$1');
 });

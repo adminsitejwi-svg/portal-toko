@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="<?= base_url('store.png') ?>">
-    <title>Simcard</title>
+    <title>Nomer Inet</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -518,8 +518,8 @@
                         <i data-feather="chevron-right" class="arrow w-4 h-4 transition-transform"></i>
                     </a>
                     <ul class="submenu bg-black/20">
-                        <li><a href="#" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Simcard</a></li>
-                        <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor Inet</a></li>
+                        <li><a href="<?= site_url('DataSI') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Simcard</a></li>
+                        <li><a href="#" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor Inet</a></li>
 
                     </ul>
                 </li>
@@ -614,9 +614,9 @@
         <div class="p-6">
             <!-- breadcrumb -->
             <div class="flex items-center justify-between mb-6 gap-4 flex-wrap">
-                <h5 class="font-medium text-lg">Simcard</h5>
+                <h5 class="font-medium text-lg">Nomor Inet</h5>
 
-                <a href="<?= site_url('DataSI/create') ?>" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition">
+                <a href="<?= site_url('NMRInet/create') ?>" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition">
                     <i class="ti ti-plus"></i> Tambah
                 </a>
             </div>
@@ -643,12 +643,11 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Nama Vendor /<br>Penyedia Layanan</th>
-                                    <th>Nama Paket Data</th>
-                                    <th>Isi Quota<br>Internet Sim Card</th>
-                                    <th>Harga Paket Quota</th>
-                                    <th>Nomor MSISDN</th>
-                                    <th>Nomor ISSID / IME</th>
-                                    <th>Kategori Pelanggan</th>
+                                    <th>Nama Paket Layanan</th>
+                                    <th>Kecepatan / Bandwidth</th>
+                                    <th>Harga Layanan</th>
+                                    <th>Nomor INET / ID Pelanggan</th>
+
 
                                     <th>Status</th>
                                     <th>Keterangan</th>
@@ -657,22 +656,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if (!empty($MD_simcard)) : ?>
+                                <?php if (!empty($MD_inet)) : ?>
                                     <?php $no = 1; ?>
-                                    <?php foreach ($MD_simcard as $row) : ?>
+                                    <?php foreach ($MD_inet as $row) : ?>
                                         <tr>
                                             <td><?= $no++; ?></td>
                                             <td><?= esc($row['nama_vendor'] ?? '-'); ?></td>
-                                            <td><?= esc($row['nama_paket_data'] ?? '-'); ?></td>
-                                            <td><?= esc($row['isi_quota_internet'] ?? '-'); ?></td>
+                                            <td><?= esc($row['nama_paket_layanan'] ?? '-'); ?></td>
+                                            <td><?= esc($row['kecepatan_bandwidth'] ?? '-'); ?></td>
                                             <td>
-                                                <?= isset($row['harga_quota_internet']) && $row['harga_quota_internet'] !== null && $row['harga_quota_internet'] !== ''
-                                                    ? 'Rp ' . number_format((float) $row['harga_quota_internet'], 0, ',', '.')
+                                                <?= isset($row['harga_layanan']) && $row['harga_layanan'] !== null && $row['harga_layanan'] !== ''
+                                                    ? 'Rp ' . number_format((float) $row['harga_layanan'], 0, ',', '.')
                                                     : '-' ?>
                                             </td>
-                                            <td><?= esc($row['nomor_msisdn'] ?? '-'); ?></td>
-                                            <td><?= esc($row['nomor_issid_ime'] ?? '-'); ?></td>
-                                            <td><?= esc($row['kategori_pelanggan'] ?? '-'); ?></td>
+                                            <td><?= esc($row['nomor_inet_pelanggan'] ?? '-'); ?></td>
 
                                             <td>
                                                 <?php if ($row['status'] == 0) : ?>
@@ -684,7 +681,7 @@
                                             <td><?= esc($row['keterangan'] ?? '-'); ?></td>
                                             <td><?= !empty($row['created_at']) ? date('d-m-Y H:i', strtotime($row['created_at'])) : '-'; ?></td>
                                             <td>
-                                                <a href="<?= site_url('DataSI/edit/' . $row['id']) ?>" class="btn btn-sm btn-primary">
+                                                <a href="<?= site_url('NMRInet/edit/' . $row['id']) ?>" class="btn btn-sm btn-primary">
                                                     <i class="ti ti-edit"></i>
                                                 </a>
                                                 <button type="button" onclick="confirmDelete(<?= $row['id'] ?>)" class="btn btn-sm btn-danger">
@@ -821,7 +818,7 @@
                     buttons: [{
                             extend: 'copyHtml5',
                             text: '<i class="ti ti-copy"></i> Copy',
-                            title: 'Data Simcard',
+                            title: 'Data Nomer Inet',
                             ...exportConfig,
                             action: function(e, dt, button, config) {
                                 if (isTableEmpty(dt)) return showEmptyExportAlert();
@@ -831,7 +828,7 @@
                         {
                             extend: 'csvHtml5',
                             text: '<i class="ti ti-file-text"></i> Export CSV',
-                            title: 'Data Simcard',
+                            title: 'Data Nomer Inet',
                             ...exportConfig,
                             action: function(e, dt, button, config) {
                                 if (isTableEmpty(dt)) return showEmptyExportAlert();
@@ -851,7 +848,7 @@
                         {
                             extend: 'pdfHtml5',
                             text: '<i class="ti ti-file-type-pdf"></i> Export PDF',
-                            title: 'Data Simcard',
+                            title: 'Data Nomer Inet',
                             orientation: 'landscape',
                             pageSize: 'A4',
                             ...exportConfig,
@@ -876,7 +873,7 @@
                                     alignment: 'left'
                                 };
                                 doc.defaultStyle.fontSize = 10;
-                                doc.content[1].table.widths = ['3%', '9%', '10%', '9%', '10%', '10%', '10%', '10%', '6%', '9%', '10%', '4%'];
+                                doc.content[1].table.widths = ['3%', '9%', '9%', '8%', '8%', '9%', '7%', '9%', '8%', '7%', '5%', '8%', '10%'];
                                 doc.content[1].layout = {
                                     hLineWidth: () => 0.5,
                                     vLineWidth: () => 0.5,
@@ -893,7 +890,7 @@
                     info: "Showing _START_ to _END_ of _TOTAL_ entries",
                     infoEmpty: "Showing 0 to 0 of 0 entries",
                     infoFiltered: "(filtered from _MAX_ total entries)",
-                    emptyTable: "Data Simcard belum tersedia",
+                    emptyTable: "Data Nomer Inet belum tersedia",
                     zeroRecords: "Tidak ada data yang cocok dengan pencarian",
                     paginate: {
                         previous: "Previous",
@@ -945,7 +942,7 @@
 
                 if (result.isConfirmed) {
                     window.location.href =
-                        "<?= site_url('DataSI/delete/') ?>" + id;
+                        "<?= site_url('NMRInet/delete/') ?>" + id;
                 }
 
             });
