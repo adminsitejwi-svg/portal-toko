@@ -565,8 +565,10 @@
             <div class="flex items-center justify-between mb-6">
                 <h5 class="font-medium text-lg">Pengguna</h5>
 
+                <a href="<?= site_url('register?from=settings') ?>" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition">
+                    <i class="ti ti-plus"></i> Tambah Akun
+                </a>
             </div>
-
             <div class="card">
                 <div class="card-body">
 
