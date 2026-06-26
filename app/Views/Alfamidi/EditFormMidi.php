@@ -1039,44 +1039,9 @@
                         </div>
 
                         <!-- ═══ RELASI MASTER DATA ═══ -->
-                        <div class="section-title">Relasi Master Data</div>
-                        <div class="grid-3">
-                            <div class="form-group">
-                                <label>Pemilik Project <span class="req">*</span></label>
-                                <select name="pemilik_projek_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
-                                    <option value="">— Pilih —</option>
-                                    <?php foreach ($pemilik_projek as $row): ?>
-                                        <option value="<?= $row['id'] ?>"
-                                            <?= $midi['pemilik_projek_id'] == $row['id'] ? 'selected' : '' ?>>
-                                            <?= esc($row['nama_pemilik']) ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>DC <span class="req">*</span></label>
-                                <select name="nama_dc_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
-                                    <option value="">— Pilih —</option>
-                                    <?php foreach ($dc as $row): ?>
-                                        <option value="<?= $row['id'] ?>"
-                                            <?= $midi['nama_dc_id'] == $row['id'] ? 'selected' : '' ?>>
-                                            <?= esc($row['nama_dc']) ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Media Koneksi <span class="req">*</span></label>
-                                <select name="media_koneksi_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
-                                    <option value="">— Pilih —</option>
-                                    <?php foreach ($media as $row): ?>
-                                        <option value="<?= $row['id'] ?>"
-                                            <?= $midi['media_koneksi_id'] == $row['id'] ? 'selected' : '' ?>>
-                                            <?= esc($row['media_koneksi']) ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
+                        <div class="section-title">Data Vendor</div>
+                        <div class="grid-2">
+
                             <div class="form-group">
                                 <label>Vendor <span class="req">*</span></label>
                                 <select name="vendor_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
@@ -1101,6 +1066,38 @@
                                     <?php endforeach; ?>
                                 </select>
                             </div>
+
+                        </div>
+
+                        <div class="section-title">Data Perangkat</div>
+                        <div class="grid-3">
+
+                            <div class="form-group">
+                                <label>Pemilik Project <span class="req">*</span></label>
+                                <select name="pemilik_projek_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
+                                    <option value="">— Pilih —</option>
+                                    <?php foreach ($pemilik_projek as $row): ?>
+                                        <option value="<?= $row['id'] ?>"
+                                            <?= $midi['pemilik_projek_id'] == $row['id'] ? 'selected' : '' ?>>
+                                            <?= esc($row['nama_pemilik']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>DC <span class="req">*</span></label>
+                                <select name="nama_dc_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
+                                    <option value="">— Pilih —</option>
+                                    <?php foreach ($dc as $row): ?>
+                                        <option value="<?= $row['id'] ?>"
+                                            <?= $midi['nama_dc_id'] == $row['id'] ? 'selected' : '' ?>>
+                                            <?= esc($row['nama_dc']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+
                             <div class="form-group">
                                 <label>Jenis Perangkat <span class="req">*</span></label>
                                 <select name="jenis_perangkat_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
@@ -1130,10 +1127,39 @@
                                     <option value="">— Pilih —</option>
                                 </select>
                             </div>
+                            <div class="form-group">
+                                <label>Media Koneksi <span class="req">*</span></label>
+                                <?php $hasBackup = !empty($midi['backup_media_koneksi']); ?>
+                                <div style="display:flex; gap:10px; align-items:flex-end;">
+                                    <!-- Media koneksi utama -->
+                                    <select name="media_koneksi_id" id="media_koneksi_select" required
+                                        class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none"
+                                        style="flex:1;">
+                                        <option value="">— Pilih —</option>
+                                        <?php foreach ($media as $row): ?>
+                                            <option value="<?= $row['id'] ?>"
+                                                <?= $midi['media_koneksi_id'] == $row['id'] ? 'selected' : '' ?>>
+                                                <?= esc($row['media_koneksi']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+
+                                    <!-- Backup koneksi: text input, otomatis tampil kalau sudah ada datanya -->
+                                    <div id="backup_wrapper"
+                                        style="flex:1; <?= $hasBackup ? 'display:flex' : 'display:none' ?>; flex-direction:column; gap:5px;">
+                                        <input type="text" name="backup_media_koneksi" id="backup_media_koneksi_input"
+                                            value="<?= esc($midi['backup_media_koneksi'] ?? '') ?>"
+                                            placeholder="Masukan Backup"
+                                            <?= $hasBackup ? 'required' : '' ?>
+                                            class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
                         <!-- ═══ DETAIL PERANGKAT & JARINGAN ═══ -->
-                        <div class="section-title">Detail Perangkat & Jaringan</div>
+                        <div class="section-title">Data Jaringan</div>
                         <div class="grid-3">
                             <div class="form-group">
                                 <label>IP Address</label>
@@ -1289,7 +1315,46 @@
             </div>
         </div>
     </div>
+    <script>
+        (function() {
+            const mediaSel = document.getElementById('media_koneksi_select');
+            const backupWrap = document.getElementById('backup_wrapper');
+            const backupInp = document.getElementById('backup_media_koneksi_input');
+            if (!mediaSel) return;
 
+            function hideBackup() {
+                backupWrap.style.display = 'none';
+                backupInp.value = '';
+                backupInp.removeAttribute('required');
+            }
+
+            function showBackup() {
+                backupWrap.style.display = 'flex';
+                backupInp.setAttribute('required', 'required');
+                backupInp.value = ''; // kosong / polos
+                backupInp.focus();
+            }
+
+            // hanya jalan saat user MENGUBAH dropdown, bukan saat halaman dibuka
+            mediaSel.addEventListener('change', function() {
+                if (!mediaSel.value) {
+                    hideBackup();
+                    return;
+                }
+                Swal.fire({
+                    title: 'Apakah Toko Ini, <br> Menggunakan Backup',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Ya',
+                    cancelButtonText: 'Tidak',
+                    confirmButtonColor: '#185a82',
+                    cancelButtonColor: '#6b7280'
+                }).then(res => {
+                    res.isConfirmed ? showBackup() : hideBackup();
+                });
+            });
+        })();
+    </script>
     <script>
         function previewLampiran(rawJson) {
             let files = [];

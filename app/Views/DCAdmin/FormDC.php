@@ -727,7 +727,7 @@
                         <textarea name="alamat_dc"
                             id="alamat_dc"
                             rows="3"
-                            required></textarea>
+                            required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none"></textarea>
                     </div>
 
                     <div class="form-group">

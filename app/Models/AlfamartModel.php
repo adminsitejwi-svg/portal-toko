@@ -18,6 +18,7 @@ class AlfamartModel extends Model
         'layanan_vendor_id',
         'jenis_perangkat_id',
         'merk_perangkat_id',
+        'backup_media_koneksi',
 
         // isi manual
         'nama_alfamart',

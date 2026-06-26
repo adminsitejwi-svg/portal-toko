@@ -112,6 +112,8 @@ class Alfamart extends BaseController
             'keterangan'            => $this->request->getPost('keterangan'),
             'upload_lampiran'       => $uploadedFileName,
             'created_at'            => date('Y-m-d H:i:s'),
+            'backup_media_koneksi' => $this->request->getPost('backup_media_koneksi') ?: null,
+
         ]);
 
 
@@ -232,6 +234,8 @@ class Alfamart extends BaseController
             'serial_number_perangkat' => $this->request->getPost('serial_number_perangkat'),
             'keterangan'              => $this->request->getPost('keterangan'),
             'upload_lampiran'         => $uploadedFileName,
+            'backup_media_koneksi' => $this->request->getPost('backup_media_koneksi') ?: null,
+
         ]);
 
         return redirect()->to('/Alfamart')->with('success', 'Data berhasil diperbarui.');

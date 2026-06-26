@@ -137,6 +137,8 @@ class Alfamidi extends BaseController
             'keterangan'            => $this->request->getPost('keterangan'),
             'upload_lampiran'       => $uploadedFileName,
             'created_at'            => date('Y-m-d H:i:s'),
+            'backup_media_koneksi' => $this->request->getPost('backup_media_koneksi') ?: null,
+
         ]);
 
 
@@ -257,6 +259,8 @@ class Alfamidi extends BaseController
             'serial_number_perangkat' => $this->request->getPost('serial_number_perangkat'),
             'keterangan'              => $this->request->getPost('keterangan'),
             'upload_lampiran'         => $uploadedFileName,
+            'backup_media_koneksi'    => $this->request->getPost('backup_media_koneksi') ?: null,
+
         ]);
 
         return redirect()->to('/Alfamidi')->with('success', 'Data berhasil diperbarui.');

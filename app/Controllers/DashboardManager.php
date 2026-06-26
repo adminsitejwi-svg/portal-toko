@@ -6,17 +6,47 @@ use App\Models\PerangkatModel;
 
 class DashboardManager extends BaseController
 {
+    /**
+     * Hitung jumlah Aktif & Non Aktif untuk sebuah model toko.
+     * Aman untuk status berupa angka (0/1) maupun teks ('Aktif'/'Non Aktif').
+     */
+    private function hitungStatus($model): array
+    {
+        $rows = $model->select('status, COUNT(*) AS jml')
+            ->groupBy('status')
+            ->findAll();
+
+        $aktif = 0;
+        $nonaktif = 0;
+
+        foreach ($rows as $r) {
+            // dukung hasil array maupun objek/entity
+            $status = is_array($r) ? ($r['status'] ?? null) : ($r->status ?? null);
+            $jml    = is_array($r) ? ($r['jml'] ?? 0)       : ($r->jml ?? 0);
+
+            $s = strtolower(trim((string) $status));
+
+            if ($s === '0' || $s === 'aktif') {
+                $aktif += (int) $jml;
+            } elseif ($s === '1' || $s === 'non aktif' || $s === 'nonaktif' || $s === 'tidak aktif') {
+                $nonaktif += (int) $jml;
+            }
+        }
+
+        return ['aktif' => $aktif, 'nonaktif' => $nonaktif];
+    }
+
     public function index()
     {
         if (!session()->get('logged_in')) {
             return redirect()->to('/login');
         }
 
-        $dcModel        = new \App\Models\DCModel();
-        $vendorModel    = new \App\Models\VendorModel();
-        $perangkatModel = new PerangkatModel();
-        $alfamidiModel  = new \App\Models\AlfamidiModel();
-        $lawsonModel    = new \App\Models\LawsonModel(); // Tambahan
+        $dcModel           = new \App\Models\DCModel();
+        $vendorModel       = new \App\Models\VendorModel();
+        $perangkatModel    = new PerangkatModel();
+        $alfamidiModel     = new \App\Models\AlfamidiModel();
+        $lawsonModel       = new \App\Models\LawsonModel();
         $mediaKoneksiModel = new \App\Models\MediaKoneksiModel();
         $layananJwiModel   = new \App\Models\LayananJwiModel();
         $alfamartModel     = new \App\Models\AlfamartModel();
@@ -24,62 +54,46 @@ class DashboardManager extends BaseController
         $dataCelullarModel = new \App\Models\DataCelullarModel();
         $nomerInetModel    = new \App\Models\NomerInetModel();
 
+        // ===== Hitungan master data lain =====
         $db = \Config\Database::connect();
         $data['totalPelanggan']    = $db->table('md_pelanggan')->countAllResults();
         $data['totalDataCelullar'] = $db->table('md_data_celullar')->countAllResults();
         $data['totalNomorInet']    = $db->table('md_nomer_inet')->countAllResults();
 
-        $merekPerangkat = $perangkatModel
+        $data['totalDC']           = $dcModel->countAllResults();
+        $data['totalMediaKoneksi'] = $mediaKoneksiModel->countAllResults();
+        $data['totalLayananJwi']   = $layananJwiModel->countAllResults();
+        $data['totalPerangkat']    = $perangkatModel->countAllResults();
+
+        // ===== Merek perangkat (untuk tabel) =====
+        $data['merekPerangkat'] = $perangkatModel
             ->select('merk_perangkat, COUNT(*) as jumlah')
             ->groupBy('merk_perangkat')
             ->orderBy('jumlah', 'DESC')
             ->findAll();
 
-        $data['total_midi'] = $alfamidiModel->countAll();
-
-        $data['total_aktif'] = $alfamidiModel
-            ->where('status', 'Aktif')
-            ->countAllResults();
-
-        $data['total_nonaktif'] = $alfamidiModel
-            ->where('status', 'Non Aktif')
-            ->countAllResults();
-        // =========================
-        $data['total_lawson'] = $lawsonModel->countAll();
-
-        $data['total_lawson_aktif'] = $lawsonModel
-            ->where('status', 'Aktif')
-            ->countAllResults();
-
-        $data['total_lawson_nonaktif'] = $lawsonModel
-            ->where('status', 'Non Aktif')
-            ->countAllResults();
-        $data['totalDC'] = $dcModel->countAllResults();
-
-        // Total Alfamart
-        $data['total_alfamart'] = $alfamartModel->countAll();
-
-        $data['total_alfamart_aktif'] = $alfamartModel
-            ->where('status', 'Aktif')
-            ->countAllResults();
-
-        $data['total_alfamart_nonaktif'] = $alfamartModel
-            ->where('status', 'Non Aktif')
-            ->countAllResults();
+        // ===== Vendor (untuk tabel) =====
         $data['vendor'] = $vendorModel
             ->orderBy('created_at', 'DESC')
             ->findAll();
 
-        $data['merekPerangkat'] = $merekPerangkat;
+        // ===== Alfamidi: total + Aktif/Non Aktif =====
+        $data['total_midi']     = $alfamidiModel->countAll();
+        $midi                   = $this->hitungStatus($alfamidiModel);
+        $data['total_aktif']    = $midi['aktif'];
+        $data['total_nonaktif'] = $midi['nonaktif'];
 
-        $data['totalPerangkat'] = $perangkatModel
-            ->countAllResults();
+        // ===== Lawson: total + Aktif/Non Aktif =====
+        $data['total_lawson']          = $lawsonModel->countAll();
+        $lawson                        = $this->hitungStatus($lawsonModel);
+        $data['total_lawson_aktif']    = $lawson['aktif'];
+        $data['total_lawson_nonaktif'] = $lawson['nonaktif'];
 
-        $data['totalMediaKoneksi'] = $mediaKoneksiModel
-            ->countAllResults();
-
-        $data['totalLayananJwi'] = $layananJwiModel
-            ->countAllResults();
+        // ===== Alfamart: total + Aktif/Non Aktif =====
+        $data['total_alfamart']          = $alfamartModel->countAll();
+        $alfamart                        = $this->hitungStatus($alfamartModel);
+        $data['total_alfamart_aktif']    = $alfamart['aktif'];
+        $data['total_alfamart_nonaktif'] = $alfamart['nonaktif'];
 
         return view('manager/dashboard', $data);
     }
