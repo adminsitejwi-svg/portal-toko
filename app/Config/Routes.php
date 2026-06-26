@@ -54,6 +54,7 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->get('settings', 'SettingsController::index');
     $routes->get('settings/delete/(:num)', 'SettingsController::delete/$1');
 
+
     // DC
     $routes->get('DCAdmin', [DCAdmin::class, 'index']);
     $routes->get('DCAdmin/create', 'DCAdmin::create');
@@ -84,10 +85,10 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
 
     // Vendor
     $routes->get('Vendor', [Vendor::class, 'index']);
-    $routes->get('vendor/create', 'Vendor::create');
+    $routes->get('Vendor/create', 'Vendor::create');
     $routes->post('vendor/save', 'Vendor::save');
     $routes->post('vendor/update', 'Vendor::update');
-    $routes->get('vendor/delete/(:num)', 'Vendor::delete/$1');
+    $routes->get('Vendor/delete/(:num)', 'Vendor::delete/$1');
 
     // Layanan Vendor
     $routes->get('LayananVendor', [LayananVendor::class, 'index']);

@@ -699,7 +699,7 @@
                 <li class="hasmenu">
                     <a href="#" onclick="toggleSub(this);return false;" class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
                         <span class="pc-micon w-5"><i class="ti ti-building-store fs-1"></i></span>
-                        <span class="flex-1">All Toko</span>
+                        <span class="flex-1">Data Toko</span>
                         <i data-feather="chevron-right" class="arrow w-4 h-4 transition-transform"></i>
                     </a>
                     <ul class="submenu bg-black/20">
@@ -711,19 +711,18 @@
                 <li class="hasmenu">
                     <a href="#" onclick="toggleSub(this);return false;" class="pc-link active flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
                         <span class="pc-micon w-5"><i class="ti ti-brand-databricks"></i></span>
-                        <span class="flex-1">All Data</span>
+                        <span class="flex-1">Data Penggunaan</span>
                         <i data-feather="chevron-right" class="arrow w-4 h-4 transition-transform"></i>
                     </a>
                     <ul class="submenu bg-black/20">
                         <li><a href="<?= site_url('DataSI') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Simcard</a></li>
                         <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor Inet</a></li>
-
                     </ul>
                 </li>
                 <li class="hasmenu">
                     <a href="#" onclick="toggleSub(this);return false;" class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
                         <span class="pc-micon w-5"><i class="ti ti-category"></i></span>
-                        <span class="flex-1">Master Data 1</span>
+                        <span class="flex-1">Master Data</span>
                         <i data-feather="chevron-right" class="arrow w-4 h-4 transition-transform"></i>
                     </a>
                     <ul class="submenu bg-black/20">
@@ -736,28 +735,21 @@
                         <li><a href="<?= site_url('MediaKoneksi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Media Koneksi</a></li>
                         <li><a href="<?= site_url('PemilikProject') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pemilik Projek</a></li>
                         <li><a href="<?= site_url('LayananJwi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Layanan jwi group</a></li>
-
-                    </ul>
-                </li>
-                <li class="hasmenu">
-                    <a href="#" onclick="toggleSub(this);return false;" class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
-                        <span class="pc-micon w-5"><i class="ti ti-category"></i></span>
-                        <span class="flex-1">Master Data 2</span>
-                        <i data-feather="chevron-right" class="arrow w-4 h-4 transition-transform"></i>
-                    </a>
-                    <ul class="submenu bg-black/20">
                         <li><a href="<?= site_url('Pelanggan') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pelanggan</a></li>
                         <li><a href="<?= site_url('DataCelullar') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Data Celullar</a></li>
                         <li><a href="<?= site_url('NomorInet') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                         <li><a href="<?= site_url('QuotaSIMCARD') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Kuota Simcard</a></li>
 
+
                     </ul>
+
                 </li>
 
                 <li><a href="<?= site_url('Map') ?>" class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white"><span class="pc-micon w-5"><i class="ti ti-map-pin"></i></span><span>Lokasi</span></a></li>
 
-                <li class="px-6 py-3 text-[11px] uppercase tracking-wide text-[#5b6b7f] font-semibold">Pengaturan
-                </li>
+
+                <li class="px-6 py-3 text-[11px] uppercase tracking-wide text-[#5b6b7f] font-semibold">Pengaturan</li>
+                <li>
                 <li>
                     <a href="<?= site_url('settings') ?>"
                         class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
@@ -766,22 +758,11 @@
                             <i class="ti ti-settings"></i>
                         </span>
 
-                        <span>Pengaturan</span>
+                        <span>Pengguna</span>
 
                     </a>
                 </li>
-                <li>
-                    <a href="<?= site_url('Logs') ?>"
-                        class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
 
-                        <span class="pc-micon w-5">
-                            <i class="ti ti-report-search"></i>
-                        </span>
-
-                        <span>Log</span>
-
-                    </a>
-                </li>
             </ul>
         </div>
     </nav>
