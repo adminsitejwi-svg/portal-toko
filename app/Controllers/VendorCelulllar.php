@@ -3,28 +3,28 @@
 namespace App\Controllers;
 
 
-class Vendor extends BaseController
+class VendorCelulllar extends BaseController
 {
     public function index()
     {
-        $model = new \App\Models\VendorModel();
+        $model = new \App\Models\VendorCelulllarModel();
 
-        $data['MD_Vendor'] = $model
+        $data['MD_VendorCelulllar'] = $model
             ->orderBy('id', 'DESC')
             ->findAll();
 
-        return view('Vendor/index', $data);
+        return view('VendorCelulllar/index', $data);
     }
     public function create()
     {
-        return view('Vendor/FormVendor');
+        return view('VendorCelulllar/FormVendorCelulllar');
     }
 
     public function save()
     {
         date_default_timezone_set('Asia/Jakarta');
 
-        $model = new \App\Models\VendorModel();
+        $model = new \App\Models\VendorCelulllarModel();
 
         // ── Cegah data ganda ──
         $cekDup = trim((string) $this->request->getPost('nama_vendor'));
@@ -41,44 +41,30 @@ class Vendor extends BaseController
             'created_at' => date('Y-m-d H:i:s')
         ]);
 
-        return redirect()->to('/Vendor')
+        return redirect()->to('/VendorCelulllar')
             ->with('success', 'Data Vendor berhasil disimpan');
     }
     public function delete($id)
     {
-        $model = new \App\Models\VendorModel();
+        $model = new \App\Models\VendorCelulllarModel();
 
-        try {
+        $data = $model->find($id);
 
-            $data = $model->find($id);
-
-            if (!$data) {
-                return redirect()->to('/Vendor')
-                    ->with('error', 'Data tidak ditemukan.');
-            }
-
-            $model->delete($id);
-
-            return redirect()->to('/Vendor')
-                ->with('success', 'Data Vendor berhasil dihapus.');
-        } catch (\Throwable $e) {
-
-            // Tulis error ke log agar bisa dicek jika diperlukan
-            log_message('error', 'Vendor Delete Error : ' . $e->getMessage());
-
-            // Jangan tampilkan Whoops
-            return redirect()->to('/Vendor')
-                ->with(
-                    'error',
-                    'Data tidak dapat dihapus karena masih digunakan pada data lain atau terjadi kesalahan.'
-                );
+        if (!$data) {
+            return redirect()->back()
+                ->with('error', 'Data tidak ditemukan.');
         }
+
+        $model->delete($id);
+
+        return redirect()->to('/VendorCelulllar')
+            ->with('success', 'Data berhasil dihapus.');
     }
     public function update()
     {
         $id = $this->request->getPost('id');
 
-        $model = new \App\Models\VendorModel();
+        $model = new \App\Models\VendorCelulllarModel();
 
         // ── Cegah data ganda (kecuali baris ini sendiri) ──
         $cekDup = trim((string) $this->request->getPost('nama_vendor'));
@@ -97,7 +83,7 @@ class Vendor extends BaseController
 
         ]);
 
-        return redirect()->to('/Vendor')
+        return redirect()->to('/VendorCelulllar')
             ->with('success', 'Data berhasil diperbarui.');
     }
 }

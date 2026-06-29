@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="<?= base_url('store.png') ?>">
-    <title>Jenis Perangkat</title>
+    <title>Vendor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -146,12 +146,12 @@
         }
 
         /* ===== INVOICE-STYLE TABLE ===== */
-        #jenisPerangkatTable {
+        #mediaKoneksiTable {
             width: 100% !important;
             border-collapse: collapse;
         }
 
-        #jenisPerangkatTable thead th {
+        #mediaKoneksiTable thead th {
             background: #f7f9fb;
             color: #6b7785;
             font-weight: 500;
@@ -163,13 +163,13 @@
             white-space: nowrap;
         }
 
-        .dark #jenisPerangkatTable thead th {
+        .dark #mediaKoneksiTable thead th {
             background: #2b3543;
             color: #9fb0c2;
             border-color: #37404c;
         }
 
-        #jenisPerangkatTable tbody td {
+        #mediaKoneksiTable tbody td {
             padding: 16px;
             font-size: 14px;
             color: #3b4754;
@@ -178,25 +178,25 @@
             white-space: nowrap;
         }
 
-        .dark #jenisPerangkatTable tbody td {
+        .dark #mediaKoneksiTable tbody td {
             color: #bfc8d6;
             border-color: #37404c;
         }
 
-        #jenisPerangkatTable tbody tr:hover {
+        #mediaKoneksiTable tbody tr:hover {
             background: #fafbfc;
         }
 
-        .dark #jenisPerangkatTable tbody tr:hover {
+        .dark #mediaKoneksiTable tbody tr:hover {
             background: rgba(255, 255, 255, .03);
         }
 
-        #jenisPerangkatTable tbody td.col-bold {
+        #mediaKoneksiTable tbody td.col-bold {
             font-weight: 600;
             color: #2b3540;
         }
 
-        .dark #jenisPerangkatTable tbody td.col-bold {
+        .dark #mediaKoneksiTable tbody td.col-bold {
             color: #e7eaf0;
         }
 
@@ -422,6 +422,112 @@
         .table-scroll table {
             min-width: 760px;
         }
+    </style>
+
+    <style>
+        .form-container {
+            background-color: #ffffff;
+            padding: 30px;
+            margin-top: 90px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, .1);
+            width: 100%;
+            max-width: 1000px;
+            margin: 20px auto;
+        }
+
+        h2 {
+            text-align: center;
+            color: #185a82;
+
+            font-size: 42px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: 2px;
+
+            margin-bottom: 35px;
+            padding-bottom: 15px;
+
+            border-bottom: 3px solid #185a82;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #185a82;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[readonly] {
+            background: #f1f5f9;
+        }
+
+        button {
+            width: 100%;
+            height: 55px;
+
+            border: none;
+            border-radius: 10px;
+
+            font-size: 17px;
+            font-weight: 600;
+
+            cursor: pointer;
+            transition: all .3s ease;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        .d-flex {
+            display: flex;
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .d-flex button {
+            flex: 1;
+        }
+
+        button[type="submit"] {
+            background: linear-gradient(135deg, #185a82, #2196f3);
+            color: white;
+            box-shadow: 0 4px 15px rgba(24, 90, 130, 0.3);
+        }
+
+        button[type="submit"]:hover {
+            box-shadow: 0 8px 25px rgba(24, 90, 130, 0.4);
+        }
+
+        .btn-back {
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+            color: white;
+            box-shadow: 0 4px 15px rgba(75, 85, 99, 0.3);
+        }
+
+        .btn-back:hover {
+            box-shadow: 0 8px 25px rgba(75, 85, 99, 0.4);
+        }
 
         .brand-text {
             font-size: 18px;
@@ -624,178 +730,64 @@
 
         <div class="p-6">
             <!-- breadcrumb -->
-            <div class="flex items-center justify-between mb-6">
-                <h5 class="font-medium text-lg">Jenis Perangkat</h5>
-
-                <a href="<?= site_url('Jns_perangkat/create') ?>" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition">
-                    <i class="ti ti-plus"></i> Tambah
-                </a>
-            </div>
-
-            <div class="card">
-                <div class="card-body">
-
-                    <!-- TOOLBAR: dropdown Show (kiri) + Search & Export (kanan) -->
-                    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
-                        <div id="lengthArea"></div>
-                        <div class="flex items-center gap-3 flex-wrap">
-                            <div class="custom-search">
-                                <input type="text" id="customSearch" placeholder="search..." />
-                                <button class="go-btn" type="button"></button>
-                            </div>
-                            <div id="exportArea"></div>
-                        </div>
+            <div class="form-container">
+                <h2>Form Pendaftaran Vendor Celullar</h2>
+                <form action="<?= site_url('VendorCelulllar/save') ?>" method="POST" id="FormVendor">
+                    <?= csrf_field() ?>
+                    <div class="form-group mt-5">
+                        <label>Nama Vendor <span style="color:red">*</span></label>
+                        <input type="text"
+                            name="nama_vendor"
+                            id="nama_vendor"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label>Alamat Vendor <span style="color:red">*</span></label>
+                        <input type="text"
+                            name="alamat_vendor"
+                            id="alamat_vendor"
+                            required>
                     </div>
 
-                    <!-- TABLE (bisa digeser kiri-kanan saat layar sempit) -->
-                    <div class="table-scroll">
-                        <table id="jenisPerangkatTable" class="display nowrap" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Jenis Perangkat</th>
-                                    <th>Status</th>
-                                    <th>Keterangan</th>
-                                    <th>Created At</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if (!empty($MD_jenis_perangkat)) : ?>
-                                    <?php $no = 1; ?>
-                                    <?php foreach ($MD_jenis_perangkat as $row) : ?>
-                                        <tr>
-                                            <td><?= $no++; ?></td>
-                                            <td><?= esc($row['jenis_perangkat']); ?></td>
-                                            <td>
-                                                <?php if ($row['status'] == 0) : ?>
-                                                    <span class="badge badge-paid">Aktif</span>
-                                                <?php else : ?>
-                                                    <span class="badge badge-due">Non Aktif</span>
-                                                <?php endif; ?>
-                                            </td>
-                                            <td><?= esc($row['keterangan']); ?></td>
-                                            <td><?= date('d-m-Y H:i', strtotime($row['created_at'])); ?></td>
-                                            <td>
-                                                <button
-                                                    type="button"
-                                                    onclick="openEditModal(
-                                                   '<?= $row['id'] ?>',
-                                                    '<?= esc($row['jenis_perangkat']) ?>',
-                                                    '<?= esc($row['status']) ?>',
-                                                    '<?= esc($row['keterangan']) ?>'
-                                                    )"
-                                                    class="btn btn-sm btn-primary">
 
-                                                    <i class="ti ti-edit"></i>
+                    <div class="form-group">
+                        <label>Status <span style="color:red">*</span></label>
 
-                                                </button>
+                        <select name="status"
+                            id="status"
+                            required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
 
+                            <option value="">Pilih Status</option>
+                            <option value="0">Aktif</option>
+                            <option value="1">Non Aktif</option>
 
-                                                <button
-                                                    type="button"
-                                                    onclick="confirmDelete(<?= $row['id'] ?>)"
-                                                    class="btn btn-sm btn-danger">
-
-                                                    <i class="ti ti-trash"></i>
-
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                            </tbody>
-
-
-                        </table>
-                        <div id="editModal"
-                            class="fixed inset-0 bg-black/50 hidden z-50 flex items-center justify-center">
-
-                            <div class="bg-white rounded-xl shadow-xl w-full max-w-2xl p-6">
-
-                                <div class="flex justify-between items-center mb-6">
-                                    <h3 class="text-xl font-bold">
-                                        Edit Jenis Perangkat
-                                    </h3>
-
-                                    <button onclick="closeEditModal()">
-                                        <i class="ti ti-x text-2xl"></i>
-                                    </button>
-                                </div>
-
-                                <form action="<?= site_url('Jns_perangkat/update') ?>" method="POST">
-
-                                    <?= csrf_field() ?>
-
-                                    <input type="hidden" name="id" id="edit_id">
-
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-                                        <div class="md:col-span-2">
-                                            <label>Jenis Perangkat</label>
-                                            <input
-                                                type="text"
-                                                id="edit_jenis_perangkat"
-                                                name="jenis_perangkat"
-                                                class="w-full border rounded-lg p-3">
-                                        </div>
-
-                                        <div class="md:col-span-2">
-                                            <label>Status</label>
-
-                                            <select
-                                                id="edit_status"
-                                                name="status"
-                                                class="w-full border rounded-lg p-3">
-
-                                                <option value="0">Aktif</option>
-                                                <option value="1">Tidak Aktif</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="md:col-span-2">
-                                            <label>Keterangan</label>
-
-                                            <textarea
-                                                id="edit_keterangan"
-                                                name="keterangan"
-                                                rows="3"
-                                                class="w-full border rounded-lg p-3"></textarea>
-                                        </div>
-
-
-                                    </div>
-
-                                    <div class="flex justify-end gap-3 mt-6">
-
-                                        <button
-                                            type="button"
-                                            onclick="closeEditModal()"
-                                            class="px-4 py-2 bg-gray-500 text-white rounded-lg">
-
-                                            Batal
-
-                                        </button>
-
-                                        <button
-                                            type="submit"
-                                            class="px-4 py-2 bg-blue-600 text-white rounded-lg">
-
-                                            Update
-
-                                        </button>
-
-                                    </div>
-
-                                </form>
-
-                            </div>
-
-                        </div>
+                        </select>
                     </div>
 
-                </div>
+                    <div class="form-group">
+                        <label>Keterangan <span style="color:red">*</span></label>
+
+                        <textarea name="keterangan"
+                            id="keterangan"
+                            rows="4"
+                            required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none"></textarea>
+                    </div>
+                    <div class="d-flex">
+                        <button type="submit">
+
+                            Simpan Data
+                        </button>
+
+                        <button type="button"
+                            class="btn-back"
+                            onclick="window.location.href='<?= site_url('VendorCelulllar') ?>'">
+
+                            Kembali
+                        </button>
+                    </div>
+                </form>
             </div>
+
         </div>
     </div>
 
@@ -880,204 +872,29 @@
     </script>
 
     <script>
-        $(document).ready(function() {
-            const exportConfig = {
-                exportOptions: {
-                    columns: ':visible',
-                    format: {
-                        body: function(data) {
-                            const tmp = document.createElement('div');
-                            tmp.innerHTML = data;
-                            return tmp.textContent.trim();
-                        }
-                    }
-                }
-            };
+        document.getElementById('FormVendor').addEventListener('submit', function(e) {
 
-            const table = $('#jenisPerangkatTable').DataTable({
-                pageLength: 10,
-                lengthMenu: [
-                    [10, 15, 25, 50, -1],
-                    [10, 15, 25, 50, "Semua"]
-                ],
-                order: [
-                    [1, 'asc']
-                ],
-                columnDefs: [{
-                    targets: 0, // kolom No
-                    orderable: false, // tidak bisa di-sort
-                    searchable: false // tidak ikut pencarian
-                }],
-                dom: "lBfrtip",
-                buttons: [{
-                    extend: 'collection',
-                    text: '<i class="ti ti-download"></i> Export',
-                    className: 'export-toggle',
-                    buttons: [{
-                            extend: 'copyHtml5',
-                            text: '<i class="ti ti-copy"></i> Copy',
-                            title: 'Data Jenis Perangkat',
-                            ...exportConfig,
-                            action: function(e, dt, button, config) {
-                                if (isTableEmpty(dt)) return showEmptyExportAlert();
-                                $.fn.dataTable.ext.buttons.copyHtml5.action.call(this, e, dt, button, config);
-                            }
-                        },
-                        {
-                            extend: 'csvHtml5',
-                            text: '<i class="ti ti-file-text"></i> Export CSV',
-                            title: 'Data Jenis Perangkat',
-                            ...exportConfig,
-                            action: function(e, dt, button, config) {
-                                if (isTableEmpty(dt)) return showEmptyExportAlert();
-                                $.fn.dataTable.ext.buttons.csvHtml5.action.call(this, e, dt, button, config);
-                            }
-                        },
-                        {
-                            extend: 'excelHtml5',
-                            text: '<i class="ti ti-file-spreadsheet"></i> Export Excel',
-                            title: 'Data Jenis Perangkat',
-                            ...exportConfig,
-                            action: function(e, dt, button, config) {
-                                if (isTableEmpty(dt)) return showEmptyExportAlert();
-                                $.fn.dataTable.ext.buttons.excelHtml5.action.call(this, e, dt, button, config);
-                            }
-                        },
-                        {
-                            extend: 'pdfHtml5',
-                            text: '<i class="ti ti-file-type-pdf"></i> Export PDF',
-                            title: 'Data Jenis Perangkat',
-                            orientation: 'landscape',
-                            pageSize: 'A4',
-                            ...exportConfig,
+            const nama_vendor = document.getElementById('nama_vendor').value.trim();
+            const alamat_vendor = document.getElementById('alamat_vendor').value.trim();
+            const status = document.getElementById('status').value.trim();
+            const keterangan = document.getElementById('keterangan').value.trim();
 
-                            action: function(e, dt, button, config) {
-                                if (isTableEmpty(dt)) return showEmptyExportAlert();
-
-                                $.fn.dataTable.ext.buttons.pdfHtml5.action.call(
-                                    this,
-                                    e,
-                                    dt,
-                                    button,
-                                    config
-                                );
-                            },
-
-                            customize: function(doc) {
-                                doc.styles.tableHeader = {
-                                    fillColor: '#04a9f5',
-                                    color: '#fff',
-                                    bold: true,
-                                    alignment: 'left'
-                                };
-                                doc.defaultStyle.fontSize = 10;
-                                doc.content[1].table.widths = ['5%', '13%', '20%', '11%', '11%', '8%', '15%', '12%', '5%'];
-                                doc.content[1].layout = {
-                                    hLineWidth: () => 0.5,
-                                    vLineWidth: () => 0.5,
-                                    hLineColor: () => '#e0e0e0',
-                                    vLineColor: () => '#e0e0e0'
-                                };
-
-                            }
-                        }
-                    ]
-                }],
-                language: {
-                    lengthMenu: "_MENU_",
-                    info: "Showing _START_ to _END_ of _TOTAL_ entries",
-                    infoEmpty: "Showing 0 to 0 of 0 entries",
-                    infoFiltered: "(filtered from _MAX_ total entries)",
-                    emptyTable: "Data Jenis Perangkat belum tersedia",
-                    zeroRecords: "Tidak ada data yang cocok dengan pencarian",
-                    paginate: {
-                        previous: "Previous",
-                        next: "Next"
-                    }
-                }
-            });
-            table.on('draw.dt order.dt search.dt', function() {
-                let i = table.page.info().start;
-                table.column(0, {
-                    page: 'current',
-                    search: 'applied',
-                    order: 'applied'
-                }).nodes().each(function(cell) {
-                    cell.innerHTML = ++i;
+            if (
+                nama_vendor === '' ||
+                alamat_vendor === '' ||
+                status === '' ||
+                keterangan === ''
+            ) {
+                e.preventDefault();
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Form Belum Lengkap',
+                    text: 'Semua field wajib diisi.',
+                    confirmButtonColor: '#185a82'
                 });
-            });
-            table.draw();
-            // pindahkan dropdown Show & tombol Export ke toolbar custom
-            $('#lengthArea').append($('.dataTables_length'));
-            $('#exportArea').append($('.dt-buttons'));
-
-            // custom search + tombol Go
-            $('#customSearch').on('keyup', function() {
-                table.search(this.value).draw();
-            });
-            $('.go-btn').on('click', function() {
-                table.search($('#customSearch').val()).draw();
-            });
-            $('#customSearch').on('keypress', function(e) {
-                if (e.which === 13) table.search(this.value).draw();
-            });
+                return false;
+            }
         });
-    </script>
-
-    <script>
-        function confirmDelete(id) {
-
-            Swal.fire({
-                title: 'Hapus Data?',
-                text: 'Data yang dihapus tidak dapat dikembalikan.',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#dc2626',
-                cancelButtonColor: '#6b7280',
-                confirmButtonText: 'Ya, Hapus!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-
-                if (result.isConfirmed) {
-                    window.location.href =
-                        "<?= site_url('Jns_perangkat/delete/') ?>" + id;
-                }
-
-            });
-
-        }
-    </script>
-    <script>
-        function openEditModal(id, jenis_perangkat, status, keterangan) {
-
-            document.getElementById('edit_id').value = id;
-            document.getElementById('edit_jenis_perangkat').value = jenis_perangkat;
-            document.getElementById('edit_status').value = status;
-            document.getElementById('edit_keterangan').value = keterangan;
-
-            document.getElementById('editModal').classList.remove('hidden');
-        }
-
-        function closeEditModal() {
-            document
-                .getElementById('editModal')
-                .classList.add('hidden');
-        }
-
-        function isTableEmpty(table) {
-            return table.rows({
-                search: 'applied'
-            }).data().length === 0;
-        }
-
-        function showEmptyExportAlert() {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Data Kosong',
-                text: 'Tidak ada data yang bisa diexport.',
-                confirmButtonColor: '#04a9f5'
-            });
-        }
     </script>
     <script>
         // PENGHALANG KOSMETIK SAJA — bukan security, mudah dilewati

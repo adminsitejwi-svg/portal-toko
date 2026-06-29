@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use CodeIgniter\Model;
+use App\Models\BaseModel;
 
-class NMRInetModel extends Model
+class NMRInetModel extends BaseModel
 {
     protected $table      = 'd_nomor_inet';
     protected $primaryKey = 'id';

@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use CodeIgniter\Model;
+use App\Models\BaseModel;
 
-class LayananJwiModel extends Model
+class LayananJwiModel extends BaseModel
 {
     protected $table            = 'md_layanan_jwi_group';
     protected $primaryKey       = 'id';

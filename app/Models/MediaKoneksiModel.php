@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use CodeIgniter\Model;
+use App\Models\BaseModel;
 
-class MediaKoneksiModel extends Model
+class MediaKoneksiModel extends BaseModel
 {
     protected $table            = 'md_media_koneksi';
     protected $primaryKey       = 'id';

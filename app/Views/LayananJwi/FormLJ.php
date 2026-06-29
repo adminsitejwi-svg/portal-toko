@@ -528,6 +528,10 @@
         .btn-back:hover {
             box-shadow: 0 8px 25px rgba(75, 85, 99, 0.4);
         }
+
+        .brand-text {
+            font-size: 18px;
+        }
     </style>
 </head>
 
@@ -537,8 +541,8 @@
         <!-- brand -->
         <div class="flex items-center h-header px-6 shrink-0">
             <a href="#" class="flex items-center gap-2 text-white text-2xl font-semibold">
-                <span class="text-primary-500"><i class="ti ti-building-store"></i></span>
-                <span class="brand-text">Portal Toko</span>
+                <span class="text-primary-500"></span>
+                <span class="brand-text">Sistem Operasional <br> JWI Group</span>
             </a>
         </div>
         <?php if (session()->getFlashdata('success')) : ?>
@@ -601,7 +605,7 @@
                 <li>
                     <a href="<?= site_url('dashboard-manager') ?>" class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white relative">
                         <span class="pc-micon w-5"><i class="ti ti-home fs-5"></i></span>
-                        <span class="pc-mtext">Dashboard</span>
+                        <span class="pc-mtext">Beranda</span>
                     </a>
                 </li>
 
@@ -638,7 +642,8 @@
                         <li><a href="<?= site_url('Perangkat') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Merek Perangkat</a></li>
                         <li><a href="<?= site_url('Jns_perangkat') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Jenis Perangkat</a></li>
                         <li><a href="<?= site_url('TypePerangkat') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Type Perangkat</a></li>
-                        <li><a href="<?= site_url('Vendor') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Vendor</a></li>
+                        <li><a href="<?= site_url('Vendor') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Vendor Non Celullar</a></li>
+                        <li><a href="<?= site_url('VendorCelulllar') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Vendor Celulllar</a></li>
                         <li><a href="<?= site_url('LayananVendor') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Layanan Vendor</a></li>
                         <li><a href="<?= site_url('DCAdmin') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">DC</a></li>
                         <li><a href="<?= site_url('MediaKoneksi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Media Koneksi</a></li>
@@ -668,6 +673,18 @@
                         </span>
 
                         <span>Pengguna</span>
+
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= site_url('Logs') ?>"
+                        class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
+
+                        <span class="pc-micon w-5">
+                            <i class="ti ti-report-search"></i>
+                        </span>
+
+                        <span>Case Lock</span>
 
                     </a>
                 </li>

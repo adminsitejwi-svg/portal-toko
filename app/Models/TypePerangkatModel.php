@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use CodeIgniter\Model;
+use App\Models\BaseModel;
 
-class TypePerangkatModel extends Model
+class TypePerangkatModel extends BaseModel
 {
     protected $table      = 'md_type_perangkat';
     protected $primaryKey = 'id';

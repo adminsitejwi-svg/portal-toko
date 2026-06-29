@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use CodeIgniter\Model;
+use App\Models\BaseModel;
 
-class AlfamartModel extends Model
+class AlfamartModel extends BaseModel
 {
     protected $table      = 'd_alfamart';
     protected $primaryKey = 'id';

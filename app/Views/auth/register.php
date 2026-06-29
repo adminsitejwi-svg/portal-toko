@@ -422,6 +422,10 @@
         .table-scroll table {
             min-width: 760px;
         }
+
+        .brand-text {
+            font-size: 18px;
+        }
     </style>
 </head>
 
@@ -431,10 +435,12 @@
         <!-- brand -->
         <div class="flex items-center h-header px-6 shrink-0">
             <a href="#" class="flex items-center gap-2 text-white text-2xl font-semibold">
-                <span class="text-primary-500"><i class="ti ti-building-store"></i></span>
-                <span class="brand-text">Portal Toko</span>
+                <span class="text-primary-500"></span>
+                <span class="brand-text">Sistem Operasional <br> JWI Group</span>
             </a>
         </div>
+
+
         <?php if (session()->getFlashdata('success')) : ?>
             <div id="successAlert" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 w-full max-w-md px-4">
                 <div class="bg-green-500 text-white rounded-xl shadow-xl overflow-hidden">
@@ -458,7 +464,7 @@
                 <li>
                     <a href="<?= site_url('dashboard-manager') ?>" class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white relative">
                         <span class="pc-micon w-5"><i class="ti ti-home fs-5"></i></span>
-                        <span class="pc-mtext">Dashboard</span>
+                        <span class="pc-mtext">Beranda</span>
                     </a>
                 </li>
 
@@ -493,9 +499,11 @@
                     </a>
                     <ul class="submenu bg-black/20">
                         <li><a href="<?= site_url('Perangkat') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Merek Perangkat</a></li>
+                        <li><a href="<?= site_url('Perangkat') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Merek Perangkat</a></li>
                         <li><a href="<?= site_url('Jns_perangkat') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Jenis Perangkat</a></li>
                         <li><a href="<?= site_url('TypePerangkat') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Type Perangkat</a></li>
-                        <li><a href="<?= site_url('Vendor') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Vendor</a></li>
+                        <li><a href="<?= site_url('Vendor') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Vendor Non Celullar</a></li>
+                        <li><a href="<?= site_url('VendorCelulllar') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Vendor Celulllar</a></li>
                         <li><a href="<?= site_url('LayananVendor') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Layanan Vendor</a></li>
                         <li><a href="<?= site_url('DCAdmin') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">DC</a></li>
                         <li><a href="<?= site_url('MediaKoneksi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Media Koneksi</a></li>
@@ -525,6 +533,18 @@
                         </span>
 
                         <span>Pengguna</span>
+
+                    </a>
+                </li>
+                <li>
+                    <a href="<?= site_url('Logs') ?>"
+                        class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
+
+                        <span class="pc-micon w-5">
+                            <i class="ti ti-report-search"></i>
+                        </span>
+
+                        <span>Case Lock</span>
 
                     </a>
                 </li>
@@ -571,6 +591,7 @@
                 <h2 class="text-2xl font-bold text-center mb-6">
                     Register User
                 </h2>
+                <hr>
 
                 <form id="registerForm" action="<?= site_url('register/save') ?>" method="post" novalidate>
 
@@ -586,7 +607,7 @@
                     <?php endif; ?>
 
                     <div class="mb-4">
-                        <label class="block mb-2 font-medium">Username</label>
+                        <label class="block mb-2 font-medium mt-3">Username</label>
                         <input
                             type="text"
                             id="username"

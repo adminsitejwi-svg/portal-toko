@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use CodeIgniter\Model;
+use App\Models\BaseModel;
 
-class DataSIModel extends Model
+class DataSIModel extends BaseModel
 {
     protected $table      = 'd_simcard';
     protected $primaryKey = 'id';

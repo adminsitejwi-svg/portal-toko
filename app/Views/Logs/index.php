@@ -3,7 +3,7 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>Beranda</title>
+        <title>Case Lock</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" type="image/png" href="<?= base_url('store.png') ?>">
         <script src="https://cdn.tailwindcss.com"></script>
@@ -16,6 +16,17 @@
             href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
         <!-- Font Awesome (for brand & solid icons) -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
         <script>
             tailwind.config = {
                 darkMode: 'class',
@@ -201,6 +212,263 @@
                 background: #64748b;
             }
 
+            /* ===== History / Log Aktivitas ===== */
+            .filter-input {
+                border: 1px solid #d6dde6;
+                border-radius: 8px;
+                padding: 7px 10px;
+                font-size: 13px;
+                background: #fff;
+                color: #37474f;
+            }
+
+            .dark .filter-input {
+                background: #1f2a36;
+                border-color: #37404c;
+                color: #cdd6e2;
+            }
+
+            .badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+                padding: 3px 10px;
+                border-radius: 999px;
+                font-size: 12px;
+                font-weight: 600;
+                white-space: nowrap;
+            }
+
+            .badge-create {
+                background: #e6f9f3;
+                color: #0d9c79;
+            }
+
+            .badge-update {
+                background: #fff4d6;
+                color: #a9791c;
+            }
+
+            .badge-delete {
+                background: #fde8e6;
+                color: #d23b30;
+            }
+
+            .table-chip {
+                display: inline-block;
+                padding: 2px 8px;
+                border-radius: 6px;
+                background: #eef3f8;
+                color: #37474f;
+                font-size: 12px;
+                font-family: monospace;
+            }
+
+            .dark .table-chip {
+                background: #2b3744;
+                color: #cdd6e2;
+            }
+
+            .btn-detail {
+                width: 32px;
+                height: 32px;
+                border-radius: 6px;
+                background: #04a9f5;
+                color: #fff;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                border: none;
+                cursor: pointer;
+            }
+
+            .btn-detail:hover {
+                background: #0396e2;
+            }
+
+            .custom-search {
+                display: flex;
+                align-items: center;
+            }
+
+            .custom-search input {
+                border: 1px solid #d6dde6;
+                border-right: none;
+                border-radius: 8px 0 0 8px;
+                padding: 8px 12px;
+                font-size: 13px;
+                outline: none;
+            }
+
+            .dark .custom-search input {
+                background: #1f2a36;
+                border-color: #37404c;
+                color: #cdd6e2;
+            }
+
+            .custom-search .go-btn {
+                width: 38px;
+                height: 38px;
+                border: 1px solid #04a9f5;
+                background: #04a9f5;
+                border-radius: 0 8px 8px 0;
+                cursor: pointer;
+                position: relative;
+            }
+
+            .custom-search .go-btn::after {
+                content: "\f002";
+                font-family: "Font Awesome 6 Free";
+                font-weight: 900;
+                color: #fff;
+                position: absolute;
+                inset: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            table.dataTable thead th {
+                font-size: 13px;
+            }
+
+            table.dataTable tbody td {
+                font-size: 13px;
+                vertical-align: middle;
+            }
+
+            .table-scroll {
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .table-scroll table {
+                min-width: 880px;
+            }
+
+            div.dt-buttons .dt-button {
+                background: #04a9f5;
+                color: #fff;
+                border: none;
+                border-radius: 8px;
+                padding: 8px 14px;
+                font-size: 13px;
+            }
+
+            div.dt-buttons .dt-button:hover {
+                background: #0396e2;
+            }
+        </style>
+        <style>
+            /* sembunyikan search bawaan DataTables — pakai custom search saja */
+            .dataTables_filter {
+                display: none;
+            }
+
+            /* ===== TABEL MODERN ===== */
+            #logTable {
+                width: 100% !important;
+                border-collapse: separate;
+                border-spacing: 0;
+            }
+
+            #logTable thead th {
+                background: #f8fafc;
+                color: #64748b;
+                font-weight: 600;
+                font-size: 11px;
+                text-transform: uppercase;
+                letter-spacing: .04em;
+                text-align: left;
+                padding: 14px 16px;
+                border-bottom: 1px solid #e8edf2;
+                white-space: nowrap;
+            }
+
+            .dark #logTable thead th {
+                background: #2b3543;
+                color: #9fb0c2;
+                border-color: #37404c;
+            }
+
+            #logTable tbody td {
+                padding: 13px 16px;
+                font-size: 13px;
+                color: #3b4754;
+                border-bottom: 1px solid #f1f4f7;
+                vertical-align: middle;
+            }
+
+            .dark #logTable tbody td {
+                color: #bfc8d6;
+                border-color: #37404c;
+            }
+
+            #logTable tbody tr {
+                transition: background .15s;
+            }
+
+            #logTable tbody tr:hover {
+                background: #f6fbff;
+            }
+
+            .dark #logTable tbody tr:hover {
+                background: rgba(255, 255, 255, .03);
+            }
+
+            #logTable tbody tr:last-child td {
+                border-bottom: none;
+            }
+
+            /* ===== Length & Pagination polish ===== */
+            .dataTables_length select {
+                border: 1px solid #d6dde6;
+                border-radius: 8px;
+                padding: 8px 30px 8px 12px;
+                font-size: 13px;
+                background: #fff;
+                color: #37474f;
+                min-width: 110px;
+                cursor: pointer;
+            }
+
+            .dark .dataTables_length select {
+                background: #1f2a36;
+                border-color: #37404c;
+                color: #cdd6e2;
+            }
+
+            .dataTables_paginate {
+                margin-top: 14px;
+                font-size: 13px;
+            }
+
+            .dataTables_paginate .paginate_button {
+                padding: 6px 12px !important;
+                margin: 0 3px !important;
+                border-radius: 6px !important;
+                border: none !important;
+                color: #5b6b7f !important;
+                background: transparent !important;
+            }
+
+            .dataTables_paginate .paginate_button.current {
+                background: #04a9f5 !important;
+                color: #fff !important;
+            }
+
+            .dataTables_paginate .paginate_button:hover {
+                background: #eef2f6 !important;
+                color: #3b4754 !important;
+            }
+
+            .dataTables_info {
+                font-size: 13px;
+                color: #8a95a1;
+                margin-top: 14px;
+            }
+
             .brand-text {
                 font-size: 18px;
             }
@@ -260,7 +528,7 @@
                 <ul class="px-0">
                     <li class="px-6 py-3 text-[11px] uppercase tracking-wide text-[#5b6b7f] font-semibold">Halaman Utama</li>
                     <li>
-                        <a href="#" class="pc-link active flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white relative">
+                        <a href="<?= site_url('dashboard-manager') ?>" class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white relative">
                             <span class="pc-micon w-5"><i class="ti ti-home fs-5"></i></span>
                             <span class="pc-mtext">Beranda</span>
                         </a>
@@ -321,6 +589,7 @@
 
                     <li class="px-6 py-3 text-[11px] uppercase tracking-wide text-[#5b6b7f] font-semibold">Pengaturan</li>
                     <li>
+                    <li>
                         <a href="<?= site_url('settings') ?>"
                             class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
 
@@ -334,7 +603,7 @@
                     </li>
                     <li>
                         <a href="<?= site_url('Logs') ?>"
-                            class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
+                            class="pc-link active flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
 
                             <span class="pc-micon w-5">
                                 <i class="ti ti-report-search"></i>
@@ -344,6 +613,7 @@
 
                         </a>
                     </li>
+
                 </ul>
             </div>
         </nav>
@@ -395,369 +665,99 @@
             <div class="p-6">
                 <!-- breadcrumb -->
                 <div class="flex items-center justify-between mb-6">
-                    <h5 class="font-medium text-lg">Dashboard</h5>
-
+                    <h5 class="font-medium text-lg">Case Lock</h5>
                 </div>
 
-                <div class="grid grid-cols-12 gap-x-6">
-                    <!-- Daily Sales -->
-                    <a href="<?= site_url('DCAdmin') ?>" class="col-span-12 xl:col-span-4 md:col-span-6">
-                        <div class="card hover:shadow-lg transition-all duration-300 cursor-pointer">
-                            <div class="card-header !border-b-0 ">
-                                <h5>Total DC</h5>
-                            </div>
 
-                            <div class="card-body">
-                                <div class="flex items-center justify-between flex-wrap gap-3">
-                                    <h3 class="text-2xl font-light flex items-center">
-                                        <i class="fas fa-server text-success-500 text-2xl mr-2"></i>
-                                        <?= $totalDC ?? 0 ?>
-                                    </h3>
+                <!-- TABEL HISTORY -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+                            <div id="lengthArea"></div>
+                            <div class="flex items-center gap-3 flex-wrap">
+                                <!-- Filter urutan baru / lama -->
+                                <select id="sortOrder" class="filter-input" style="min-width:130px;cursor:pointer">
+                                    <option value="desc">Terbaru</option>
+                                    <option value="asc">Terlama</option>
+                                </select>
+                                <div class="custom-search">
+                                    <input type="text" id="customSearch" placeholder="search..." />
+                                    <button class="go-btn" type="button"></button>
                                 </div>
+                                <div id="exportArea"></div>
                             </div>
                         </div>
-                    </a>
-                    <a href="<?= site_url('MediaKoneksi') ?>" class="col-span-12 xl:col-span-4 md:col-span-6">
-                        <div class="card hover:shadow-lg transition-all duration-300 cursor-pointer">
-                            <div class="card-header !border-b-0 ">
-                                <h5>Total Media Koneksi</h5>
-                            </div>
-
-                            <div class="card-body">
-                                <div class="flex items-center justify-between flex-wrap gap-3">
-                                    <h3 class="text-2xl font-light flex items-center">
-                                        <i class="ti ti-world text-success-500 text-2xl mr-2"></i>
-                                        <?= $totalMediaKoneksi ?? 0 ?>
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                    <!-- Yearly Sales -->
-                    <a href="<?= site_url('LayananJwi') ?>" class="col-span-12 xl:col-span-4 md:col-span-6">
-                        <div class="card hover:shadow-lg transition-all duration-300 cursor-pointer">
-                            <div class="card-header !border-b-0 ">
-                                <h5>Total Layanan Jwi</h5>
-                            </div>
-
-                            <div class="card-body">
-                                <div class="flex items-center justify-between flex-wrap gap-3">
-                                    <h3 class="text-2xl font-light flex items-center">
-                                        <i class="ti ti-headset text-success-500 text-2xl mr-2"></i>
-                                        <?= $totalLayananJwi ?? 0 ?>
-                                    </h3>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </a>
-
-                    <a href="<?= site_url('Pelanggan') ?>" class="col-span-12 xl:col-span-4 md:col-span-6">
-                        <div class="card hover:shadow-lg transition-all duration-300 cursor-pointer">
-                            <div class="card-header !border-b-0 ">
-                                <h5>Total Pelanggan</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="flex items-center justify-between flex-wrap gap-3">
-                                    <h3 class="text-2xl font-light flex items-center">
-                                        <i class="ti ti-users text-success-500 text-2xl mr-2"></i>
-                                        <?= $totalPelanggan ?? 0 ?>
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="<?= site_url('DataCelullar') ?>" class="col-span-12 xl:col-span-4 md:col-span-6">
-                        <div class="card hover:shadow-lg transition-all duration-300 cursor-pointer">
-                            <div class="card-header !border-b-0 ">
-                                <h5>Total Data Celullar</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="flex items-center justify-between flex-wrap gap-3">
-                                    <h3 class="text-2xl font-light flex items-center">
-                                        <i class="ti ti-device-mobile text-success-500 text-2xl mr-2"></i>
-                                        <?= $totalDataCelullar ?? 0 ?>
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-
-                    <a href="<?= site_url('NomorInet') ?>" class="col-span-12 xl:col-span-4 md:col-span-6">
-                        <div class="card hover:shadow-lg transition-all duration-300 cursor-pointer">
-                            <div class="card-header !border-b-0 ">
-                                <h5>Total Nomor INET</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="flex items-center justify-between flex-wrap gap-3">
-                                    <h3 class="text-2xl font-light flex items-center">
-                                        <i class="ti ti-router text-success-500 text-2xl mr-2"></i>
-                                        <?= $totalNomorInet ?? 0 ?>
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                    <!-- Facebook -->
-                    <div class="col-span-12 xl:col-span-4">
-                        <div class="card">
-                            <div class="card-body border-b border-gray-100 dark:border-white/10">
-                                <div class="flex items-center justify-center">
-                                    <i class="ti ti-building-store text-primary-500 text-4xl"></i>
-                                    <div class="ml-auto text-right">
-                                        <h3 class="text-2xl mb-1">
-                                            <?= number_format($total_midi) ?>
-                                        </h3>
-                                        <h5 class="text-success-500"><span class="text-gray-400">Alfamidi</span></h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body grid grid-cols-2 gap-x-6">
-                                <div>
-                                    <h6 class="text-center mb-2 text-sm"><span class="text-gray-400">Aktif :</span> <?= number_format($total_aktif) ?></h6>
-
-                                </div>
-                                <div>
-                                    <h6 class="text-center mb-2 text-sm"><span class="text-gray-400">Non Aktif :</span> <?= number_format($total_nonaktif) ?></h6>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Twitter -->
-                    <div class="col-span-12 xl:col-span-4 md:col-span-6">
-                        <div class="card">
-                            <div class="card-body border-b border-gray-100 dark:border-white/10">
-                                <div class="flex items-center justify-center">
-                                    <i class="ti ti-building-store text-primary-500 text-4xl"></i>
-                                    <div class="ml-auto text-right">
-                                        <h3 class="text-2xl mb-1"><?= $total_lawson ?></h3>
-                                        <h5 class="text-purple-500"><span class="text-gray-400">Lawson</span></h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body grid grid-cols-2 gap-x-6">
-                                <div>
-                                    <h6 class="text-center mb-2 text-sm"><span class="text-gray-400">Aktif :</span> <?= $total_lawson_aktif ?></h6>
-
-                                </div>
-                                <div>
-                                    <h6 class="text-center mb-2 text-sm"><span class="text-gray-400">Non Aktif :</span> <?= $total_lawson_nonaktif ?></h6>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Google -->
-                    <div class="col-span-12 xl:col-span-4 md:col-span-6">
-                        <div class="card">
-                            <div class="card-body border-b border-gray-100 dark:border-white/10">
-                                <div class="flex items-center justify-center">
-                                    <i class="ti ti-building-store text-primary-500 text-4xl"></i>
-                                    <div class="ml-auto text-right">
-                                        <h3 class="text-2xl mb-1"><?= $total_alfamart ?></h3>
-                                        <h5 class="text-purple-500"><span class="text-gray-400">Alfamart</span></h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body grid grid-cols-2 gap-x-6">
-                                <div>
-                                    <h6 class="text-center mb-2 text-sm"><span class="text-gray-400">Aktif :</span><?= $total_alfamart_aktif ?></h6>
-
-                                </div>
-                                <div>
-                                    <h6 class="text-center mb-2 text-sm"><span class="text-gray-400">Non Aktif :</span><?= $total_alfamart_nonaktif ?></h6>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Rating -->
-                    <!-- Merek Perangkat -->
-                    <div class="col-span-12 xl:col-span-4 md:col-span-6">
-                        <div class="card">
-                            <div class="card-header flex items-center justify-between gap-2 flex-wrap">
-                                <h5>Merek Perangkat</h5>
-
-                                <div class="flex items-center gap-2">
-
-                                    <div class="relative">
-                                        <input type="text" id="merekSearch" placeholder="Cari..."
-                                            class="border border-gray-200 dark:border-white/10 dark:bg-[#1d2630] rounded-lg pl-8 pr-2 py-1.5 text-xs outline-none focus:border-primary-500 w-28">
-                                        <i class="ti ti-search absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
-                                    </div>
-
-                                    <a href="<?= site_url('Perangkat') ?>"
-                                        class="inline-flex items-center justify-center w-8 h-8 text-white bg-primary-500 hover:bg-primary-600 rounded-lg transition"
-                                        title="Lihat Perangkat">
-                                        <i class="ti ti-external-link text-sm"></i>
-                                    </a>
-
-                                </div>
-
-                            </div>
-                            <div class="card-body !p-0">
-
-                                <?php
-                                $totalMerek = count($merekPerangkat ?? []);
-                                ?>
-
-                                <div
-                                    class="<?= $totalMerek > 5 ? 'overflow-y-auto custom-scroll' : '' ?>"
-                                    style="<?= $totalMerek > 5 ? 'max-height:360px;' : '' ?>">
-
-                                    <table class="w-full text-sm">
-                                        <tbody id="merekList">
-                                            <?php if (!empty($merekPerangkat)) : ?>
-                                                <?php foreach ($merekPerangkat as $mp) : ?>
-                                                    <tr class="merek-row border-b border-gray-50 dark:border-white/5 hover:bg-gray-50 dark:hover:bg-white/5">
-                                                        <td class="px-5 py-4">
-                                                            <div class="w-10 h-10 rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center">
-                                                                <i class="ti ti-device-desktop text-gray-500 text-xl"></i>
-                                                            </div>
-                                                        </td>
-                                                        <td class="px-2 py-4">
-                                                            <h6 class="font-medium mb-1 merek-name"><?= esc($mp['merk_perangkat'] ?: 'Tanpa Merek') ?></h6>
-                                                            <p class="text-gray-400 text-xs">Total perangkat</p>
-                                                        </td>
-                                                        <td class="px-5 py-4 whitespace-nowrap text-right">
-                                                            <span class="text-xs text-white bg-primary-500 px-3 py-1 rounded"><?= $mp['jumlah'] ?> unit</span>
-                                                        </td>
-                                                    </tr>
-                                                <?php endforeach; ?>
-                                            <?php endif; ?>
-                                        </tbody>
-                                    </table>
-
-                                    <div id="merekEmpty" class="text-center text-gray-400 text-sm py-10 <?= !empty($merekPerangkat) ? 'hidden' : '' ?>">
-                                        Data perangkat belum tersedia
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Recent Users -->
-                    <div class="col-span-12 xl:col-span-8 md:col-span-6">
-                        <div class="card">
-                            <div class="card-header flex items-center justify-between gap-3 flex-wrap">
-
-                                <h5>Vendor</h5>
-
-                                <div class="flex items-center gap-2 flex-wrap">
-
-                                    <div class="relative">
-                                        <input
-                                            type="text"
-                                            id="vendorSearch"
-                                            placeholder="Cari vendor..."
-                                            class="border border-gray-200 dark:border-white/10 dark:bg-[#1d2630] rounded-lg pl-9 pr-3 py-2 text-sm outline-none focus:border-primary-500 w-56 max-w-full">
-
-                                        <i class="ti ti-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                                    </div>
-
-                                    <a href="<?= site_url('Vendor') ?>"
-                                        class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-primary-500 hover:bg-primary-600 rounded-lg transition">
-
-                                        <i class="ti ti-external-link"></i>
-                                        Lihat
-
-                                    </a>
-
-                                </div>
-
-                            </div>
-                            <div class="card-body !p-0">
-
-                                <?php
-                                $totalVendor = count($vendor ?? []);
-                                ?>
-
-                                <div
-                                    class="<?= $totalVendor > 5 ? 'overflow-y-auto custom-scroll' : '' ?>"
-                                    style="<?= $totalVendor > 5 ? 'max-height:360px;' : '' ?>">
-
-                                    <div class="overflow-x-auto custom-scroll">
-                                        <table class="w-full text-sm" style="min-width:560px">
-                                            <tbody id="vendorList">
-
-                                                <?php if (!empty($vendor)) : ?>
-                                                    <?php foreach ($vendor as $v) : ?>
-
-                                                        <tr class="vendor-row border-b border-gray-50 dark:border-white/5 hover:bg-gray-50 dark:hover:bg-white/5">
-
-                                                            <td class="px-5 py-4">
-                                                                <div class="w-10 h-10 rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center">
-                                                                    <i class="ti ti-user text-gray-500 text-xl"></i>
-                                                                </div>
-                                                            </td>
-
-                                                            <td class="px-2 py-4">
-                                                                <h6 class="font-medium mb-1 vendor-name">
-                                                                    <?= esc($v['nama_vendor'] ?? '-') ?>
-                                                                </h6>
-
-                                                                <p class="text-gray-400 text-xs">
-                                                                    <?= esc($v['keterangan'] ?? '-') ?>
-                                                                </p>
-                                                            </td>
-
-                                                            <td class="px-2 py-4 whitespace-nowrap text-gray-400 text-xs">
-
-                                                                <i class="fas fa-circle text-[8px] mr-2 <?= ($v['status'] ?? '') == 'Aktif' ? 'text-success-500' : 'text-danger-500' ?>"></i>
-
-                                                                <?= !empty($v['created_at'])
-                                                                    ? date('d-m-Y H:i', strtotime($v['created_at']))
-                                                                    : '-' ?>
-
-                                                            </td>
-
-                                                            <td class="px-5 py-4 whitespace-nowrap">
-
-                                                                <?php if (($v['status'] ?? '') == 'Aktif') : ?>
-
-                                                                    <span class="text-xs text-white bg-success-500 px-3 py-1 rounded">
-                                                                        Aktif
-                                                                    </span>
-
-                                                                <?php else : ?>
-
-                                                                    <span class="text-xs text-white bg-danger-500 px-3 py-1 rounded">
-                                                                        Non Aktif
-                                                                    </span>
-
-                                                                <?php endif; ?>
-
-                                                            </td>
-
-                                                        </tr>
-
-                                                    <?php endforeach; ?>
-                                                <?php endif; ?>
-
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                    <div
-                                        id="vendorEmpty"
-                                        class="text-center text-gray-400 text-sm py-10 <?= !empty($vendor) ? 'hidden' : '' ?>">
-
-                                        Data vendor belum tersedia
-
-                                    </div>
-
-                                </div>
-
-                            </div>
+                        <div class="table-scroll">
+                            <table id="logTable" class="display nowrap" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Username</th>
+                                        <th>Tanggal</th>
+                                        <th>Jam</th>
+                                        <th>Aksi</th>
+                                        <th>Halaman</th>
+                                        <th>Keterangan</th>
+                                        <th>Detail</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php helper('activity'); ?>
+                                    <?php if (!empty($logs)) : ?>
+                                        <?php $no = 1; ?>
+                                        <?php foreach ($logs as $row) : ?>
+                                            <?php $ts = strtotime($row['created_at']); ?>
+                                            <tr>
+                                                <td><?= $no++; ?></td>
+                                                <td class="font-medium"><?= esc($row['username'] ?? '-') ?></td>
+                                                <td data-order="<?= $ts ?>"><?= date('d-m-Y', $ts) ?></td>
+                                                <td><?= date('H:i:s', $ts) ?></td>
+                                                <td>
+                                                    <?php $act = strtolower($row['action']); ?>
+                                                    <?php if ($act === 'create') : ?>
+                                                        <span class="badge badge-create"><i class="ti ti-plus"></i> Tambah</span>
+                                                    <?php elseif ($act === 'update') : ?>
+                                                        <span class="badge badge-update"><i class="ti ti-edit"></i> Ubah</span>
+                                                    <?php elseif ($act === 'delete') : ?>
+                                                        <span class="badge badge-delete"><i class="ti ti-trash"></i> Hapus</span>
+                                                    <?php else : ?>
+                                                        <span class="badge"><?= esc($row['action']) ?></span>
+                                                    <?php endif; ?>
+                                                </td>
+                                                <td><span class="table-chip"><?= esc(activity_page_name($row['table_name'])) ?></span></td>
+                                                <td><?= esc(activity_format_description($row['description'])) ?></td>
+                                                <td>
+                                                    <button type="button" class="btn-detail"
+                                                        data-user="<?= esc($row['username'] ?? '-', 'attr') ?>"
+                                                        data-action="<?= esc(activity_label_action($row['action']), 'attr') ?>"
+                                                        data-table="<?= esc(activity_page_name($row['table_name']), 'attr') ?>"
+                                                        data-record="<?= esc($row['record_id'] ?? '-', 'attr') ?>"
+                                                        data-time="<?= date('d-m-Y H:i:s', $ts) ?>"
+                                                        data-desc="<?= esc(activity_format_description($row['description']), 'attr') ?>"
+                                                        data-old='<?= esc($row['old_data'] ?? '', 'attr') ?>'
+                                                        data-new='<?= esc($row['new_data'] ?? '', 'attr') ?>'>
+                                                        <i class="ti ti-eye"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
+            </div>
 
+            <!-- MODAL DETAIL -->
+            <div id="detailModal" class="fixed inset-0 z-[2000] hidden items-center justify-center bg-black/50 p-4">
+                <div class="bg-white dark:bg-[#263240] rounded-xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-hidden flex flex-col">
+                    <div class="flex items-center justify-between px-5 py-4 bg-primary-500 text-white">
+                        <h3 class="font-semibold flex items-center gap-2"><i class="ti ti-history"></i> Detail Aktivitas</h3>
+                        <button onclick="closeDetail()" class="hover:opacity-80"><i class="ti ti-x text-xl"></i></button>
+                    </div>
+                    <div class="p-5 overflow-y-auto custom-scroll text-sm" id="detailBody"></div>
+                </div>
             </div>
         </div>
         <script>
@@ -933,6 +933,145 @@
                 if (e.key === 'F12') e.preventDefault(); // F12
                 if (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) e.preventDefault();
                 if (e.ctrlKey && e.key.toUpperCase() === 'U') e.preventDefault(); // view-source
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                var table = $('#logTable').DataTable({
+                    pageLength: 10,
+                    lengthMenu: [
+                        [10, 15, 25, 50, -1],
+                        [10, 15, 25, 50, "Semua"]
+                    ],
+                    order: [
+                        [0, 'asc']
+                    ],
+                    columnDefs: [{
+                        targets: [0, 7],
+                        orderable: false,
+                        searchable: false
+                    }],
+                    order: [
+                        [2, 'desc'] // urutkan berdasarkan Tanggal, terbaru dulu
+                    ],
+
+                    language: {
+                        lengthMenu: "_MENU_",
+                        info: "Menampilkan _START_-_END_ dari _TOTAL_ aktivitas",
+                        infoEmpty: "Tidak ada aktivitas",
+                        infoFiltered: "(disaring dari _MAX_ total)",
+                        emptyTable: "Belum ada aktivitas tercatat",
+                        zeroRecords: "Tidak ada aktivitas yang cocok dengan pencarian",
+                        paginate: {
+                            previous: "Sebelumnya",
+                            next: "Berikutnya"
+                        }
+                    }
+                });
+
+                // penomoran ulang kolom No mengikuti urutan & halaman
+                table.on('draw.dt order.dt search.dt', function() {
+                    var i = table.page.info().start;
+                    table.column(0, {
+                        page: 'current',
+                        search: 'applied',
+                        order: 'applied'
+                    }).nodes().each(function(cell) {
+                        cell.innerHTML = ++i;
+                    });
+                });
+                table.draw();
+
+                $('#lengthArea').append($('.dataTables_length'));
+                $('#exportArea').append($('.dt-buttons'));
+
+                $('#customSearch').on('keyup', function() {
+                    table.search(this.value).draw();
+                });
+                $('.go-btn').on('click', function() {
+                    table.search($('#customSearch').val()).draw();
+                });
+                $('#customSearch').on('keypress', function(e) {
+                    if (e.which === 13) table.search(this.value).draw();
+                });
+
+                $('#sortOrder').on('change', function() {
+                    table.order([2, this.value]).draw(); // kolom 2 = Tanggal (punya data-order timestamp)
+                });
+
+                // ubah nama field jadi label rapi: nama_dc -> "Nama DC", media_koneksi_id -> "Media Koneksi"
+                function prettyField(key) {
+                    var k = String(key).replace(/_id$/, '').replace(/_/g, ' ').trim();
+                    // singkatan yang ingin tetap kapital
+                    var upper = {
+                        dc: 'DC',
+                        ip: 'IP',
+                        id: 'ID',
+                        hp: 'HP',
+                        pic: 'PIC',
+                        dns: 'DNS',
+                        url: 'URL',
+                        sn: 'SN'
+                    };
+                    return k.split(' ').map(function(w) {
+                        var lw = w.toLowerCase();
+                        if (upper[lw]) return upper[lw];
+                        return w.charAt(0).toUpperCase() + w.slice(1);
+                    }).join(' ');
+                }
+
+                function renderSnapshot(jsonStr) {
+                    if (!jsonStr) return '<em class="text-gray-400">-</em>';
+                    try {
+                        var obj = JSON.parse(jsonStr);
+                        var keys = Object.keys(obj);
+                        if (!keys.length) return '<em class="text-gray-400">-</em>';
+                        var rows = keys.map(function(k) {
+                            var v = obj[k];
+                            if (v === null) v = '';
+                            var safe = String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                            if (safe === '') safe = '<em class="opacity-50">kosong</em>';
+                            return '<tr><td class="pr-3 py-1 font-medium align-top whitespace-nowrap">' + prettyField(k) +
+                                '</td><td class="py-1 break-all">' + safe + '</td></tr>';
+                        }).join('');
+                        return '<table class="w-full text-sm">' + rows + '</table>';
+                    } catch (e) {
+                        return '<em class="text-gray-400">-</em>';
+                    }
+                }
+
+                $('#logTable').on('click', '.btn-detail', function() {
+                    var d = this.dataset;
+                    var html =
+                        '<div class="mb-4 p-3 rounded-lg bg-gray-50 dark:bg-white/5 text-sm">' +
+                        '<div class="text-gray-500 text-xs mb-1">Keterangan</div>' +
+                        '<div class="font-medium">' + (d.desc || '-') + '</div>' +
+                        '</div>' +
+                        '<div class="grid grid-cols-2 gap-3 mb-4">' +
+                        '<div><div class="text-gray-500 text-xs">User</div><div class="font-medium">' + d.user + '</div></div>' +
+                        '<div><div class="text-gray-500 text-xs">Waktu</div><div class="font-medium">' + d.time + '</div></div>' +
+                        '<div><div class="text-gray-500 text-xs">Aksi</div><div class="font-medium">' + d.action + '</div></div>' +
+                        '<div><div class="text-gray-500 text-xs">Halaman</div><div class="font-medium">' + d.table + '</div></div>' +
+                        '<div><div class="text-gray-500 text-xs">ID Baris</div><div class="font-medium">' + d.record + '</div></div>' +
+                        '</div>' +
+                        '<div class="grid md:grid-cols-2 gap-4">' +
+                        '<div><div class="text-xs font-semibold text-red-500 mb-1">Data Lama</div><div class="border dark:border-white/10 rounded p-2">' + renderSnapshot(d.old) + '</div></div>' +
+                        '<div><div class="text-xs font-semibold text-green-600 mb-1">Data Baru</div><div class="border dark:border-white/10 rounded p-2">' + renderSnapshot(d.new) + '</div></div>' +
+                        '</div>';
+                    document.getElementById('detailBody').innerHTML = html;
+                    var m = document.getElementById('detailModal');
+                    m.classList.remove('hidden');
+                    m.classList.add('flex');
+                });
+            });
+
+            function closeDetail() {
+                var m = document.getElementById('detailModal');
+                m.classList.add('hidden');
+                m.classList.remove('flex');
+            }
+            document.getElementById('detailModal').addEventListener('click', function(e) {
+                if (e.target === this) closeDetail();
             });
         </script>
     </body>

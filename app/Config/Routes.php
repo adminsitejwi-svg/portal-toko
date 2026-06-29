@@ -26,6 +26,9 @@ use App\Controllers\NomorInet;
 use App\Controllers\QuotaSIMCARD;
 use App\Controllers\DataSI;
 use App\Controllers\NMRInet;
+use App\Controllers\Logs;
+use App\Controllers\VendorCelulllar;
+
 
 
 
@@ -49,6 +52,7 @@ $routes->post('forgot-password/update', 'Auth\Login::resetPassword');
  ========================================================= */
 $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->get('dashboard-manager', [DashboardManager::class, 'index']);
+    $routes->get('Logs', [Logs::class, 'index']);
 
     // halaman settings
     $routes->get('settings', 'SettingsController::index');
@@ -89,6 +93,12 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->post('vendor/save', 'Vendor::save');
     $routes->post('vendor/update', 'Vendor::update');
     $routes->get('Vendor/delete/(:num)', 'Vendor::delete/$1');
+
+    $routes->get('VendorCelulllar', [VendorCelulllar::class, 'index']);
+    $routes->get('VendorCelulllar/create', 'VendorCelulllar::create');
+    $routes->post('VendorCelulllar/save', 'VendorCelulllar::save');
+    $routes->post('VendorCelulllar/update', 'VendorCelulllar::update');
+    $routes->get('VendorCelulllar/delete/(:num)', 'VendorCelulllar::delete/$1');
 
     // Layanan Vendor
     $routes->get('LayananVendor', [LayananVendor::class, 'index']);

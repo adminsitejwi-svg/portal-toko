@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use CodeIgniter\Model;
+use App\Models\BaseModel;
 
-class DataCelullarModel extends Model
+class DataCelullarModel extends BaseModel
 {
     protected $table            = 'md_data_celullar';
     protected $primaryKey       = 'id';

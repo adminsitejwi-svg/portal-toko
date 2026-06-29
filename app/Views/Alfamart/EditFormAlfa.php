@@ -16,7 +16,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Toko Alfamidi</title>
+    <title>Toko Alfamart</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="<?= base_url('store.png') ?>">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -805,6 +805,10 @@
         .table-scroll table {
             min-width: 760px;
         }
+
+        .brand-text {
+            font-size: 18px;
+        }
     </style>
 </head>
 
@@ -814,8 +818,8 @@
         <!-- brand -->
         <div class="flex items-center h-header px-6 shrink-0">
             <a href="#" class="flex items-center gap-2 text-white text-2xl font-semibold">
-                <span class="text-primary-500"><i class="ti ti-building-store"></i></span>
-                <span class="brand-text">Portal Toko</span>
+                <span class="text-primary-500"></span>
+                <span class="brand-text">Sistem Operasional <br> JWI Group</span>
             </a>
         </div>
         <?php if (session()->getFlashdata('success')) : ?>
@@ -915,7 +919,8 @@
                         <li><a href="<?= site_url('Perangkat') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Merek Perangkat</a></li>
                         <li><a href="<?= site_url('Jns_perangkat') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Jenis Perangkat</a></li>
                         <li><a href="<?= site_url('TypePerangkat') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Type Perangkat</a></li>
-                        <li><a href="<?= site_url('Vendor') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Vendor</a></li>
+                        <li><a href="<?= site_url('Vendor') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Vendor Non Celullar</a></li>
+                        <li><a href="<?= site_url('VendorCelulllar') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Vendor Celulllar</a></li>
                         <li><a href="<?= site_url('LayananVendor') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Layanan Vendor</a></li>
                         <li><a href="<?= site_url('DCAdmin') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">DC</a></li>
                         <li><a href="<?= site_url('MediaKoneksi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Media Koneksi</a></li>
@@ -925,6 +930,7 @@
                         <li><a href="<?= site_url('DataCelullar') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Data Celullar</a></li>
                         <li><a href="<?= site_url('NomorInet') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                         <li><a href="<?= site_url('QuotaSIMCARD') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Kuota Simcard</a></li>
+
 
 
                     </ul>
@@ -946,7 +952,18 @@
 
                     </a>
                 </li>
+                <li>
+                    <a href="<?= site_url('Logs') ?>"
+                        class="pc-link flex items-center gap-3 px-6 py-2.5 text-[14px] hover:text-white">
 
+                        <span class="pc-micon w-5">
+                            <i class="ti ti-report-search"></i>
+                        </span>
+
+                        <span>Case Lock</span>
+
+                    </a>
+                </li>
             </ul>
         </div>
     </nav>

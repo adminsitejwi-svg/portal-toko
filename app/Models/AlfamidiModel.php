@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use CodeIgniter\Model;
+use App\Models\BaseModel;
 
-class AlfamidiModel extends Model
+class AlfamidiModel extends BaseModel
 {
     protected $table      = 'd_midi';
     protected $primaryKey = 'id';

@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use CodeIgniter\Model;
+use App\Models\BaseModel;
 
-class QuotaSIMCARDModel extends Model
+class QuotaSIMCARDModel extends BaseModel
 {
     protected $table            = 'md_quota_simcard';
     protected $primaryKey       = 'id';

@@ -4,9 +4,9 @@ namespace App\Models;
 
 use App\Models\BaseModel;
 
-class VendorModel extends BaseModel
+class VendorCelulllarModel extends BaseModel
 {
-    protected $table            = 'md_vendor';
+    protected $table            = 'md_vendor_cellular';
     protected $primaryKey       = 'id';
 
     protected $allowedFields = [
