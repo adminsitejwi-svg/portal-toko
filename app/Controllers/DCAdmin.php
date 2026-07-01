@@ -22,38 +22,42 @@ class DCAdmin extends BaseController
 
     public function save()
     {
-        $validation = \Config\Services::validation();
-
         $rules = [
-
-            'nama_dc' => 'required',
-            'alamat_dc' => 'required',
-            'status' => 'required',
-            'keterangan' => 'required'
-
+            'kode_dc'    => 'required',
+            'nama_dc'    => 'required',
+            'alamat_dc'  => 'required',
+            'status'     => 'required',
+            'keterangan' => 'required',
         ];
 
         if (!$this->validate($rules)) {
-
-            return redirect()->back()
-                ->withInput()
+            return redirect()->back()->withInput()
                 ->with('error', 'Semua field wajib diisi.');
         }
 
         $model = new \App\Models\DCModel();
 
-        // ── Cegah data ganda ──
-        $cekDup = trim((string) $this->request->getPost('nama_dc'));
-        if ($cekDup !== '' && $model->where('nama_dc', $cekDup)->first()) {
+        $kode = trim((string) $this->request->getPost('kode_dc'));
+        $nama = trim((string) $this->request->getPost('nama_dc'));
+
+        // ── Cegah kode ganda ──
+        if ($kode !== '' && $model->where('kode_dc', $kode)->first()) {
             return redirect()->back()->withInput()
-                ->with('error', 'Data DC "' . $cekDup . '" sudah ada. Data tidak boleh ganda.');
+                ->with('error', 'Kode "' . $kode . '" sudah digunakan. Kode tidak boleh ganda.');
+        }
+
+        // ── Cegah nama ganda ──
+        if ($nama !== '' && $model->where('nama_dc', $nama)->first()) {
+            return redirect()->back()->withInput()
+                ->with('error', 'Data DC "' . $nama . '" sudah ada. Data tidak boleh ganda.');
         }
 
         $model->save([
-            'nama_dc'    => $this->request->getPost('nama_dc'),
+            'kode_dc'    => $kode,
+            'nama_dc'    => $nama,
             'alamat_dc'  => $this->request->getPost('alamat_dc'),
             'status'     => $this->request->getPost('status'),
-            'keterangan' => $this->request->getPost('keterangan')
+            'keterangan' => $this->request->getPost('keterangan'),
         ]);
 
         return redirect()->to('/DCAdmin')
@@ -77,24 +81,30 @@ class DCAdmin extends BaseController
     }
     public function update()
     {
-        $id = $this->request->getPost('id');
-
+        $id    = $this->request->getPost('id');
         $model = new \App\Models\DCModel();
 
-        // ── Cegah data ganda (kecuali baris ini sendiri) ──
-        $cekDup = trim((string) $this->request->getPost('nama_dc'));
-        if ($cekDup !== '' && $model->where('nama_dc', $cekDup)->where('id !=', $id)->first()) {
+        $kode = trim((string) $this->request->getPost('kode_dc'));
+        $nama = trim((string) $this->request->getPost('nama_dc'));
+
+        // ── Cegah kode ganda (kecuali baris ini) ──
+        if ($kode !== '' && $model->where('kode_dc', $kode)->where('id !=', $id)->first()) {
             return redirect()->back()->withInput()
-                ->with('error', 'Data DC "' . $cekDup . '" sudah ada. Data tidak boleh ganda.');
+                ->with('error', 'Kode "' . $kode . '" sudah digunakan. Kode tidak boleh ganda.');
+        }
+
+        // ── Cegah nama ganda (kecuali baris ini) ──
+        if ($nama !== '' && $model->where('nama_dc', $nama)->where('id !=', $id)->first()) {
+            return redirect()->back()->withInput()
+                ->with('error', 'Data DC "' . $nama . '" sudah ada. Data tidak boleh ganda.');
         }
 
         $model->update($id, [
-
-            'nama_dc'    => $this->request->getPost('nama_dc'),
+            'kode_dc'    => $kode,
+            'nama_dc'    => $nama,
             'alamat_dc'  => $this->request->getPost('alamat_dc'),
             'status'     => $this->request->getPost('status'),
             'keterangan' => $this->request->getPost('keterangan'),
-
         ]);
 
         return redirect()->to('/DCAdmin')

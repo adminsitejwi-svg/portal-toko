@@ -629,7 +629,7 @@
                     </a>
                     <ul class="submenu bg-black/20">
                         <li><a href="<?= site_url('DataSI') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Simcard</a></li>
-                        <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor Inet</a></li>
+                        <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                     </ul>
                 </li>
                 <li class="hasmenu">
@@ -648,9 +648,7 @@
                         <li><a href="<?= site_url('DCAdmin') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">DC</a></li>
                         <li><a href="<?= site_url('MediaKoneksi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Media Koneksi</a></li>
                         <li><a href="<?= site_url('PemilikProject') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pemilik Projek</a></li>
-                        <li><a href="<?= site_url('LayananJwi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Layanan jwi group</a></li>
                         <li><a href="<?= site_url('Pelanggan') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pelanggan</a></li>
-                        <li><a href="<?= site_url('DataCelullar') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Data Celullar</a></li>
                         <li><a href="<?= site_url('NomorInet') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                         <li><a href="<?= site_url('QuotaSIMCARD') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Kuota Simcard</a></li>
 
@@ -733,6 +731,10 @@
                 <h2>Form Pendaftaran Pemilik Projek</h2>
                 <form action="<?= site_url('PemilikProject/save') ?>" method="POST" id="FormPJ">
                     <?= csrf_field() ?>
+                    <div class="form-group mt-5">
+                        <label>Kode Pemilik Projek <span style="color:red">*</span></label>
+                        <input type="text" name="kode_pemilik_projek" id="kode_pemilik_projek" required>
+                    </div>
                     <div class="form-group mt-5">
                         <label>Nama Pemilik Project <span style="color:red">*</span></label>
                         <input type="text"
@@ -873,7 +875,7 @@
 
     <script>
         document.getElementById('mkForm').addEventListener('submit', function(e) {
-
+            const kode_pemilik_projek = document.getElementById('kode_pemilik_projek').value.trim();
             const nama_pemilik = document.getElementById('nama_pemilik').value.trim();
             const alamat_lengkap = document.getElementById('alamat_lengkap').value.trim();
             const pic_projek = document.getElementById('pic_projek').value.trim(); // ← perbaiki jadi pic_projek
@@ -882,6 +884,7 @@
             const keterangan = document.getElementById('keterangan').value.trim();
 
             if (
+                kode_pemilik_projek === '' ||
                 nama_pemilik === '' ||
                 alamat_lengkap === '' ||
                 pic_projek === '' ||

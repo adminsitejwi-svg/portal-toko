@@ -523,7 +523,7 @@
                     </a>
                     <ul class="submenu bg-black/20">
                         <li><a href="<?= site_url('DataSI') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Simcard</a></li>
-                        <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor Inet</a></li>
+                        <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                     </ul>
                 </li>
                 <li class="hasmenu">
@@ -542,9 +542,7 @@
                         <li><a href="<?= site_url('DCAdmin') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">DC</a></li>
                         <li><a href="<?= site_url('MediaKoneksi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Media Koneksi</a></li>
                         <li><a href="<?= site_url('PemilikProject') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pemilik Projek</a></li>
-                        <li><a href="<?= site_url('LayananJwi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Layanan jwi group</a></li>
                         <li><a href="<?= site_url('Pelanggan') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pelanggan</a></li>
-                        <li><a href="<?= site_url('DataCelullar') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Data Celullar</a></li>
                         <li><a href="<?= site_url('NomorInet') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                         <li><a href="<?= site_url('QuotaSIMCARD') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Kuota Simcard</a></li>
 
@@ -652,6 +650,7 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>Kode Pemilik Projek</th>
                                     <th>Nama Pemilik</th>
                                     <th>Alamat Lengkap</th>
                                     <th>PIC Projek</th>
@@ -668,6 +667,7 @@
                                     <?php foreach ($MD_pemilik_project as $row) : ?>
                                         <tr>
                                             <td><?= $no++; ?></td>
+                                            <td><?= esc($row['kode_pemilik_projek']); ?></td>
                                             <td><?= esc($row['nama_pemilik']); ?></td>
                                             <td><?= esc($row['alamat_lengkap']); ?></td>
                                             <td><?= esc($row['pic_projek']); ?></td>
@@ -686,6 +686,7 @@
                                                     type="button"
                                                     onclick="openEditModal(
                                                     '<?= $row['id'] ?>',
+                                                    '<?= esc($row['kode_pemilik_projek']) ?>',
                                                     '<?= esc($row['nama_pemilik']) ?>',
                                                     '<?= esc($row['alamat_lengkap']) ?>',
                                                     '<?= esc($row['pic_projek']) ?>',
@@ -730,7 +731,16 @@
                                     <input type="hidden" name="id" id="edit_id">
 
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
+                                        <div class="md:col-span-2 relative">
+                                            <input type="text" id="edit_kode_pemilik_projek" name="kode_pemilik_projek" placeholder=" "
+                                                class="peer w-full border rounded-lg px-3 pt-5 pb-2 outline-none focus:border-blue-500" />
+                                            <label for="edit_kode_pemilik_projek"
+                                                class="absolute left-3 top-3.5 text-gray-500 text-sm transition-all
+                               peer-focus:top-1 peer-focus:text-xs peer-focus:text-blue-500
+                               peer-[:not(:placeholder-shown)]:top-1 peer-[:not(:placeholder-shown)]:text-xs">
+                                                Kode Pemilik Projek
+                                            </label>
+                                        </div>
                                         <div class="md:col-span-2 relative">
                                             <input type="text" id="edit_nama_pemilik" name="nama_pemilik" placeholder=" "
                                                 class="peer w-full border rounded-lg px-3 pt-5 pb-2 outline-none focus:border-blue-500" />
@@ -1063,9 +1073,10 @@
         }
     </script>
     <script>
-        function openEditModal(id, nama_pemilik, alamat_lengkap, pic_projek, nomor_hp_pic, status, keterangan) {
+        function openEditModal(id, kode_pemilik_projek, nama_pemilik, alamat_lengkap, pic_projek, nomor_hp_pic, status, keterangan) {
 
             document.getElementById('edit_id').value = id;
+            document.getElementById('edit_kode_pemilik_projek').value = kode_pemilik_projek;
             document.getElementById('edit_nama_pemilik').value = nama_pemilik;
             document.getElementById('edit_alamat_lengkap').value = alamat_lengkap;
             document.getElementById('edit_pic_projek').value = pic_projek;

@@ -116,7 +116,7 @@ if (! function_exists('activity_label_action')) {
                 'md_pelanggan'         => 'Pelanggan',
                 'md_data_celullar'     => 'Data Celullar',
                 'md_nomer_inet'        => 'Nomor INET',
-                'md_nomor_inet'        => 'Nomor INET',
+
                 'md_quota_simcard'     => 'Kuota Simcard',
                 'md_merek_perangkat'   => 'Merek Perangkat',
                 'md_jenis_perangkat'   => 'Jenis Perangkat',

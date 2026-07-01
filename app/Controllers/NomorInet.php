@@ -9,68 +9,72 @@ class NomorInet extends BaseController
     {
         $db = \Config\Database::connect();
 
-        $data['MD_nomer_inet'] = $db->table('md_nomer_inet dc')
-            ->select('dc.*, v.nama_vendor')
-            ->join('md_vendor v', 'v.id = dc.vendor_id', 'left')
-            ->orderBy('dc.id', 'DESC')
-            ->get()
-            ->getResultArray();
+        $data['MD_nomer_inet'] = $db->table('md_nomer_inet ni')
+            ->select('ni.*, lv.kode_layanan_vendor, lv.nama_layanan, v.nama_vendor')
+            ->join('md_layanan_vendor lv', 'lv.id = ni.layanan_vendor_id', 'left')
+            ->join('md_vendor v', 'v.id = lv.vendor_id', 'left')
+            ->orderBy('ni.id', 'DESC')
+            ->get()->getResultArray();
 
-        $vendorModel = new \App\Models\VendorModel();
-
-        $data['md_vendor'] = $vendorModel->findAll();
+        // ⬇️ TAMBAHKAN INI — untuk dropdown di modal edit
+        $data['MD_layanan_vendor'] = $db->table('md_layanan_vendor lv')
+            ->select('lv.id, lv.kode_layanan_vendor, lv.nama_layanan, v.nama_vendor')
+            ->join('md_vendor v', 'v.id = lv.vendor_id', 'left')
+            ->orderBy('lv.kode_layanan_vendor', 'ASC')
+            ->get()->getResultArray();
 
         return view('NomorInet/index', $data);
     }
+
     public function create()
     {
-        $vendorModel = new \App\Models\VendorModel();
+        $db = \Config\Database::connect();
 
-
-        $data['MD_vendor'] = $vendorModel->findAll();
+        // daftar layanan vendor untuk dropdown kode (sekaligus bawa nama vendor & nama layanan)
+        $data['MD_layanan_vendor'] = $db->table('md_layanan_vendor lv')
+            ->select('lv.id, lv.kode_layanan_vendor, lv.nama_layanan, v.nama_vendor')
+            ->join('md_vendor v', 'v.id = lv.vendor_id', 'left')
+            ->orderBy('lv.kode_layanan_vendor', 'ASC')
+            ->get()->getResultArray();
 
         return view('NomorInet/FormNomerInet', $data);
     }
+
     public function save()
     {
         date_default_timezone_set('Asia/Jakarta');
-
         $model = new \App\Models\NomerInetModel();
 
-        $vendorId      = $this->request->getPost('vendor_id');
-        $namaPaketLayanan = trim((string) $this->request->getPost('nama_paket_layanan'));
+        $layananVendorId = $this->request->getPost('layanan_vendor_id');
+        $nomorInet       = trim((string) $this->request->getPost('nomor_inet'));
 
-        // Cek data ganda berdasarkan vendor dan nama paket
-        $dup = $model->where('vendor_id', $vendorId)
-            ->where('nama_paket_layanan', $namaPaketLayanan)
+        // Cek ganda berdasarkan layanan vendor + nomor inet
+        $dup = $model->where('layanan_vendor_id', $layananVendorId)
+            ->where('nomor_inet', $nomorInet)
             ->first();
-
         if ($dup) {
             return redirect()->back()->withInput()
-                ->with(
-                    'error',
-                    'Paket Layanan "' . $namaPaketLayanan . '" pada vendor tersebut sudah ada.'
-                );
+                ->with('error', 'Nomor INET "' . $nomorInet . '" pada layanan tersebut sudah ada.');
         }
 
         $model->save([
-            'vendor_id'       => $vendorId,
-            'nama_paket_layanan' => $namaPaketLayanan,
+            'layanan_vendor_id'   => $layananVendorId,
             'kecepatan_bandwidth' => $this->request->getPost('kecepatan_bandwidth'),
-            'harga_layanan' => $this->request->getPost('harga_layanan'),
-            'nomor_inet_pelanggan' => $this->request->getPost('nomor_inet_pelanggan'),
-            'status'          => $this->request->getPost('status'),
-            'keterangan'      => $this->request->getPost('keterangan'),
-            'created_at'      => date('Y-m-d H:i:s'),
-            'password_inet_pelanggan' => password_hash(
-                (string) $this->request->getPost('password_inet_pelanggan'),
+            'harga_layanan'       => $this->request->getPost('harga_layanan'),
+            'nomor_inet'          => $nomorInet,
+            'status'              => $this->request->getPost('status'),
+            'keterangan'          => $this->request->getPost('keterangan'),
+            'created_at'          => date('Y-m-d H:i:s'),
+            'password_inet'       => password_hash(
+                (string) $this->request->getPost('password_inet'),
                 PASSWORD_DEFAULT
             ),
         ]);
 
         return redirect()->to('/NomorInet')
-            ->with('success', 'Data Paket Data berhasil disimpan');
+            ->with('success', 'Data Nomor INET berhasil disimpan');
     }
+
     public function delete($id)
     {
         $model = new \App\Models\NomerInetModel();
@@ -93,39 +97,35 @@ class NomorInet extends BaseController
         $id    = $this->request->getPost('id');
         $model = new \App\Models\NomerInetModel();
 
-        $vendorId         = $this->request->getPost('vendor_id');
-        $namaPaketLayanan = trim((string) $this->request->getPost('nama_paket_layanan'));
+        $layananVendorId = $this->request->getPost('layanan_vendor_id');
+        $nomorInet       = trim((string) $this->request->getPost('nomor_inet'));
 
-        $cekDup = $model
-            ->where('vendor_id', $vendorId)
-            ->where('nama_paket_layanan', $namaPaketLayanan)
+        $cekDup = $model->where('layanan_vendor_id', $layananVendorId)
+            ->where('nomor_inet', $nomorInet)
             ->where('id !=', $id)
             ->first();
-
         if ($cekDup) {
             return redirect()->back()->withInput()
-                ->with('error', 'Paket Layanan "' . $namaPaketLayanan . '" pada vendor tersebut sudah ada.');
+                ->with('error', 'Nomor INET "' . $nomorInet . '" pada layanan tersebut sudah ada.');
         }
 
         $updateData = [
-            'vendor_id'            => $vendorId,
-            'nama_paket_layanan'   => $namaPaketLayanan,
-            'kecepatan_bandwidth'  => $this->request->getPost('kecepatan_bandwidth'),
-            'harga_layanan'        => $this->request->getPost('harga_layanan'),
-            'nomor_inet_pelanggan' => $this->request->getPost('nomor_inet_pelanggan'),
-            'status'               => $this->request->getPost('status'),
-            'keterangan'           => $this->request->getPost('keterangan'),
-            'updated_at'           => date('Y-m-d H:i:s'),
+            'layanan_vendor_id'   => $layananVendorId,
+            'kecepatan_bandwidth' => $this->request->getPost('kecepatan_bandwidth'),
+            'harga_layanan'       => $this->request->getPost('harga_layanan'),
+            'nomor_inet'          => $nomorInet,
+            'status'              => $this->request->getPost('status'),
+            'keterangan'          => $this->request->getPost('keterangan'),
         ];
 
-        $passwordBaru = (string) $this->request->getPost('password_inet_pelanggan');
+        $passwordBaru = (string) $this->request->getPost('password_inet');
         if ($passwordBaru !== '') {
-            $updateData['password_inet_pelanggan'] = password_hash($passwordBaru, PASSWORD_DEFAULT);
+            $updateData['password_inet'] = password_hash($passwordBaru, PASSWORD_DEFAULT);
         }
 
         $model->update($id, $updateData);
 
         return redirect()->to('/NomorInet')
-            ->with('success', 'Data Paket Data berhasil diperbarui.');
+            ->with('success', 'Data Nomor INET berhasil diperbarui.');
     }
 }

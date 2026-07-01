@@ -705,7 +705,7 @@
                     </a>
                     <ul class="submenu bg-black/20">
                         <li><a href="<?= site_url('DataSI') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Simcard</a></li>
-                        <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor Inet</a></li>
+                        <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                     </ul>
                 </li>
                 <li class="hasmenu">
@@ -724,9 +724,7 @@
                         <li><a href="<?= site_url('DCAdmin') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">DC</a></li>
                         <li><a href="<?= site_url('MediaKoneksi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Media Koneksi</a></li>
                         <li><a href="<?= site_url('PemilikProject') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pemilik Projek</a></li>
-                        <li><a href="<?= site_url('LayananJwi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Layanan jwi group</a></li>
                         <li><a href="<?= site_url('Pelanggan') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pelanggan</a></li>
-                        <li><a href="<?= site_url('DataCelullar') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Data Celullar</a></li>
                         <li><a href="<?= site_url('NomorInet') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                         <li><a href="<?= site_url('QuotaSIMCARD') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Kuota Simcard</a></li>
 
@@ -824,16 +822,17 @@
 
                             <!-- Pilih master nomor inet (paket layanan) -->
                             <div class="form-group">
-                                <label>Nama Paket Layanan <span class="req">*</span></label>
+                                <label for="nomor_inet_id">Kode Layanan Vendor</label>
                                 <select name="nomor_inet_id" id="nomor_inet_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
                                     <option value="">— Pilih Paket Layanan —</option>
                                     <?php foreach ($md_nomer_inet as $ni): ?>
                                         <option value="<?= $ni['id'] ?>"
-                                            data-vendor="<?= esc($ni['nama_vendor'] ?? '-', 'attr') ?>"
-                                            data-bw="<?= esc($ni['kecepatan_bandwidth'] ?? '-', 'attr') ?>"
-                                            data-harga="<?= esc($ni['harga_layanan'] ?? '', 'attr') ?>"
-                                            data-nomor="<?= esc($ni['nomor_inet_pelanggan'] ?? '-', 'attr') ?>"
-                                            data-haspass="<?= !empty($ni['password_inet_pelanggan']) ? '1' : '0' ?>">
+                                            data-vendor="<?= esc($ni['nama_vendor'] ?? '-') ?>"
+                                            data-layanan="<?= esc($ni['nama_paket_layanan'] ?? '-') ?>"
+                                            data-bw="<?= esc($ni['kecepatan_bandwidth'] ?? '-') ?>"
+                                            data-harga="<?= esc($ni['harga_layanan'] ?? '') ?>"
+                                            data-nomor="<?= esc($ni['nomor_inet'] ?? '-') ?>"
+                                            data-haspass="<?= !empty($ni['password_inet']) ? '1' : '0' ?>">
                                             <?= esc($ni['nama_paket_layanan']) ?>
                                         </option>
                                     <?php endforeach; ?>
@@ -847,6 +846,11 @@
                             </div>
 
                             <!-- Bandwidth (read-only) -->
+                            <div class="form-group">
+                                <label>Nama Layanan</label>
+                                <div class="readonly-box" id="layanan_display">—</div>
+                            </div>
+
                             <div class="form-group">
                                 <label>Kecepatan / Bandwidth</label>
                                 <div class="readonly-box" id="bw_display">—</div>
@@ -989,78 +993,142 @@
     <script>
         feather.replace();
 
+        /* ============ HELPER: FORMAT RUPIAH ============ */
         function toRupiah(angka) {
-            if (angka === '' || angka === null || isNaN(angka)) return '—';
+            if (angka === '' || angka === null || angka === undefined || isNaN(angka)) return '—';
             return 'Rp ' + String(angka).replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
         }
 
-        /* Isi semua field read-only dari master Nomor INET */
+        /* ============ ELEMEN: DATA LAYANAN ============ */
         const inetSel = document.getElementById('nomor_inet_id');
         const vendorBox = document.getElementById('vendor_display');
+        const layananBox = document.getElementById('layanan_display');
         const bwBox = document.getElementById('bw_display');
         const hargaBox = document.getElementById('harga_display');
         const nomorBox = document.getElementById('nomor_display');
         const passBox = document.getElementById('pass_display');
 
+        // hidden input untuk kirim nilai actual nomor_inet & password_inet kalau backend butuh (opsional)
+        // <input type="hidden" name="nomor_inet_actual" id="nomor_inet_actual">
+        // <input type="hidden" name="password_inet_actual" id="password_inet_actual">
+
+        function resetLayananDisplay() {
+            vendorBox.textContent = '—';
+            layananBox.textContent = '—';
+            bwBox.textContent = '—';
+            hargaBox.textContent = '—';
+            nomorBox.textContent = '—';
+            passBox.textContent = '—';
+        }
+
         inetSel.addEventListener('change', function() {
             const opt = inetSel.options[inetSel.selectedIndex];
+
             if (!opt || !opt.value) {
-                vendorBox.textContent = bwBox.textContent = hargaBox.textContent =
-                    nomorBox.textContent = passBox.textContent = '—';
+                resetLayananDisplay();
                 return;
             }
+
             vendorBox.textContent = opt.dataset.vendor || '—';
+            layananBox.textContent = opt.dataset.layanan || '—';
             bwBox.textContent = opt.dataset.bw || '—';
             hargaBox.textContent = opt.dataset.harga ? toRupiah(opt.dataset.harga) : '—';
             nomorBox.textContent = opt.dataset.nomor || '—';
             passBox.textContent = opt.dataset.haspass === '1' ? '•••••• (tersimpan)' : '—';
         });
 
-        /* Kategori → aktifkan ID Pelanggan ATAU Kode Toko */
+        /* ============ ELEMEN: DATA PELANGGAN ============ */
         const pelangganSel = document.getElementById('pelanggan_id');
         const idPelangganInp = document.getElementById('id_pelanggan');
         const kodeTokoInp = document.getElementById('kode_toko');
         const kategoriNote = document.getElementById('kategori_note');
+
+        // daftar kategori yang dianggap "toko" (case-insensitive)
         const KATEGORI_TOKO = ['alfamidi', 'alfamart', 'lawson'];
 
         function applyKategori() {
             const opt = pelangganSel.options[pelangganSel.selectedIndex];
             const kategori = (opt && opt.dataset.kategori ? opt.dataset.kategori : '').toLowerCase().trim();
 
-            let pakaiToko = false,
-                pakaiId = false;
+            let pakaiToko = false;
+            let pakaiId = false;
+
             if (kategori !== '') {
                 pakaiToko = KATEGORI_TOKO.includes(kategori);
                 pakaiId = !pakaiToko;
             }
 
+            // ID Pelanggan
             idPelangganInp.disabled = !pakaiId;
             if (!pakaiId) idPelangganInp.value = '';
 
+            // Kode Toko
             kodeTokoInp.disabled = !pakaiToko;
             if (!pakaiToko) kodeTokoInp.value = '';
 
-            if (kategori === '') kategoriNote.textContent = '';
-            else if (pakaiToko) kategoriNote.textContent = 'Isi Kode Toko di bawah.';
-            else kategoriNote.textContent = 'Isi ID Pelanggan di bawah.';
+            // Note keterangan kategori
+            if (kategori === '') {
+                kategoriNote.textContent = '';
+            } else if (pakaiToko) {
+                kategoriNote.textContent = 'Isi Kode Toko di bawah.';
+            } else {
+                kategoriNote.textContent = 'Isi ID Pelanggan di bawah.';
+            }
         }
-        pelangganSel.addEventListener('change', applyKategori);
-        applyKategori();
 
+        pelangganSel.addEventListener('change', applyKategori);
+        applyKategori(); // jalankan sekali saat load, untuk handle kondisi form edit / old input
+
+        /* ============ VALIDASI SEBELUM SUBMIT ============ */
         document.getElementById('FormNMRInet').addEventListener('submit', function(e) {
-            const keterangan = document.getElementById('keterangan').value.trim();
-            if (keterangan === '') {
+            let hasError = false;
+            let errorMsg = '';
+
+            // validasi paket layanan wajib dipilih
+            if (!inetSel.value) {
+                hasError = true;
+                errorMsg = 'Silakan pilih Kode Layanan Vendor terlebih dahulu.';
+            }
+
+            // validasi kategori pelanggan wajib dipilih
+            else if (!pelangganSel.value) {
+                hasError = true;
+                errorMsg = 'Silakan pilih Kategori Pelanggan terlebih dahulu.';
+            }
+
+            // validasi id_pelanggan / kode_toko sesuai kategori aktif
+            else if (!idPelangganInp.disabled && idPelangganInp.value.trim() === '') {
+                hasError = true;
+                errorMsg = 'ID Pelanggan wajib diisi.';
+            } else if (!kodeTokoInp.disabled && kodeTokoInp.value.trim() === '') {
+                hasError = true;
+                errorMsg = 'Kode Toko wajib diisi.';
+            }
+
+            // validasi status
+            else if (!document.getElementById('status').value) {
+                hasError = true;
+                errorMsg = 'Silakan pilih Status terlebih dahulu.';
+            }
+
+            // validasi keterangan
+            else if (document.getElementById('keterangan').value.trim() === '') {
+                hasError = true;
+                errorMsg = 'Silakan isi kolom keterangan terlebih dahulu.';
+            }
+
+            if (hasError) {
                 e.preventDefault();
                 Swal.fire({
                     icon: 'warning',
-                    title: 'Keterangan Wajib Diisi',
-                    text: 'Silakan isi kolom keterangan terlebih dahulu.',
+                    title: 'Data Belum Lengkap',
+                    text: errorMsg,
                     confirmButtonColor: '#185a82'
                 });
                 return false;
             }
 
-            // aktifkan field disabled agar tetap terkirim
+            // pastikan field disabled tetap terkirim ke server saat submit valid
             idPelangganInp.disabled = false;
             kodeTokoInp.disabled = false;
         });

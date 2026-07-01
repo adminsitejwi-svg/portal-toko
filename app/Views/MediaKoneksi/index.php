@@ -524,7 +524,7 @@
                     </a>
                     <ul class="submenu bg-black/20">
                         <li><a href="<?= site_url('DataSI') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Simcard</a></li>
-                        <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor Inet</a></li>
+                        <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                     </ul>
                 </li>
                 <li class="hasmenu">
@@ -543,9 +543,7 @@
                         <li><a href="<?= site_url('DCAdmin') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">DC</a></li>
                         <li><a href="<?= site_url('MediaKoneksi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Media Koneksi</a></li>
                         <li><a href="<?= site_url('PemilikProject') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pemilik Projek</a></li>
-                        <li><a href="<?= site_url('LayananJwi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Layanan jwi group</a></li>
                         <li><a href="<?= site_url('Pelanggan') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pelanggan</a></li>
-                        <li><a href="<?= site_url('DataCelullar') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Data Celullar</a></li>
                         <li><a href="<?= site_url('NomorInet') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                         <li><a href="<?= site_url('QuotaSIMCARD') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Kuota Simcard</a></li>
 
@@ -652,6 +650,8 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>Kode Media Koneksi</th>
+                                    <th>Status Link</th>
                                     <th>Nama Media Koneksi</th>
                                     <th>Status</th>
                                     <th>Keterangan</th>
@@ -665,6 +665,8 @@
                                     <?php foreach ($MD_media_koneksi as $row) : ?>
                                         <tr>
                                             <td><?= $no++; ?></td>
+                                            <td><?= esc($row['kode_media_koneksi']); ?></td>
+                                            <td><?= esc($row['status_link']); ?></td>
                                             <td><?= esc($row['media_koneksi']); ?></td>
                                             <td>
                                                 <?php if ($row['status'] == 0) : ?>
@@ -680,6 +682,9 @@
                                                     type="button"
                                                     onclick="openEditModal(
                                                     '<?= $row['id'] ?>',
+                                                     '<?= esc($row['kode_media_koneksi']) ?>',
+                                                    '<?= esc($row['status_link']) ?>',
+                                                    '<?= esc($row['media_koneksi']) ?>',
                                                     '<?= esc($row['media_koneksi']) ?>',
                                                     '<?= esc($row['status']) ?>',
                                                     '<?= esc($row['keterangan']) ?>',
@@ -729,7 +734,19 @@
                                     <input type="hidden" name="id" id="edit_id">
 
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div class="md:col-span-2">
+                                            <label>Kode Media Koneksi</label>
+                                            <input type="text" id="edit_kode_media_koneksi" name="kode_media_koneksi"
+                                                class="w-full border rounded-lg p-3">
+                                        </div>
 
+                                        <div class="md:col-span-2">
+                                            <label>Status Link</label>
+                                            <select id="edit_status_link" name="status_link" class="w-full border rounded-lg p-3">
+                                                <option value="Jalur Utama">Jalur Utama</option>
+                                                <option value="Jalur Cadangan">Jalur Cadangan</option>
+                                            </select>
+                                        </div>
                                         <div class="md:col-span-2">
                                             <label>Nama Media Koneksi</label>
                                             <input
@@ -1047,9 +1064,10 @@
         }
     </script>
     <script>
-        function openEditModal(id, media_koneksi, status, keterangan, ) {
-
+        function openEditModal(id, kode_media_koneksi, status_link, media_koneksi, status, keterangan) {
             document.getElementById('edit_id').value = id;
+            document.getElementById('edit_kode_media_koneksi').value = kode_media_koneksi;
+            document.getElementById('edit_status_link').value = status_link;
             document.getElementById('edit_media_koneksi').value = media_koneksi;
             document.getElementById('edit_status').value = status;
             document.getElementById('edit_keterangan').value = keterangan;

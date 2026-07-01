@@ -10,8 +10,8 @@ class NMRInetModel extends BaseModel
     protected $primaryKey = 'id';
 
     protected $allowedFields = [
-        'nomor_inet_id',
-        'pelanggan_id',
+        'nomer_inet_id',          // huruf "e" - sesuai kolom asli tabel
+        'kategori_pelanggan_id',  // underscore huruf kecil - sesuai kolom asli
         'id_pelanggan',
         'kode_toko',
         'status',

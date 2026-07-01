@@ -629,7 +629,7 @@
                     </a>
                     <ul class="submenu bg-black/20">
                         <li><a href="<?= site_url('DataSI') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Simcard</a></li>
-                        <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor Inet</a></li>
+                        <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                     </ul>
                 </li>
                 <li class="hasmenu">
@@ -648,9 +648,7 @@
                         <li><a href="<?= site_url('DCAdmin') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">DC</a></li>
                         <li><a href="<?= site_url('MediaKoneksi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Media Koneksi</a></li>
                         <li><a href="<?= site_url('PemilikProject') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pemilik Projek</a></li>
-                        <li><a href="<?= site_url('LayananJwi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Layanan jwi group</a></li>
                         <li><a href="<?= site_url('Pelanggan') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pelanggan</a></li>
-                        <li><a href="<?= site_url('DataCelullar') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Data Celullar</a></li>
                         <li><a href="<?= site_url('NomorInet') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                         <li><a href="<?= site_url('QuotaSIMCARD') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Kuota Simcard</a></li>
 
@@ -733,6 +731,20 @@
                 <h2>Form Pendaftaran Media Koneksi</h2>
                 <form action="<?= site_url('MediaKoneksi/save') ?>" method="POST" id="mkForm">
                     <?= csrf_field() ?>
+                    <div class="form-group mt-5">
+                        <label>Kode Media Koneksi <span style="color:red">*</span></label>
+                        <input type="text" name="kode_media_koneksi" id="kode_media_koneksi" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Status Link <span style="color:red">*</span></label>
+                        <select name="status_link" id="status_link" required
+                            class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
+                            <option value="">Pilih Status Link</option>
+                            <option value="Jalur Utama">Jalur Utama</option>
+                            <option value="Jalur Cadangan">Jalur Cadangan</option>
+                        </select>
+                    </div>
                     <div class="form-group mt-5">
                         <label>Nama Media Koneksi <span style="color:red">*</span></label>
                         <input type="text"
@@ -852,28 +864,28 @@
     <script>
         document.getElementById('mkForm').addEventListener('submit', function(e) {
 
+            const kode_media_koneksi = document.getElementById('kode_media_koneksi').value.trim();
+            const status_link = document.getElementById('status_link').value.trim();
             const media_koneksi = document.getElementById('media_koneksi').value.trim();
             const status = document.getElementById('status').value.trim();
             const keterangan = document.getElementById('keterangan').value.trim();
 
             if (
+                kode_media_koneksi === '' ||
+                status_link === '' ||
                 media_koneksi === '' ||
                 status === '' ||
                 keterangan === ''
             ) {
-
                 e.preventDefault();
-
                 Swal.fire({
                     icon: 'warning',
                     title: 'Form Belum Lengkap',
                     text: 'Semua field wajib diisi.',
                     confirmButtonColor: '#185a82'
                 });
-
                 return false;
             }
-
         });
     </script>
     <script>

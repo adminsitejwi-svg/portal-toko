@@ -523,7 +523,7 @@
                     </a>
                     <ul class="submenu bg-black/20">
                         <li><a href="<?= site_url('DataSI') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Simcard</a></li>
-                        <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor Inet</a></li>
+                        <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                     </ul>
                 </li>
                 <li class="hasmenu">
@@ -542,9 +542,7 @@
                         <li><a href="<?= site_url('DCAdmin') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">DC</a></li>
                         <li><a href="<?= site_url('MediaKoneksi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Media Koneksi</a></li>
                         <li><a href="<?= site_url('PemilikProject') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pemilik Projek</a></li>
-                        <li><a href="<?= site_url('LayananJwi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Layanan jwi group</a></li>
                         <li><a href="<?= site_url('Pelanggan') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pelanggan</a></li>
-                        <li><a href="<?= site_url('DataCelullar') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Data Celullar</a></li>
                         <li><a href="<?= site_url('NomorInet') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                         <li><a href="<?= site_url('QuotaSIMCARD') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Kuota Simcard</a></li>
 
@@ -653,6 +651,7 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>Kode Quota Simcard</th>
                                     <th>Nama Vendor /<br>Penyedia Layanan</th>
                                     <th>Nama Paket Data</th>
                                     <th>Isi Quota<br>Internet Sim Card</th>
@@ -673,6 +672,7 @@
                                     <?php foreach ($MD_simcard as $row) : ?>
                                         <tr>
                                             <td><?= $no++; ?></td>
+                                            <td><?= esc($row['kode_quota_simcard'] ?? '-') ?></td>
                                             <td><?= esc($row['nama_vendor'] ?? '-'); ?></td>
                                             <td><?= esc($row['nama_paket_data'] ?? '-'); ?></td>
                                             <td><?= esc($row['isi_quota_internet'] ?? '-'); ?></td>
@@ -682,7 +682,7 @@
                                                     : '-' ?>
                                             </td>
                                             <td><?= esc($row['nomor_msisdn'] ?? '-'); ?></td>
-                                            <td><?= esc($row['nomor_issid_ime'] ?? '-'); ?></td>
+                                            <td><?= esc($row['nomor_imei'] ?? '-'); ?></td>
                                             <td><?= esc($row['kategori_pelanggan'] ?? '-'); ?></td>
 
                                             <td>
@@ -887,7 +887,7 @@
                                     alignment: 'left'
                                 };
                                 doc.defaultStyle.fontSize = 10;
-                                doc.content[1].table.widths = ['3%', '9%', '10%', '9%', '10%', '10%', '10%', '10%', '6%', '9%', '10%', '4%'];
+                                doc.content[1].table.widths = ['3%', '9%', '10%', '9%', '10%', '10%', '10%', '10%', '6%', '9%', '10%', '4%', '10%'];
                                 doc.content[1].layout = {
                                     hLineWidth: () => 0.5,
                                     vLineWidth: () => 0.5,
@@ -986,14 +986,5 @@
         </script>
     <?php endif; ?>
 </body>
-<script>
-    // PENGHALANG KOSMETIK SAJA — bukan security, mudah dilewati
-    document.addEventListener('contextmenu', e => e.preventDefault()); // klik kanan
-    document.addEventListener('keydown', e => {
-        if (e.key === 'F12') e.preventDefault(); // F12
-        if (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) e.preventDefault();
-        if (e.ctrlKey && e.key.toUpperCase() === 'U') e.preventDefault(); // view-source
-    });
-</script>
 
 </html>

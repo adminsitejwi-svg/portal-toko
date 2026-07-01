@@ -702,7 +702,7 @@
                     </a>
                     <ul class="submenu bg-black/20">
                         <li><a href="<?= site_url('DataSI') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Simcard</a></li>
-                        <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor Inet</a></li>
+                        <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                     </ul>
                 </li>
                 <li class="hasmenu">
@@ -721,7 +721,6 @@
                         <li><a href="<?= site_url('DCAdmin') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">DC</a></li>
                         <li><a href="<?= site_url('MediaKoneksi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Media Koneksi</a></li>
                         <li><a href="<?= site_url('PemilikProject') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pemilik Projek</a></li>
-                        <li><a href="<?= site_url('LayananJwi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Layanan jwi group</a></li>
                         <li><a href="<?= site_url('Pelanggan') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pelanggan</a></li>
                         <li><a href="<?= site_url('DataCelullar') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Data Celullar</a></li>
                         <li><a href="<?= site_url('NomorInet') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
@@ -820,13 +819,18 @@
                         <div class="grid-2">
 
                             <div class="form-group">
-                                <label>Nama Paket Data <span class="req">*</span></label>
-                                <select name="data_cellular_id" id="data_cellular_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
-                                    <option value="">— Pilih Paket Data —</option>
-                                    <?php foreach ($md_data_celullar as $dc): ?>
-                                        <option value="<?= $dc['id'] ?>"
-                                            data-vendor="<?= esc($dc['nama_vendor'] ?? '-', 'attr') ?>">
-                                            <?= esc($dc['nama_paket_data']) ?>
+                                <label>Kode Quota SimCard <span class="req">*</span></label>
+                                <select name="quota_simcard_id" id="quota_simcard_id" required
+                                    class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
+                                    <option value="">— Pilih Kode Quota —</option>
+                                    <?php foreach ($md_quota_simcard as $q): ?>
+                                        <option value="<?= $q['id'] ?>"
+                                            data-vendor="<?= esc($q['nama_vendor'] ?? '-', 'attr') ?>"
+                                            data-paket="<?= esc($q['nama_paket_data'] ?? '-', 'attr') ?>"
+                                            data-isi="<?= esc($q['quota_internet'] ?? '-', 'attr') ?>"
+                                            data-harga="<?= esc($q['harga_quota'] ?? '', 'attr') ?>"
+                                            <?= ($simcard['quota_simcard_id'] ?? '') == $q['id'] ? 'selected' : '' ?>>
+                                            <?= esc($q['kode_quota_simcard'] ?? '-') ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
@@ -838,17 +842,13 @@
                             </div>
 
                             <div class="form-group">
-                                <label>Paket Quota <span class="req">*</span></label>
-                                <select name="quota_simcard_id" id="quota_simcard_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
-                                    <option value="">— Pilih Quota —</option>
-                                    <?php foreach ($md_quota_simcard as $q): ?>
-                                        <option value="<?= $q['id'] ?>"
-                                            data-isi="<?= esc($q['isi_quota_internet'] ?? '', 'attr') ?>"
-                                            data-harga="<?= esc($q['harga_quota_internet'] ?? '', 'attr') ?>">
-                                            <?= esc($q['isi_quota_internet'] ?? '-') ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
+                                <label>Nama Paket Data</label>
+                                <div class="readonly-box" id="paket_display">—</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Isi Quota Internet Sim Card</label>
+                                <div class="readonly-box" id="isi_display">—</div>
                             </div>
 
                             <div class="form-group">
@@ -866,7 +866,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Nomor ISSID / IME <span class="req">*</span></label>
-                                <input type="text" name="nomor_issid_ime" id="nomor_issid_ime" required placeholder="Isi manual">
+                                <input type="text" name="nomor_imei" id="nomor_issid_imei" required placeholder="Isi manual">
                             </div>
                         </div>
 
@@ -876,7 +876,7 @@
 
                             <div class="form-group">
                                 <label>Kategori Pelanggan <span class="req">*</span></label>
-                                <select name="pelanggan_id" id="pelanggan_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
+                                <select name="kategori_pelanggan_id" id="kategori_pelanggan_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
                                     <option value="">— Pilih Kategori Pelanggan —</option>
                                     <?php foreach ($md_pelanggan as $p): ?>
                                         <option value="<?= $p['id'] ?>"
@@ -901,14 +901,14 @@
                                 <label>ID Pelanggan
                                     <span class="hint">(Personal / Perusahaan / Sekolah)</span>
                                 </label>
-                                <input type="text" name="id_pelanggan" id="id_pelanggan" placeholder="Isi manual" disabled>
+                                <input type="text" name="pelanggan_id" id="pelanggan_id" placeholder="Isi manual" disabled>
                             </div>
 
                             <div class="form-group">
                                 <label>Kode Toko
                                     <span class="hint">(Alfamidi / Alfamart / Lawson)</span>
                                 </label>
-                                <input type="text" name="kode_toko" id="kode_toko" placeholder="Isi manual" disabled>
+                                <input type="text" name="toko_id" id="toko_id" placeholder="Isi manual" disabled>
                             </div>
                         </div>
 
@@ -1018,26 +1018,25 @@
             return 'Rp ' + String(angka).replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
         }
 
-        /* Vendor otomatis dari Paket Data */
-        const paketSel = document.getElementById('data_cellular_id');
-        const vendorBox = document.getElementById('vendor_display');
-        paketSel.addEventListener('change', function() {
-            const opt = paketSel.options[paketSel.selectedIndex];
-            vendorBox.textContent = (opt && opt.dataset.vendor) ? opt.dataset.vendor : '—';
-        });
-
-        /* Harga otomatis dari Quota */
         const quotaSel = document.getElementById('quota_simcard_id');
+        const vendorBox = document.getElementById('vendor_display');
+        const paketBox = document.getElementById('paket_display');
+        const isiBox = document.getElementById('isi_display');
         const hargaBox = document.getElementById('harga_display');
+
         quotaSel.addEventListener('change', function() {
             const opt = quotaSel.options[quotaSel.selectedIndex];
+            vendorBox.textContent = (opt && opt.dataset.vendor) ? opt.dataset.vendor : '—';
+            paketBox.textContent = (opt && opt.dataset.paket) ? opt.dataset.paket : '—';
+            isiBox.textContent = (opt && opt.dataset.isi) ? opt.dataset.isi : '—';
             hargaBox.textContent = (opt && opt.dataset.harga) ? toRupiah(opt.dataset.harga) : '—';
         });
 
         /* Kategori → aktifkan ID Pelanggan ATAU Kode Toko */
-        const pelangganSel = document.getElementById('pelanggan_id');
-        const idPelangganInp = document.getElementById('id_pelanggan');
-        const kodeTokoInp = document.getElementById('kode_toko');
+        /* ══ Kategori → aktifkan ID Pelanggan ATAU Kode Toko ══ */
+        const pelangganSel = document.getElementById('kategori_pelanggan_id');
+        const idPelangganInp = document.getElementById('pelanggan_id');
+        const kodeTokoInp = document.getElementById('toko_id');
         const kategoriNote = document.getElementById('kategori_note');
         const KATEGORI_TOKO = ['alfamidi', 'alfamart', 'lawson'];
 

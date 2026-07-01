@@ -10,6 +10,8 @@ class LayananVendorModel extends BaseModel
     protected $primaryKey       = 'id';
 
     protected $allowedFields = [
+        'kode_layanan_vendor',
+        'vendor_id',
         'nama_layanan',
         'status',
         'keterangan',

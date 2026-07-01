@@ -10,9 +10,11 @@ class QuotaSIMCARDModel extends BaseModel
     protected $primaryKey       = 'id';
 
     protected $allowedFields = [
-        'data_celullar_id',
-        'isi_quota_internet',
-        'harga_quota_internet',
+        'kode_quota_simcard',
+        'vendor_cellular_id',
+        'nama_paket_data',
+        'quota_internet',
+        'harga_quota',
         'status',
         'keterangan',
         'created_at'

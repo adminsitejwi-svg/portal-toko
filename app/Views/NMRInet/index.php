@@ -523,7 +523,7 @@
                     </a>
                     <ul class="submenu bg-black/20">
                         <li><a href="<?= site_url('DataSI') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Simcard</a></li>
-                        <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor Inet</a></li>
+                        <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                     </ul>
                 </li>
                 <li class="hasmenu">
@@ -542,9 +542,7 @@
                         <li><a href="<?= site_url('DCAdmin') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">DC</a></li>
                         <li><a href="<?= site_url('MediaKoneksi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Media Koneksi</a></li>
                         <li><a href="<?= site_url('PemilikProject') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pemilik Projek</a></li>
-                        <li><a href="<?= site_url('LayananJwi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Layanan jwi group</a></li>
                         <li><a href="<?= site_url('Pelanggan') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pelanggan</a></li>
-                        <li><a href="<?= site_url('DataCelullar') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Data Celullar</a></li>
                         <li><a href="<?= site_url('NomorInet') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                         <li><a href="<?= site_url('QuotaSIMCARD') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Kuota Simcard</a></li>
 
@@ -625,7 +623,7 @@
         <div class="p-6">
             <!-- breadcrumb -->
             <div class="flex items-center justify-between mb-6 gap-4 flex-wrap">
-                <h5 class="font-medium text-lg">Nomor Inet</h5>
+                <h5 class="font-medium text-lg">Nomor INET</h5>
 
                 <a href="<?= site_url('NMRInet/create') ?>" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition">
                     <i class="ti ti-plus"></i> Tambah
@@ -653,13 +651,12 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Nama Vendor /<br>Penyedia Layanan</th>
-                                    <th>Nama Paket Layanan</th>
-                                    <th>Kecepatan / Bandwidth</th>
-                                    <th>Harga Layanan</th>
-                                    <th>Nomor INET / ID Pelanggan</th>
-
-
+                                    <th>Nama Vendor</th>
+                                    <th>Nama Layanan</th>
+                                    <th>Bandwidth</th>
+                                    <th>Harga</th>
+                                    <th>Nomor INET</th>
+                                    <th>Kategori Pelanggan</th>
                                     <th>Status</th>
                                     <th>Keterangan</th>
                                     <th>Created At</th>
@@ -667,41 +664,70 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if (!empty($MD_inet)) : ?>
+
+                                <?php if (!empty($md_nomer_inet)) : ?>
+
                                     <?php $no = 1; ?>
-                                    <?php foreach ($MD_inet as $row) : ?>
+
+                                    <?php foreach ($md_nomer_inet as $row): ?>
+
                                         <tr>
+
                                             <td><?= $no++; ?></td>
-                                            <td><?= esc($row['nama_vendor'] ?? '-'); ?></td>
-                                            <td><?= esc($row['nama_paket_layanan'] ?? '-'); ?></td>
-                                            <td><?= esc($row['kecepatan_bandwidth'] ?? '-'); ?></td>
-                                            <td>
-                                                <?= isset($row['harga_layanan']) && $row['harga_layanan'] !== null && $row['harga_layanan'] !== ''
-                                                    ? 'Rp ' . number_format((float) $row['harga_layanan'], 0, ',', '.')
-                                                    : '-' ?>
-                                            </td>
-                                            <td><?= esc($row['nomor_inet_pelanggan'] ?? '-'); ?></td>
+
+                                            <td><?= esc($row['nama_vendor']); ?></td>
+
+                                            <td><?= esc($row['nama_paket_layanan']); ?></td>
+
+                                            <td><?= esc($row['kecepatan_bandwidth']); ?></td>
 
                                             <td>
-                                                <?php if ($row['status'] == 0) : ?>
-                                                    <span class="badge badge-paid">Aktif</span>
-                                                <?php else : ?>
-                                                    <span class="badge badge-due">Non Aktif</span>
-                                                <?php endif; ?>
+                                                <?= $row['harga_layanan'] != ''
+                                                    ? 'Rp ' . number_format($row['harga_layanan'], 0, ',', '.')
+                                                    : '-'; ?>
                                             </td>
-                                            <td><?= esc($row['keterangan'] ?? '-'); ?></td>
-                                            <td><?= !empty($row['created_at']) ? date('d-m-Y H:i', strtotime($row['created_at'])) : '-'; ?></td>
+
+                                            <td><?= esc($row['nomor_inet']); ?></td>
+
+
+                                            <td><?= esc($row['kategori_pelanggan']); ?></td>
+
                                             <td>
-                                                <a href="<?= site_url('NMRInet/edit/' . $row['id']) ?>" class="btn btn-sm btn-primary">
+
+                                                <?php if ($row['status'] == 0): ?>
+
+                                                    <span class="badge badge-paid">Aktif</span>
+
+                                                <?php else: ?>
+
+                                                    <span class="badge badge-due">Non Aktif</span>
+
+                                                <?php endif; ?>
+
+                                            </td>
+
+                                            <td><?= esc($row['keterangan']); ?></td>
+
+                                            <td><?= date('d-m-Y H:i', strtotime($row['created_at'])); ?></td>
+
+                                            <td>
+
+                                                <a href="<?= site_url('NMRInet/edit/' . $row['id']) ?>" class="btn btn-primary btn-sm">
                                                     <i class="ti ti-edit"></i>
                                                 </a>
-                                                <button type="button" onclick="confirmDelete(<?= $row['id'] ?>)" class="btn btn-sm btn-danger">
+
+                                                <button onclick="confirmDelete(<?= $row['id'] ?>)" class="btn btn-danger btn-sm">
                                                     <i class="ti ti-trash"></i>
                                                 </button>
+
                                             </td>
+
                                         </tr>
+
                                     <?php endforeach; ?>
+
                                 <?php endif; ?>
+
                             </tbody>
                         </table>
 

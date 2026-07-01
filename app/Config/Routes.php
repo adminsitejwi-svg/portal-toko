@@ -9,7 +9,6 @@ use App\Controllers\Auth\Login;
 use App\Controllers\DashboardManager;
 use App\Controllers\DCAdmin;
 use App\Controllers\MediaKoneksi;
-use App\Controllers\LayananJwi;
 use App\Controllers\PemilikProject;
 use App\Controllers\Vendor;
 use App\Controllers\LayananVendor;
@@ -21,7 +20,6 @@ use App\Controllers\Alfamart;
 use App\Controllers\Map;
 use App\Controllers\TypePerangkat;
 use App\Controllers\Pelanggan;
-use App\Controllers\DataCelullar;
 use App\Controllers\NomorInet;
 use App\Controllers\QuotaSIMCARD;
 use App\Controllers\DataSI;
@@ -74,11 +72,7 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->post('MediaKoneksi/update', 'MediaKoneksi::update');
 
     // Layanan JWI
-    $routes->get('LayananJwi', [LayananJwi::class, 'index']);
-    $routes->get('LayananJwi/create', 'LayananJwi::create');
-    $routes->post('LayananJwi/save', 'LayananJwi::save');
-    $routes->get('LayananJwi/delete/(:num)', 'LayananJwi::delete/$1');
-    $routes->post('LayananJwi/update', 'LayananJwi::update');
+
 
     // Pemilik Project
     $routes->get('PemilikProject', [PemilikProject::class, 'index']);
@@ -161,11 +155,7 @@ $routes->group('', ['filter' => 'auth'], static function ($routes) {
     $routes->post('Pelanggan/update', 'Pelanggan::update');
     $routes->get('Pelanggan/delete/(:num)', 'Pelanggan::delete/$1');
 
-    $routes->get('DataCelullar', [DataCelullar::class, 'index']);
-    $routes->get('DataCelullar/create', 'DataCelullar::create');
-    $routes->post('DataCelullar/save', 'DataCelullar::save');
-    $routes->post('DataCelullar/update', 'DataCelullar::update');
-    $routes->get('DataCelullar/delete/(:num)', 'DataCelullar::delete/$1');
+
 
     $routes->get('NomorInet', [NomorInet::class, 'index']);
     $routes->get('NomorInet/create', 'NomorInet::create');

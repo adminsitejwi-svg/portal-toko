@@ -523,7 +523,7 @@
                     </a>
                     <ul class="submenu bg-black/20">
                         <li><a href="<?= site_url('DataSI') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Simcard</a></li>
-                        <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor Inet</a></li>
+                        <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                     </ul>
                 </li>
                 <li class="hasmenu">
@@ -542,9 +542,7 @@
                         <li><a href="<?= site_url('DCAdmin') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">DC</a></li>
                         <li><a href="<?= site_url('MediaKoneksi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Media Koneksi</a></li>
                         <li><a href="<?= site_url('PemilikProject') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pemilik Projek</a></li>
-                        <li><a href="<?= site_url('LayananJwi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Layanan jwi group</a></li>
                         <li><a href="<?= site_url('Pelanggan') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pelanggan</a></li>
-                        <li><a href="<?= site_url('DataCelullar') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Data Celullar</a></li>
                         <li><a href="<?= site_url('NomorInet') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                         <li><a href="<?= site_url('QuotaSIMCARD') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Kuota Simcard</a></li>
 
@@ -651,6 +649,7 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>Kode DC</th>
                                     <th>Nama DC</th>
                                     <th>Alamat DC</th>
                                     <th>Status</th>
@@ -665,6 +664,7 @@
                                     <?php foreach ($MD_dc as $row) : ?>
                                         <tr>
                                             <td><?= $no++; ?></td>
+                                            <td><?= esc($row['kode_dc']); ?></td>
                                             <td><?= esc($row['nama_dc']); ?></td>
                                             <td><?= esc($row['alamat_dc']); ?></td>
                                             <td>
@@ -681,6 +681,7 @@
                                                     type="button"
                                                     onclick="openEditModal(
                                                     '<?= $row['id'] ?>',
+                                                    '<?= esc($row['kode_dc']) ?>',
                                                     '<?= esc($row['nama_dc']) ?>',
                                                     '<?= esc($row['alamat_dc']) ?>',
                                                     '<?= esc($row['status']) ?>',
@@ -731,7 +732,11 @@
                                     <input type="hidden" name="id" id="edit_id">
 
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
+                                        <div class="md:col-span-2">
+                                            <label>Kode DC</label>
+                                            <input type="text" id="edit_kode_dc" name="kode_dc"
+                                                class="w-full border rounded-lg p-3">
+                                        </div>
                                         <div>
                                             <label>Nama DC</label>
                                             <input
@@ -1057,9 +1062,10 @@
         }
     </script>
     <script>
-        function openEditModal(id, nama_dc, alamat_dc, status, keterangan, ) {
+        function openEditModal(id, kode_dc, nama_dc, alamat_dc, status, keterangan, ) {
 
             document.getElementById('edit_id').value = id;
+            document.getElementById('edit_kode_dc').value = kode_dc;
             document.getElementById('edit_nama_dc').value = nama_dc;
             document.getElementById('edit_alamat_dc').value = alamat_dc;
             document.getElementById('edit_status').value = status;

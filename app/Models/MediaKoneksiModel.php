@@ -10,6 +10,8 @@ class MediaKoneksiModel extends BaseModel
     protected $primaryKey       = 'id';
 
     protected $allowedFields = [
+        'kode_media_koneksi',
+        'status_link',
         'media_koneksi',
         'status',
         'keterangan',

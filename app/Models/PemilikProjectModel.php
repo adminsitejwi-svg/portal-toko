@@ -10,6 +10,7 @@ class PemilikProjectModel extends BaseModel
     protected $primaryKey       = 'id';
 
     protected $allowedFields = [
+        'kode_pemilik_projek',
         'nama_pemilik',
         'alamat_lengkap',
         'pic_projek',

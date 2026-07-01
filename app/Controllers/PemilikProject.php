@@ -26,21 +26,30 @@ class PemilikProject extends BaseController
 
         $model = new \App\Models\PemilikProjectModel();
 
-        // ── Cegah data ganda ──
-        $cekDup = trim((string) $this->request->getPost('nama_pemilik'));
-        if ($cekDup !== '' && $model->where('nama_pemilik', $cekDup)->first()) {
+        $kode = trim((string) $this->request->getPost('kode_pemilik_projek'));
+        $nama = trim((string) $this->request->getPost('nama_pemilik'));
+
+        // ── Cegah kode ganda (kode dijadikan index) ──
+        if ($kode !== '' && $model->where('kode_pemilik_projek', $kode)->first()) {
             return redirect()->back()->withInput()
-                ->with('error', 'Data Pemilik Project "' . $cekDup . '" sudah ada. Data tidak boleh ganda.');
+                ->with('error', 'Kode "' . $kode . '" sudah digunakan. Kode tidak boleh ganda.');
+        }
+
+        // ── Cegah nama ganda ──
+        if ($nama !== '' && $model->where('nama_pemilik', $nama)->first()) {
+            return redirect()->back()->withInput()
+                ->with('error', 'Data Pemilik Project "' . $nama . '" sudah ada. Data tidak boleh ganda.');
         }
 
         $model->save([
-            'nama_pemilik' => $this->request->getPost('nama_pemilik'),
-            'alamat_lengkap' => $this->request->getPost('alamat_lengkap'),
-            'pic_projek' => $this->request->getPost('pic_projek'),
-            'nomor_hp_pic' => $this->request->getPost('nomor_hp_pic'),
-            'status' => $this->request->getPost('status'),
-            'keterangan' => $this->request->getPost('keterangan'),
-            'created_at' => date('Y-m-d H:i:s')
+            'kode_pemilik_projek' => $kode,
+            'nama_pemilik'        => $nama,
+            'alamat_lengkap'      => $this->request->getPost('alamat_lengkap'),
+            'pic_projek'          => $this->request->getPost('pic_projek'),
+            'nomor_hp_pic'        => $this->request->getPost('nomor_hp_pic'),
+            'status'              => $this->request->getPost('status'),
+            'keterangan'          => $this->request->getPost('keterangan'),
+            'created_at'          => date('Y-m-d H:i:s'),
         ]);
 
         return redirect()->to('/PemilikProject')
@@ -64,26 +73,32 @@ class PemilikProject extends BaseController
     }
     public function update()
     {
-        $id = $this->request->getPost('id');
-
+        $id    = $this->request->getPost('id');
         $model = new \App\Models\PemilikProjectModel();
 
-        // ── Cegah data ganda (kecuali baris ini sendiri) ──
-        $cekDup = trim((string) $this->request->getPost('nama_pemilik'));
-        if ($cekDup !== '' && $model->where('nama_pemilik', $cekDup)->where('id !=', $id)->first()) {
+        $kode = trim((string) $this->request->getPost('kode_pemilik_projek'));
+        $nama = trim((string) $this->request->getPost('nama_pemilik'));
+
+        // ── Cegah kode ganda (kecuali baris ini) ──
+        if ($kode !== '' && $model->where('kode_pemilik_projek', $kode)->where('id !=', $id)->first()) {
             return redirect()->back()->withInput()
-                ->with('error', 'Data Pemilik Project "' . $cekDup . '" sudah ada. Data tidak boleh ganda.');
+                ->with('error', 'Kode "' . $kode . '" sudah digunakan. Kode tidak boleh ganda.');
+        }
+
+        // ── Cegah nama ganda (kecuali baris ini) ──
+        if ($nama !== '' && $model->where('nama_pemilik', $nama)->where('id !=', $id)->first()) {
+            return redirect()->back()->withInput()
+                ->with('error', 'Data Pemilik Project "' . $nama . '" sudah ada. Data tidak boleh ganda.');
         }
 
         $model->update($id, [
-
-            'nama_pemilik' => $this->request->getPost('nama_pemilik'),
-            'alamat_lengkap' => $this->request->getPost('alamat_lengkap'),
-            'pic_projek' => $this->request->getPost('pic_projek'),
-            'nomor_hp_pic' => $this->request->getPost('nomor_hp_pic'),
-            'status' => $this->request->getPost('status'),
-            'keterangan' => $this->request->getPost('keterangan'),
-
+            'kode_pemilik_projek' => $kode,
+            'nama_pemilik'        => $nama,
+            'alamat_lengkap'      => $this->request->getPost('alamat_lengkap'),
+            'pic_projek'          => $this->request->getPost('pic_projek'),
+            'nomor_hp_pic'        => $this->request->getPost('nomor_hp_pic'),
+            'status'              => $this->request->getPost('status'),
+            'keterangan'          => $this->request->getPost('keterangan'),
         ]);
 
         return redirect()->to('/PemilikProject')

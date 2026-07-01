@@ -670,7 +670,7 @@
                     </a>
                     <ul class="submenu bg-black/20">
                         <li><a href="<?= site_url('DataSI') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Simcard</a></li>
-                        <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor Inet</a></li>
+                        <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                     </ul>
                 </li>
                 <li class="hasmenu">
@@ -689,9 +689,7 @@
                         <li><a href="<?= site_url('DCAdmin') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">DC</a></li>
                         <li><a href="<?= site_url('MediaKoneksi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Media Koneksi</a></li>
                         <li><a href="<?= site_url('PemilikProject') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pemilik Projek</a></li>
-                        <li><a href="<?= site_url('LayananJwi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Layanan jwi group</a></li>
                         <li><a href="<?= site_url('Pelanggan') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pelanggan</a></li>
-                        <li><a href="<?= site_url('DataCelullar') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Data Celullar</a></li>
                         <li><a href="<?= site_url('NomorInet') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                         <li><a href="<?= site_url('QuotaSIMCARD') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Kuota Simcard</a></li>
 
@@ -774,42 +772,40 @@
                 <form action="<?= site_url('QuotaSIMCARD/save') ?>" method="POST" id="qsForm">
                     <?= csrf_field() ?>
                     <div class="form-group mt-5">
-                        <label>Nama Vendor / Penyedia Layanan</label>
-                        <input type="text" id="nama_vendor_display" readonly
-                            placeholder="Otomatis dari paket data"
-                            class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg bg-gray-100 outline-none">
+                        <label>Kode Quota Simcard <span style="color:red">*</span></label>
+                        <input type="text" name="kode_quota_simcard" id="kode_quota_simcard" required
+                            class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
+                    </div>
+
+                    <div class="form-group mt-5">
+                        <label>Nama Vendor / Penyedia Layanan <span style="color:red">*</span></label>
+                        <select name="vendor_cellular_id" id="vendor_cellular_id" required
+                            class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
+                            <option value="">Pilih Vendor</option>
+                            <?php foreach (($md_vendor_cellular ?? []) as $v) : ?>
+                                <option value="<?= $v['id'] ?>"><?= esc($v['nama_vendor']) ?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
                     <div class="form-group mt-5">
                         <label>Nama Paket Data <span style="color:red">*</span></label>
-                        <select name="data_celullar_id" id="data_celullar_id" required
+                        <input type="text" name="nama_paket_data" id="nama_paket_data" required
+                            placeholder="Cth: Paket Bulanan 50GB"
                             class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
-                            <option value="">Pilih Paket Data</option>
-                            <?php if (!empty($md_data_celullar)) : ?>
-                                <?php foreach ($md_data_celullar as $dc) : ?>
-                                    <option value="<?= $dc['id'] ?>"
-                                        data-vendor="<?= esc($dc['nama_vendor']) ?>">
-                                        <?= esc($dc['nama_paket_data']) ?> — <?= esc($dc['nama_vendor']) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </select>
                     </div>
 
 
 
                     <div class="form-group mt-5">
                         <label>Isi Quota Internet <span style="color:red">*</span></label>
-                        <input type="text" name="isi_quota_internet" id="isi_quota_internet"
-                            placeholder="Cth: 50 GB" required
+                        <input type="text" name="quota_internet" id="quota_internet" placeholder="Cth: 50 GB" required ...
                             class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
                     </div>
 
                     <div class="form-group mt-5">
                         <label>Harga Quota Internet <span style="color:red">*</span></label>
-                        <input type="text" id="harga_quota_display" inputmode="numeric"
-                            placeholder="Rp 0" autocomplete="off" required
-                            class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
-                        <input type="hidden" name="harga_quota_internet" id="harga_quota_internet">
+                        <input type="text" id="harga_quota_display" inputmode="numeric" placeholder="Rp 0" autocomplete="off" required ...>
+                        <input type="hidden" name="harga_quota" id="harga_quota">
                     </div>
 
                     <div class="form-group mt-5">
@@ -837,16 +833,9 @@
         </div>
     </div>
     <script>
-        // auto-isi nama vendor saat pilih paket data
-        document.getElementById('data_celullar_id').addEventListener('change', function() {
-            const opt = this.options[this.selectedIndex];
-            document.getElementById('nama_vendor_display').value = opt.getAttribute('data-vendor') || '';
-        });
-
-        // format Rupiah harga
         (function() {
             const display = document.getElementById('harga_quota_display');
-            const hidden = document.getElementById('harga_quota_internet');
+            const hidden = document.getElementById('harga_quota');
 
             function formatRupiah(angka) {
                 if (angka === '') return '';

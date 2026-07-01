@@ -552,7 +552,7 @@
                     </a>
                     <ul class="submenu bg-black/20">
                         <li><a href="<?= site_url('DataSI') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Simcard</a></li>
-                        <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor Inet</a></li>
+                        <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                     </ul>
                 </li>
                 <li class="hasmenu">
@@ -571,9 +571,7 @@
                         <li><a href="<?= site_url('DCAdmin') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">DC</a></li>
                         <li><a href="<?= site_url('MediaKoneksi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Media Koneksi</a></li>
                         <li><a href="<?= site_url('PemilikProject') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pemilik Projek</a></li>
-                        <li><a href="<?= site_url('LayananJwi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Layanan jwi group</a></li>
                         <li><a href="<?= site_url('Pelanggan') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pelanggan</a></li>
-                        <li><a href="<?= site_url('DataCelullar') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Data Celullar</a></li>
                         <li><a href="<?= site_url('NomorInet') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                         <li><a href="<?= site_url('QuotaSIMCARD') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Kuota Simcard</a></li>
 
@@ -680,10 +678,11 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Nama Vendor / Penyedia Layanan</th>
+                                    <th>Kode Quota Simcard</th>
+                                    <th>Nama Vendor</th>
                                     <th>Nama Paket Data</th>
-                                    <th>Isi Quota Internet</th>
-                                    <th>Harga Quota Internet</th>
+                                    <th>Quota Internet</th>
+                                    <th>Harga Quota</th>
                                     <th>Status</th>
                                     <th>Keterangan</th>
                                     <th>Created At</th>
@@ -696,12 +695,12 @@
                                     <?php foreach ($md_quota_simcard as $row) : ?>
                                         <tr>
                                             <td><?= $no++; ?></td>
-                                            <td><?= esc($row['nama_vendor']); ?></td>
+                                            <td><?= esc($row['kode_quota_simcard']); ?></td>
+                                            <td><?= esc($row['nama_vendor_cellular']); ?></td>
                                             <td><?= esc($row['nama_paket_data']); ?></td>
-                                            <td><?= esc($row['isi_quota_internet']); ?></td>
-                                            <td><?= $row['harga_quota_internet'] !== null && $row['harga_quota_internet'] !== ''
-                                                    ? 'Rp ' . number_format((float) $row['harga_quota_internet'], 0, ',', '.')
-                                                    : '-' ?></td>
+                                            <td><?= esc($row['quota_internet']); ?></td>
+                                            <td><?= ($row['harga_quota'] !== null && $row['harga_quota'] !== '')
+                                                    ? 'Rp ' . number_format((float) $row['harga_quota'], 0, ',', '.') : '-' ?></td>
                                             <td>
                                                 <?php if ($row['status'] == 0) : ?>
                                                     <span class="badge badge-paid">Aktif</span>
@@ -714,13 +713,15 @@
                                             <td>
                                                 <button type="button"
                                                     onclick="openEditModal(
-                        '<?= $row['id'] ?>',
-                        '<?= esc($row['data_celullar_id']) ?>',
-                        '<?= esc($row['isi_quota_internet'], 'js') ?>',
-                        '<?= esc($row['harga_quota_internet']) ?>',
-                        '<?= esc($row['status']) ?>',
-                        '<?= esc($row['keterangan'], 'js') ?>'
-                    )"
+                                                    '<?= $row['id'] ?>',
+                                                    '<?= esc($row['kode_quota_simcard'], 'js') ?>',
+                                                    '<?= esc($row['vendor_cellular_id'], 'js') ?>',
+                                                    '<?= esc($row['nama_paket_data'], 'js') ?>',
+                                                    '<?= esc($row['quota_internet'], 'js') ?>',
+                                                    '<?= esc($row['harga_quota'], 'js') ?>',
+                                                    '<?= esc($row['status']) ?>',
+                                                    '<?= esc($row['keterangan'], 'js') ?>'
+                                                     )"
                                                     class="btn btn-sm btn-primary"><i class="ti ti-edit"></i></button>
                                                 <button type="button" onclick="confirmDelete(<?= $row['id'] ?>)"
                                                     class="btn btn-sm btn-danger"><i class="ti ti-trash"></i></button>
@@ -748,30 +749,34 @@
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                                         <div class="md:col-span-2">
+                                            <label>Kode Quota Simcard</label>
+                                            <input type="text" id="edit_kode_quota_simcard" name="kode_quota_simcard" class="w-full border rounded-lg p-3">
+                                        </div>
+
+                                        <div class="md:col-span-2">
                                             <label>Nama Vendor / Penyedia Layanan</label>
-                                            <select id="edit_vendor_filter" class="w-full border rounded-lg p-3">
+                                            <select id="edit_vendor_cellular_id" name="vendor_cellular_id" class="w-full border rounded-lg p-3">
                                                 <option value="">Pilih Vendor</option>
+                                                <?php foreach (($md_vendor_cellular ?? []) as $v) : ?>
+                                                    <option value="<?= $v['id'] ?>"><?= esc($v['nama_vendor']) ?></option>
+                                                <?php endforeach; ?>
                                             </select>
                                         </div>
 
                                         <div class="md:col-span-2">
                                             <label>Nama Paket Data</label>
-                                            <select id="edit_data_celullar_id" name="data_celullar_id" class="w-full border rounded-lg p-3">
-                                                <option value="">Pilih vendor dulu</option>
-                                            </select>
+                                            <input type="text" id="edit_nama_paket_data" name="nama_paket_data" class="w-full border rounded-lg p-3">
                                         </div>
 
                                         <div class="md:col-span-2">
                                             <label>Isi Quota Internet</label>
-                                            <input type="text" id="edit_isi_quota_internet" name="isi_quota_internet"
-                                                placeholder="Cth: 50 GB" class="w-full border rounded-lg p-3">
+                                            <input type="text" id="edit_quota_internet" name="quota_internet" placeholder="Cth: 50 GB" class="w-full border rounded-lg p-3">
                                         </div>
 
                                         <div class="md:col-span-2">
-                                            <label>Harga Quota Internet</label>
-                                            <input type="text" id="edit_harga_quota_display" inputmode="numeric"
-                                                placeholder="Rp 0" autocomplete="off" class="w-full border rounded-lg p-3">
-                                            <input type="hidden" name="harga_quota_internet" id="edit_harga_quota_internet">
+                                            <label>Harga Quota</label>
+                                            <input type="text" id="edit_harga_quota_display" inputmode="numeric" placeholder="Rp 0" autocomplete="off" class="w-full border rounded-lg p-3">
+                                            <input type="hidden" name="harga_quota" id="edit_harga_quota">
                                         </div>
 
                                         <div class="md:col-span-2">
@@ -784,10 +789,8 @@
 
                                         <div class="md:col-span-2">
                                             <label>Keterangan</label>
-                                            <textarea id="edit_keterangan" name="keterangan" rows="3"
-                                                class="w-full border rounded-lg p-3"></textarea>
+                                            <textarea id="edit_keterangan" name="keterangan" rows="3" class="w-full border rounded-lg p-3"></textarea>
                                         </div>
-
                                     </div>
 
                                     <div class="flex justify-end gap-3 mt-6">
@@ -1053,61 +1056,23 @@
         }
     </script>
     <script>
-        // data paket dari controller (id, nama_paket_data, nama_vendor)
-        const dataCelullar = <?= json_encode($md_data_celullar ?? [], JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
-
         function formatRupiah(angka) {
             if (angka === '') return '';
             return 'Rp ' + String(angka).replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
         }
 
-        const editVendorSel = document.getElementById('edit_vendor_filter');
-        const editPaketSel = document.getElementById('edit_data_celullar_id');
-
-        // isi dropdown vendor (unik)
-        (function() {
-            const seen = {};
-            dataCelullar.forEach(d => {
-                if (d.nama_vendor && !seen[d.nama_vendor]) {
-                    seen[d.nama_vendor] = true;
-                    editVendorSel.add(new Option(d.nama_vendor, d.nama_vendor));
-                }
-            });
-        })();
-
-        // isi paket data sesuai vendor; bisa preselect paket tertentu
-        function fillEditPaket(vendor, selectedPaketId) {
-            editPaketSel.innerHTML = '<option value="">Pilih Paket Data</option>';
-            dataCelullar
-                .filter(d => d.nama_vendor === vendor)
-                .forEach(d => editPaketSel.add(new Option(d.nama_paket_data, d.id)));
-            if (selectedPaketId) editPaketSel.value = selectedPaketId;
-        }
-
-        editVendorSel.addEventListener('change', function() {
-            fillEditPaket(this.value, null);
-        });
-
-        function openEditModal(id, data_celullar_id, isi_quota_internet, harga_quota_internet, status, keterangan) {
+        function openEditModal(id, kode, vendorId, namaPaket, quota, harga, status, keterangan) {
             document.getElementById('edit_id').value = id;
-            document.getElementById('edit_isi_quota_internet').value = isi_quota_internet;
+            document.getElementById('edit_kode_quota_simcard').value = kode;
+            document.getElementById('edit_vendor_cellular_id').value = vendorId;
+            document.getElementById('edit_nama_paket_data').value = namaPaket;
+            document.getElementById('edit_quota_internet').value = quota;
             document.getElementById('edit_status').value = status;
             document.getElementById('edit_keterangan').value = keterangan;
 
-            // harga: tampilan Rupiah, hidden = angka polos
-            const rawHarga = String(harga_quota_internet).replace(/\D/g, '');
-            document.getElementById('edit_harga_quota_internet').value = rawHarga;
-            document.getElementById('edit_harga_quota_display').value = formatRupiah(rawHarga);
-
-            // cari vendor dari paket yang dipilih, lalu isi cascading
-            const paket = dataCelullar.find(d => String(d.id) === String(data_celullar_id));
-            if (paket) {
-                editVendorSel.value = paket.nama_vendor;
-                fillEditPaket(paket.nama_vendor, data_celullar_id);
-            } else {
-                editVendorSel.value = '';
-                editPaketSel.innerHTML = '<option value="">Pilih vendor dulu</option>';
-            }
+            const raw = String(harga).replace(/\D/g, '');
+            document.getElementById('edit_harga_quota').value = raw;
+            document.getElementById('edit_harga_quota_display').value = formatRupiah(raw);
 
             document.getElementById('editModal').classList.remove('hidden');
         }
@@ -1134,19 +1099,7 @@
         // format Rupiah untuk input harga di modal edit
         (function() {
             const display = document.getElementById('edit_harga_quota_display');
-            const hidden = document.getElementById('edit_harga_quota_internet');
-            display.addEventListener('input', function() {
-                const raw = this.value.replace(/\D/g, '');
-                hidden.value = raw;
-                this.value = formatRupiah(raw);
-            });
-        })();
-    </script>
-    <script>
-        // Format Rupiah untuk input harga di modal edit
-        (function() {
-            const display = document.getElementById('edit_harga_layanan_display');
-            const hidden = document.getElementById('edit_harga_layanan');
+            const hidden = document.getElementById('edit_harga_quota');
             if (!display || !hidden) return;
             display.addEventListener('input', function() {
                 const raw = this.value.replace(/\D/g, '');
@@ -1154,46 +1107,8 @@
                 this.value = formatRupiah(raw);
             });
         })();
-
-        // Tombol "+ Baru" bandwidth di modal edit
-        document.getElementById('edit_btn_add_bw').addEventListener('click', function() {
-            Swal.fire({
-                title: 'Tambah Kecepatan Bandwidth',
-                html: `
-            <div style="display:flex;gap:8px;align-items:center">
-                <input type="number" id="swal_bw_val" class="swal2-input" placeholder="Cth: 25" min="1" style="flex:1;margin:0">
-                <select id="swal_bw_unit" class="swal2-input" style="flex:1;margin:0">
-                    <option value="Mbps">Mbps</option>
-                    <option value="Gbps">Gbps</option>
-                    <option value="Kbps">Kbps</option>
-                </select>
-            </div>`,
-                showCancelButton: true,
-                confirmButtonText: 'Tambahkan',
-                cancelButtonText: 'Batal',
-                confirmButtonColor: '#185a82',
-                preConfirm: () => {
-                    const val = document.getElementById('swal_bw_val').value.trim();
-                    const unit = document.getElementById('swal_bw_unit').value;
-                    if (!val || isNaN(val) || parseFloat(val) <= 0) {
-                        Swal.showValidationMessage('Masukkan nilai bandwidth yang valid');
-                        return false;
-                    }
-                    return `${val} ${unit}`;
-                }
-            }).then(result => {
-                if (!result.isConfirmed) return;
-                const newVal = result.value;
-                const sel = document.getElementById('edit_kecepatan_bandwidth');
-                const ada = Array.from(sel.options).some(o => o.value === newVal);
-                if (ada) {
-                    sel.value = newVal;
-                    return;
-                }
-                sel.add(new Option(newVal, newVal, true, true));
-            });
-        });
     </script>
+
     <script>
         // PENGHALANG KOSMETIK SAJA — bukan security, mudah dilewati
         document.addEventListener('contextmenu', e => e.preventDefault()); // klik kanan

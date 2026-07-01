@@ -2,6 +2,13 @@
 
 namespace App\Controllers;
 
+use App\Models\JenisPerangkatModel;
+use App\Models\TypePerangkatModel;
+use App\Models\LayananVendorModel;
+use App\Models\PemilikProjectModel;
+use App\Models\QuotasIMCARDModel;
+use App\Models\DataSIModel;
+use App\Models\NMRInetModel;
 use App\Models\PerangkatModel;
 
 class DashboardManager extends BaseController
@@ -48,21 +55,31 @@ class DashboardManager extends BaseController
         $alfamidiModel     = new \App\Models\AlfamidiModel();
         $lawsonModel       = new \App\Models\LawsonModel();
         $mediaKoneksiModel = new \App\Models\MediaKoneksiModel();
-        $layananJwiModel   = new \App\Models\LayananJwiModel();
         $alfamartModel     = new \App\Models\AlfamartModel();
         $pelangganModel    = new \App\Models\PelangganModel();
-        $dataCelullarModel = new \App\Models\DataCelullarModel();
+
         $nomerInetModel    = new \App\Models\NomerInetModel();
+        $vendorCellularModel = new \App\Models\VendorCelulllarModel();
+
+        $jenisModel        = new JenisPerangkatModel();
+        $typeModel         = new TypePerangkatModel();
+        $layananModel      = new LayananVendorModel();
+        $pemilikModel      = new PemilikProjectModel();
+        $quotaModel        = new QuotasIMCARDModel();
+        $dataSIModel       = new DataSIModel();
+        $nmrInetModel      = new NMRInetModel();
+
+        $data['vendorCellular'] = $vendorCellularModel
+            ->orderBy('created_at', 'DESC')
+            ->findAll();
 
         // ===== Hitungan master data lain =====
         $db = \Config\Database::connect();
         $data['totalPelanggan']    = $db->table('md_pelanggan')->countAllResults();
-        $data['totalDataCelullar'] = $db->table('md_data_celullar')->countAllResults();
         $data['totalNomorInet']    = $db->table('md_nomer_inet')->countAllResults();
 
         $data['totalDC']           = $dcModel->countAllResults();
         $data['totalMediaKoneksi'] = $mediaKoneksiModel->countAllResults();
-        $data['totalLayananJwi']   = $layananJwiModel->countAllResults();
         $data['totalPerangkat']    = $perangkatModel->countAllResults();
 
         // ===== Merek perangkat (untuk tabel) =====
@@ -94,7 +111,20 @@ class DashboardManager extends BaseController
         $alfamart                        = $this->hitungStatus($alfamartModel);
         $data['total_alfamart_aktif']    = $alfamart['aktif'];
         $data['total_alfamart_nonaktif'] = $alfamart['nonaktif'];
+        $data['totalJenisPerangkat'] = $jenisModel->countAllResults();
 
+        $data['totalTypePerangkat'] = $typeModel->countAllResults();
+
+        $data['totalLayananVendor'] = $layananModel->countAllResults();
+
+        $data['totalPemilikProject'] = $pemilikModel->countAllResults();
+
+        $data['totalKuotaSIMCARD'] = $quotaModel->countAllResults();
+
+
+        $data['totalSIMCARD'] = $dataSIModel->countAllResults();
+
+        $data['totalPenggunaanInet'] = $nmrInetModel->countAllResults();
         return view('manager/dashboard', $data);
     }
 }

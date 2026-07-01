@@ -9,15 +9,26 @@ class LayananVendor extends BaseController
     {
         $model = new \App\Models\LayananVendorModel();
 
+        // JOIN ke md_vendor agar nama_vendor ikut tampil
         $data['MD_layanan_vendor'] = $model
-            ->orderBy('id', 'DESC')
+            ->select('md_layanan_vendor.*, md_vendor.nama_vendor')
+            ->join('md_vendor', 'md_vendor.id = md_layanan_vendor.vendor_id', 'left')
+            ->orderBy('md_layanan_vendor.id', 'DESC')
             ->findAll();
+
+        // daftar vendor untuk dropdown di modal edit
+        $vendorModel = new \App\Models\VendorModel();
+        $data['vendorList'] = $vendorModel->orderBy('nama_vendor', 'ASC')->findAll();
 
         return view('Vendor/LayananVendor', $data);
     }
     public function create()
     {
-        return view('Vendor/FormLV');
+        // daftar vendor untuk dropdown di form tambah
+        $vendorModel = new \App\Models\VendorModel();
+        $data['vendorList'] = $vendorModel->orderBy('nama_vendor', 'ASC')->findAll();
+
+        return view('Vendor/FormLV', $data);
     }
 
     public function save()
@@ -26,18 +37,21 @@ class LayananVendor extends BaseController
 
         $model = new \App\Models\LayananVendorModel();
 
-        // ── Cegah data ganda ──
-        $cekDup = trim((string) $this->request->getPost('nama_layanan'));
-        if ($cekDup !== '' && $model->where('nama_layanan', $cekDup)->first()) {
+        $kode = trim((string) $this->request->getPost('kode_layanan_vendor'));
+
+        // ── Cegah kode ganda (kode dijadikan index) ──
+        if ($kode !== '' && $model->where('kode_layanan_vendor', $kode)->first()) {
             return redirect()->back()->withInput()
-                ->with('error', 'Data Layanan Vendor "' . $cekDup . '" sudah ada. Data tidak boleh ganda.');
+                ->with('error', 'Kode "' . $kode . '" sudah digunakan. Kode tidak boleh ganda.');
         }
 
         $model->save([
-            'nama_layanan' => $this->request->getPost('nama_layanan'),
-            'status' => $this->request->getPost('status'),
-            'keterangan' => $this->request->getPost('keterangan'),
-            'created_at' => date('Y-m-d H:i:s')
+            'kode_layanan_vendor' => $kode,
+            'vendor_id'           => $this->request->getPost('vendor_id'),
+            'nama_layanan'        => $this->request->getPost('nama_layanan'),
+            'status'              => $this->request->getPost('status'),
+            'keterangan'          => $this->request->getPost('keterangan'),
+            'created_at'          => date('Y-m-d H:i:s'),
         ]);
 
         return redirect()->to('/LayananVendor')
@@ -61,23 +75,23 @@ class LayananVendor extends BaseController
     }
     public function update()
     {
-        $id = $this->request->getPost('id');
-
+        $id    = $this->request->getPost('id');
         $model = new \App\Models\LayananVendorModel();
 
-        // ── Cegah data ganda (kecuali baris ini sendiri) ──
-        $cekDup = trim((string) $this->request->getPost('nama_layanan'));
-        if ($cekDup !== '' && $model->where('nama_layanan', $cekDup)->where('id !=', $id)->first()) {
+        $kode = trim((string) $this->request->getPost('kode_layanan_vendor'));
+
+        // ── Cegah kode ganda (kecuali baris ini) ──
+        if ($kode !== '' && $model->where('kode_layanan_vendor', $kode)->where('id !=', $id)->first()) {
             return redirect()->back()->withInput()
-                ->with('error', 'Data Layanan Vendor "' . $cekDup . '" sudah ada. Data tidak boleh ganda.');
+                ->with('error', 'Kode "' . $kode . '" sudah digunakan. Kode tidak boleh ganda.');
         }
 
         $model->update($id, [
-
-            'nama_layanan' => $this->request->getPost('nama_layanan'),
-            'status' => $this->request->getPost('status'),
-            'keterangan' => $this->request->getPost('keterangan'),
-            'created_at' => date('Y-m-d H:i:s')
+            'kode_layanan_vendor' => $kode,
+            'vendor_id'           => $this->request->getPost('vendor_id'),
+            'nama_layanan'        => $this->request->getPost('nama_layanan'),
+            'status'              => $this->request->getPost('status'),
+            'keterangan'          => $this->request->getPost('keterangan'),
         ]);
 
         return redirect()->to('/LayananVendor')

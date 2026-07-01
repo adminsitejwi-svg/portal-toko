@@ -11,6 +11,7 @@ class DCModel extends BaseModel
     protected $primaryKey = 'id';
 
     protected $allowedFields = [
+        'kode_dc',
         'nama_dc',
         'alamat_dc',
         'status',

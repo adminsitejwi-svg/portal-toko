@@ -10,6 +10,7 @@ class VendorModel extends BaseModel
     protected $primaryKey       = 'id';
 
     protected $allowedFields = [
+        'kode_layanan_vendor',
         'nama_vendor',
         'alamat_vendor',
         'status',

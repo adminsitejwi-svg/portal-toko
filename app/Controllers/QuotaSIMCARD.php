@@ -10,70 +10,71 @@ class QuotaSIMCARD extends BaseController
         $db = \Config\Database::connect();
 
         $data['md_quota_simcard'] = $db->table('md_quota_simcard qs')
-            ->select('
-            qs.*,
-            dc.nama_paket_data,
-            v.nama_vendor
-        ')
-            ->join('md_data_celullar dc', 'dc.id = qs.data_celullar_id', 'left')
-            ->join('md_vendor v', 'v.id = dc.vendor_id', 'left')
+            ->select('qs.*, vc.nama_vendor AS nama_vendor_cellular')
+            ->join('md_vendor_cellular vc', 'vc.id = qs.vendor_cellular_id', 'left')
             ->orderBy('qs.id', 'DESC')
-            ->get()
-            ->getResultArray();
+            ->get()->getResultArray();
 
-        $data['md_data_celullar'] = $db->table('md_data_celullar dc')
-            ->select('dc.*, v.nama_vendor')
-            ->join('md_vendor v', 'v.id = dc.vendor_id', 'left')
-            ->orderBy('dc.nama_paket_data', 'ASC')
-            ->get()
-            ->getResultArray();
+        $data['md_vendor_cellular'] = $db->table('md_vendor_cellular')
+            ->orderBy('nama_vendor', 'ASC')
+            ->get()->getResultArray();
 
         return view('QuotaSIMCARD/index', $data);
     }
+
     public function create()
     {
         $db = \Config\Database::connect();
 
-        $data['md_data_celullar'] = $db->table('md_data_celullar dc')
-            ->select('dc.*, v.nama_vendor')
-            ->join('md_vendor v', 'v.id = dc.vendor_id', 'left')
-            ->orderBy('dc.nama_paket_data', 'ASC')
-            ->get()
-            ->getResultArray();
+        $data['md_vendor_cellular'] = $db->table('md_vendor_cellular')
+            ->orderBy('nama_vendor', 'ASC')
+            ->get()->getResultArray();
 
         return view('QuotaSIMCARD/FormQuotaSIMCARD', $data);
     }
+
     public function save()
     {
+        date_default_timezone_set('Asia/Jakarta');
         $model = new \App\Models\QuotaSIMCARDModel();
-        date_default_timezone_set('Asia/Jakarta');   // <-- tambahkan
-        $model = new \App\Models\QuotaSIMCARDModel();
-        // ... sisanya tetap
 
-        $dataCelullarId = $this->request->getPost('data_celullar_id');
-        $isiQuota       = trim($this->request->getPost('isi_quota_internet'));
+        $kode = trim((string) $this->request->getPost('kode_quota_simcard'));
 
-        $cek = $model->where('data_celullar_id', $dataCelullarId)
-            ->where('isi_quota_internet', $isiQuota)
+        // ── Cegah kode ganda (kode dijadikan index) ──
+        if ($kode !== '' && $model->where('kode_quota_simcard', $kode)->first()) {
+            return redirect()->back()->withInput()
+                ->with('error', 'Kode "' . $kode . '" sudah digunakan. Kode tidak boleh ganda.');
+        }
+
+        $vendorId  = $this->request->getPost('vendor_cellular_id');
+        $namaPaket = trim((string) $this->request->getPost('nama_paket_data'));
+        $quota     = trim((string) $this->request->getPost('quota_internet'));
+
+        // ── Cegah quota ganda untuk vendor + paket yang sama ──
+        $cek = $model->where('vendor_cellular_id', $vendorId)
+            ->where('nama_paket_data', $namaPaket)
+            ->where('quota_internet', $quota)
             ->first();
-
         if ($cek) {
             return redirect()->back()->withInput()
                 ->with('error', 'Quota internet tersebut sudah tersedia.');
         }
 
         $model->save([
-            'data_celullar_id'      => $dataCelullarId,
-            'isi_quota_internet'    => $isiQuota,
-            'harga_quota_internet'  => $this->request->getPost('harga_quota_internet'),
-            'status'                => $this->request->getPost('status'),
-            'keterangan'            => $this->request->getPost('keterangan'),
-            'created_at'            => date('Y-m-d H:i:s'),
+            'kode_quota_simcard' => $kode,
+            'vendor_cellular_id' => $vendorId,
+            'nama_paket_data'    => $namaPaket,
+            'quota_internet'     => $quota,
+            'harga_quota'        => $this->request->getPost('harga_quota'),
+            'status'             => $this->request->getPost('status'),
+            'keterangan'         => $this->request->getPost('keterangan'),
+            'created_at'         => date('Y-m-d H:i:s'),
         ]);
 
         return redirect()->to('/QuotaSIMCARD')
             ->with('success', 'Data quota berhasil disimpan.');
     }
+
     public function delete($id)
     {
 
@@ -93,34 +94,40 @@ class QuotaSIMCARD extends BaseController
     }
     public function update()
     {
-
-        date_default_timezone_set('Asia/Jakarta');   // <-- tambahkan
-        $id = $this->request->getPost('id');
-        // ... sisanya tetap
-        $id = $this->request->getPost('id');
-
+        date_default_timezone_set('Asia/Jakarta');
+        $id    = $this->request->getPost('id');
         $model = new \App\Models\QuotaSIMCARDModel();
 
-        $dataCelullarId = $this->request->getPost('data_celullar_id');
-        $isiQuota       = trim($this->request->getPost('isi_quota_internet'));
+        $kode = trim((string) $this->request->getPost('kode_quota_simcard'));
 
-        $cek = $model->where('data_celullar_id', $dataCelullarId)
-            ->where('isi_quota_internet', $isiQuota)
+        // ── Cegah kode ganda (kecuali baris ini) ──
+        if ($kode !== '' && $model->where('kode_quota_simcard', $kode)->where('id !=', $id)->first()) {
+            return redirect()->back()->withInput()
+                ->with('error', 'Kode "' . $kode . '" sudah digunakan. Kode tidak boleh ganda.');
+        }
+
+        $vendorId  = $this->request->getPost('vendor_cellular_id');
+        $namaPaket = trim((string) $this->request->getPost('nama_paket_data'));
+        $quota     = trim((string) $this->request->getPost('quota_internet'));
+
+        $cek = $model->where('vendor_cellular_id', $vendorId)
+            ->where('nama_paket_data', $namaPaket)
+            ->where('quota_internet', $quota)
             ->where('id !=', $id)
             ->first();
-
         if ($cek) {
             return redirect()->back()->withInput()
                 ->with('error', 'Quota internet tersebut sudah tersedia.');
         }
 
         $model->update($id, [
-            'data_celullar_id'      => $dataCelullarId,
-            'isi_quota_internet'    => $isiQuota,
-            'harga_quota_internet'  => $this->request->getPost('harga_quota_internet'),
-            'status'                => $this->request->getPost('status'),
-            'keterangan'            => $this->request->getPost('keterangan'),
-            'updated_at'            => date('Y-m-d H:i:s'),
+            'kode_quota_simcard' => $kode,
+            'vendor_cellular_id' => $vendorId,
+            'nama_paket_data'    => $namaPaket,
+            'quota_internet'     => $quota,
+            'harga_quota'        => $this->request->getPost('harga_quota'),
+            'status'             => $this->request->getPost('status'),
+            'keterangan'         => $this->request->getPost('keterangan'),
         ]);
 
         return redirect()->to('/QuotaSIMCARD')

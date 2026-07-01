@@ -204,6 +204,15 @@
             .brand-text {
                 font-size: 18px;
             }
+
+            .vendor-card table td,
+            .vendor-card table th {
+                white-space: nowrap;
+            }
+
+            .vendor-card .custom-scroll {
+                scrollbar-width: thin;
+            }
         </style>
     </head>
 
@@ -286,7 +295,7 @@
                         </a>
                         <ul class="submenu bg-black/20">
                             <li><a href="<?= site_url('DataSI') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Simcard</a></li>
-                            <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor Inet</a></li>
+                            <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                         </ul>
                     </li>
                     <li class="hasmenu">
@@ -305,9 +314,7 @@
                             <li><a href="<?= site_url('DCAdmin') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">DC</a></li>
                             <li><a href="<?= site_url('MediaKoneksi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Media Koneksi</a></li>
                             <li><a href="<?= site_url('PemilikProject') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pemilik Projek</a></li>
-                            <li><a href="<?= site_url('LayananJwi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Layanan jwi group</a></li>
                             <li><a href="<?= site_url('Pelanggan') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pelanggan</a></li>
-                            <li><a href="<?= site_url('DataCelullar') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Data Celullar</a></li>
                             <li><a href="<?= site_url('NomorInet') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                             <li><a href="<?= site_url('QuotaSIMCARD') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Kuota Simcard</a></li>
 
@@ -401,6 +408,79 @@
 
                 <div class="grid grid-cols-12 gap-x-6">
                     <!-- Daily Sales -->
+
+
+
+                    <a href="<?= site_url('Jns_perangkat') ?>" class="col-span-12 xl:col-span-4 md:col-span-6">
+                        <div class="card hover:shadow-lg transition-all duration-300 cursor-pointer">
+                            <div class="card-header !border-b-0">
+                                <h5>Total Jenis Perangkat</h5>
+                            </div>
+
+                            <div class="card-body">
+                                <h3 class="text-2xl font-light flex items-center">
+                                    <i class="ti ti-device-desktop text-success-500 text-2xl mr-2"></i>
+                                    <?= $totalJenisPerangkat ?>
+                                </h3>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="<?= site_url('TypePerangkat') ?>" class="col-span-12 xl:col-span-4 md:col-span-6">
+                        <div class="card hover:shadow-lg transition-all duration-300 cursor-pointer">
+                            <div class="card-header !border-b-0">
+                                <h5>Total Type Perangkat</h5>
+                            </div>
+
+                            <div class="card-body">
+                                <h3 class="text-2xl font-light flex items-center">
+                                    <i class="ti ti-devices text-success-500 text-2xl mr-2"></i>
+                                    <?= $totalTypePerangkat ?>
+                                </h3>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="<?= site_url('Vendor') ?>" class="col-span-12 xl:col-span-4 md:col-span-6">
+                        <div class="card hover:shadow-lg transition-all duration-300 cursor-pointer">
+                            <div class="card-header !border-b-0">
+                                <h5>Total Vendor Non Cellular</h5>
+                            </div>
+
+                            <div class="card-body">
+                                <h3 class="text-2xl font-light flex items-center">
+                                    <i class="ti ti-building text-success-500 text-2xl mr-2"></i>
+                                    <?= count($vendor) ?>
+                                </h3>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="<?= site_url('VendorCelulllar') ?>" class="col-span-12 xl:col-span-4 md:col-span-6">
+                        <div class="card hover:shadow-lg transition-all duration-300 cursor-pointer">
+                            <div class="card-header !border-b-0">
+                                <h5>Total Vendor Cellular</h5>
+                            </div>
+
+                            <div class="card-body">
+                                <h3 class="text-2xl font-light flex items-center">
+                                    <i class="ti ti-device-sim text-success-500 text-2xl mr-2"></i>
+                                    <?= count($vendorCellular) ?>
+                                </h3>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="<?= site_url('LayananVendor') ?>" class="col-span-12 xl:col-span-4 md:col-span-6">
+                        <div class="card hover:shadow-lg transition-all duration-300 cursor-pointer">
+                            <div class="card-header !border-b-0">
+                                <h5>Total Layanan Vendor</h5>
+                            </div>
+
+                            <div class="card-body">
+                                <h3 class="text-2xl font-light flex items-center">
+                                    <i class="ti ti-world text-success-500 text-2xl mr-2"></i>
+                                    <?= $totalLayananVendor ?>
+                                </h3>
+                            </div>
+                        </div>
+                    </a>
                     <a href="<?= site_url('DCAdmin') ?>" class="col-span-12 xl:col-span-4 md:col-span-6">
                         <div class="card hover:shadow-lg transition-all duration-300 cursor-pointer">
                             <div class="card-header !border-b-0 ">
@@ -417,6 +497,8 @@
                             </div>
                         </div>
                     </a>
+
+
                     <a href="<?= site_url('MediaKoneksi') ?>" class="col-span-12 xl:col-span-4 md:col-span-6">
                         <div class="card hover:shadow-lg transition-all duration-300 cursor-pointer">
                             <div class="card-header !border-b-0 ">
@@ -433,25 +515,23 @@
                             </div>
                         </div>
                     </a>
-                    <!-- Yearly Sales -->
-                    <a href="<?= site_url('LayananJwi') ?>" class="col-span-12 xl:col-span-4 md:col-span-6">
+
+                    <a href="<?= site_url('PemilikProject') ?>" class="col-span-12 xl:col-span-4 md:col-span-6">
                         <div class="card hover:shadow-lg transition-all duration-300 cursor-pointer">
-                            <div class="card-header !border-b-0 ">
-                                <h5>Total Layanan Jwi</h5>
+                            <div class="card-header !border-b-0">
+                                <h5>Total Pemilik Project</h5>
                             </div>
 
                             <div class="card-body">
-                                <div class="flex items-center justify-between flex-wrap gap-3">
-                                    <h3 class="text-2xl font-light flex items-center">
-                                        <i class="ti ti-headset text-success-500 text-2xl mr-2"></i>
-                                        <?= $totalLayananJwi ?? 0 ?>
-                                    </h3>
-                                </div>
+                                <h3 class="text-2xl font-light flex items-center">
+                                    <i class="ti ti-user-star text-success-500 text-2xl mr-2"></i>
+                                    <?= $totalPemilikProject ?>
+                                </h3>
                             </div>
-
-
                         </div>
                     </a>
+                    <!-- Yearly Sales -->
+
 
                     <a href="<?= site_url('Pelanggan') ?>" class="col-span-12 xl:col-span-4 md:col-span-6">
                         <div class="card hover:shadow-lg transition-all duration-300 cursor-pointer">
@@ -469,21 +549,6 @@
                         </div>
                     </a>
 
-                    <a href="<?= site_url('DataCelullar') ?>" class="col-span-12 xl:col-span-4 md:col-span-6">
-                        <div class="card hover:shadow-lg transition-all duration-300 cursor-pointer">
-                            <div class="card-header !border-b-0 ">
-                                <h5>Total Data Celullar</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="flex items-center justify-between flex-wrap gap-3">
-                                    <h3 class="text-2xl font-light flex items-center">
-                                        <i class="ti ti-device-mobile text-success-500 text-2xl mr-2"></i>
-                                        <?= $totalDataCelullar ?? 0 ?>
-                                    </h3>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
 
                     <a href="<?= site_url('NomorInet') ?>" class="col-span-12 xl:col-span-4 md:col-span-6">
                         <div class="card hover:shadow-lg transition-all duration-300 cursor-pointer">
@@ -500,6 +565,53 @@
                             </div>
                         </div>
                     </a>
+                    <a href="<?= site_url('QuotaSIMCARD') ?>" class="col-span-12 xl:col-span-4 md:col-span-6">
+                        <div class="card hover:shadow-lg transition-all duration-300 cursor-pointer">
+                            <div class="card-header !border-b-0">
+                                <h5>Total Kuota SIMCARD</h5>
+                            </div>
+
+                            <div class="card-body">
+                                <h3 class="text-2xl font-light flex items-center">
+                                    <i class="ti ti-device-mobile text-success-500 text-2xl mr-2"></i>
+                                    <?= $totalKuotaSIMCARD ?>
+                                </h3>
+                            </div>
+                        </div>
+                    </a>
+
+
+                    <a href="<?= site_url('DataSI') ?>" class="col-span-12 xl:col-span-4 md:col-span-6">
+                        <div class="card hover:shadow-lg transition-all duration-300 cursor-pointer">
+                            <div class="card-header !border-b-0">
+                                <h5>Total Data SIMCARD</h5>
+                            </div>
+
+                            <div class="card-body">
+                                <h3 class="text-2xl font-light flex items-center">
+                                    <i class="ti ti-sim text-success-500 text-2xl mr-2"></i>
+                                    <?= $totalSIMCARD ?>
+                                </h3>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="<?= site_url('NMRInet') ?>" class="col-span-12 xl:col-span-4 md:col-span-6">
+                        <div class="card hover:shadow-lg transition-all duration-300 cursor-pointer">
+                            <div class="card-header !border-b-0">
+                                <h5>Total Data Nomor INET</h5>
+                            </div>
+
+                            <div class="card-body">
+                                <h3 class="text-2xl font-light flex items-center">
+                                    <i class="ti ti-router text-success-500 text-2xl mr-2"></i>
+                                    <?= $totalPenggunaanInet ?>
+                                </h3>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="col-span-12">
+
+                    </div>
                     <!-- Facebook -->
                     <div class="col-span-12 xl:col-span-4">
                         <div class="card">
@@ -574,8 +686,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Rating -->
                     <!-- Merek Perangkat -->
                     <div class="col-span-12 xl:col-span-4 md:col-span-6">
                         <div class="card">
@@ -642,11 +752,11 @@
                     </div>
 
                     <!-- Recent Users -->
-                    <div class="col-span-12 xl:col-span-8 md:col-span-6">
-                        <div class="card">
+                    <div class="col-span-12 xl:col-span-4 md:col-span-6">
+                        <div class="card vendor-card">
                             <div class="card-header flex items-center justify-between gap-3 flex-wrap">
 
-                                <h5>Vendor</h5>
+                                <h5>Vendor Non Celullar</h5>
 
                                 <div class="flex items-center gap-2 flex-wrap">
 
@@ -682,7 +792,7 @@
                                     style="<?= $totalVendor > 5 ? 'max-height:360px;' : '' ?>">
 
                                     <div class="overflow-x-auto custom-scroll">
-                                        <table class="w-full text-sm" style="min-width:560px">
+                                        <table class="min-w-[700px] w-full text-sm" style="min-width:560px">
                                             <tbody id="vendorList">
 
                                                 <?php if (!empty($vendor)) : ?>
@@ -747,7 +857,7 @@
                                         id="vendorEmpty"
                                         class="text-center text-gray-400 text-sm py-10 <?= !empty($vendor) ? 'hidden' : '' ?>">
 
-                                        Data vendor belum tersedia
+                                        Data vendor non celullar belum tersedia
 
                                     </div>
 
@@ -756,6 +866,132 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-span-12 xl:col-span-4 md:col-span-6">
+                        <div class="card">
+
+                            <div class="card-header">
+
+                                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+
+                                    <h5 class="shrink-0">
+                                        Vendor Cellular
+                                    </h5>
+
+                                    <div class="flex items-center gap-2 w-full lg:w-auto">
+
+                                        <div class="relative flex-1 lg:flex-none">
+
+                                            <input
+                                                type="text"
+                                                id="vendorSearch2"
+                                                placeholder="Cari vendor..."
+                                                class="w-full lg:w-56 border border-gray-200 dark:border-white/10 dark:bg-[#1d2630] rounded-lg pl-9 pr-3 py-2 text-sm">
+
+                                            <i class="ti ti-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+
+                                        </div>
+
+                                        <a href="<?= site_url('VendorCelulllar') ?>"
+                                            class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-primary-500 hover:bg-primary-600 rounded-lg whitespace-nowrap">
+
+                                            <i class="ti ti-external-link"></i>
+
+                                            Lihat
+
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="card-body !p-0">
+
+                                <?php
+                                $totalVendor = count($vendorCellular ?? []);
+                                ?>
+
+                                <div
+                                    class="<?= $totalVendor > 5 ? 'ooverflow-y-auto overflow-x-hidden custom-scroll' : '' ?>"
+                                    style="<?= $totalVendor > 5 ? 'max-height:360px;' : '' ?>">
+
+                                    <div class="overflow-x-auto custom-scroll">
+                                        <table class="w-full text-sm" style="min-width:560px">
+                                            <tbody id="vendorList">
+
+                                                <?php if (!empty($vendorCellular)) : ?>
+                                                    <?php foreach ($vendorCellular as $v) : ?>
+
+                                                        <tr class="vendor-row border-b border-gray-50 dark:border-white/5 hover:bg-gray-50 dark:hover:bg-white/5">
+
+                                                            <td class="px-5 py-4">
+                                                                <div class="w-10 h-10 rounded-full bg-gray-100 dark:bg-white/10 flex items-center justify-center">
+                                                                    <i class="ti ti-user text-gray-500 text-xl"></i>
+                                                                </div>
+                                                            </td>
+
+                                                            <td class="px-2 py-4">
+                                                                <h6 class="font-medium mb-1 vendor-name">
+                                                                    <?= esc($v['nama_vendor'] ?? '-') ?>
+                                                                </h6>
+
+                                                                <p class="text-gray-400 text-xs">
+                                                                    <?= esc($v['keterangan'] ?? '-') ?>
+                                                                </p>
+                                                            </td>
+
+                                                            <td class="px-2 py-4 whitespace-nowrap text-gray-400 text-xs">
+
+                                                                <i class="fas fa-circle text-[8px] mr-2 <?= ($v['status'] ?? '') == 'Aktif' ? 'text-success-500' : 'text-danger-500' ?>"></i>
+
+                                                                <?= !empty($v['created_at'])
+                                                                    ? date('d-m-Y H:i', strtotime($v['created_at']))
+                                                                    : '-' ?>
+
+                                                            </td>
+
+                                                            <td class="px-5 py-4 whitespace-nowrap">
+
+                                                                <?php if (($v['status'] ?? '') == 'Aktif') : ?>
+
+                                                                    <span class="text-xs text-white bg-success-500 px-3 py-1 rounded">
+                                                                        Aktif
+                                                                    </span>
+
+                                                                <?php else : ?>
+
+                                                                    <span class="text-xs text-white bg-danger-500 px-3 py-1 rounded">
+                                                                        Non Aktif
+                                                                    </span>
+
+                                                                <?php endif; ?>
+
+                                                            </td>
+
+                                                        </tr>
+
+                                                    <?php endforeach; ?>
+                                                <?php endif; ?>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div
+                                        id="vendorEmpty"
+                                        class="text-center text-gray-400 text-sm py-10 <?= !empty($vendorCellular) ? 'hidden' : '' ?>">
+
+                                        Data vendor celullar belum tersedia
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
             </div>

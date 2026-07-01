@@ -10,13 +10,12 @@ class DataSIModel extends BaseModel
     protected $primaryKey = 'id';
 
     protected $allowedFields = [
-        'data_cellular_id',
         'quota_simcard_id',
-        'pelanggan_id',
         'nomor_msisdn',
-        'nomor_issid_ime',
-        'id_pelanggan',
-        'kode_toko',
+        'nomor_imei',
+        'kategori_pelanggan_id',
+        'pelanggan_id',
+        'toko_id',
         'status',
         'keterangan',
         'created_at',

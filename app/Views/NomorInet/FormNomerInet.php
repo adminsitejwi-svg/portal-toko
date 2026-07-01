@@ -670,7 +670,7 @@
                     </a>
                     <ul class="submenu bg-black/20">
                         <li><a href="<?= site_url('DataSI') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Simcard</a></li>
-                        <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor Inet</a></li>
+                        <li><a href="<?= site_url('NMRInet') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                     </ul>
                 </li>
                 <li class="hasmenu">
@@ -689,9 +689,7 @@
                         <li><a href="<?= site_url('DCAdmin') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">DC</a></li>
                         <li><a href="<?= site_url('MediaKoneksi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Media Koneksi</a></li>
                         <li><a href="<?= site_url('PemilikProject') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pemilik Projek</a></li>
-                        <li><a href="<?= site_url('LayananJwi') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Layanan jwi group</a></li>
                         <li><a href="<?= site_url('Pelanggan') ?>" class="block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Pelanggan</a></li>
-                        <li><a href="<?= site_url('DataCelullar') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Data Celullar</a></li>
                         <li><a href="<?= site_url('NomorInet') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Nomor INET</a></li>
                         <li><a href="<?= site_url('QuotaSIMCARD') ?>" class=" block pl-[52px] pr-6 py-2 text-[13px] hover:text-white">Kuota Simcard</a></li>
 
@@ -774,22 +772,30 @@
                 <h2>Form Pendaftaran Nomor INET</h2>
                 <form action="<?= site_url('NomorInet/save') ?>" method="POST" id="dcForm">
                     <div class="form-group mt-5">
-                        <label>Nama Vendor / Penyedia Layanan <span style="color:red">*</span></label>
-                        <select name="vendor_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
-                            <option value="">Pilih</option>
-                            <?php foreach ($MD_vendor as $vendor): ?>
-                                <option value="<?= $vendor['id'] ?>">
-                                    <?= esc($vendor['nama_vendor']) ?>
+                        <label>Kode Layanan Vendor <span style="color:red">*</span></label>
+                        <select name="layanan_vendor_id" id="layanan_vendor_id" required
+                            class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
+                            <option value="">Pilih Kode Layanan Vendor</option>
+                            <?php foreach (($MD_layanan_vendor ?? []) as $lv) : ?>
+                                <option value="<?= $lv['id'] ?>"
+                                    data-vendor="<?= esc($lv['nama_vendor'], 'attr') ?>"
+                                    data-layanan="<?= esc($lv['nama_layanan'], 'attr') ?>">
+                                    <?= esc($lv['kode_layanan_vendor']) ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
+
                     <div class="form-group mt-5">
-                        <label>Nama Paket Layanan <span style="color:red">*</span></label>
-                        <input type="text"
-                            name="nama_paket_layanan"
-                            id="nama_paket_layanan"
-                            required>
+                        <label>Nama Vendor / Penyedia Layanan</label>
+                        <input type="text" id="nama_vendor_display" disabled placeholder="Otomatis dari kode layanan"
+                            class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg bg-gray-100 outline-none">
+                    </div>
+
+                    <div class="form-group mt-5">
+                        <label>Nama Layanan</label>
+                        <input type="text" id="nama_layanan_display" disabled placeholder="Otomatis dari kode layanan"
+                            class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg bg-gray-100 outline-none">
                     </div>
                     <div class="form-group">
                         <label>Kecepetan Bandwidth <span class="req">*</span></label>
@@ -823,8 +829,8 @@
                     <div class="form-group mt-5">
                         <label>Nomor INET/ID Pelanggan <span style="color:red">*</span></label>
                         <input type="text"
-                            name="nomor_inet_pelanggan"
-                            id="nomor_inet_pelanggan"
+                            name="nomor_inet"
+                            id="nomor_inet"
                             required>
                     </div>
                     <div class="form-group mt-5">
@@ -960,23 +966,17 @@
     <script>
         document.getElementById('dcForm').addEventListener('submit', function(e) {
 
-            const namaPaketLayanan = document.getElementById('nama_paket_layanan').value.trim();
+            const layananVendorId = document.getElementById('layanan_vendor_id').value.trim();
             const kecepatanBandwidth = document.getElementById('kecepatan_bandwidth').value.trim();
             const hargaLayanan = document.getElementById('harga_layanan').value.trim();
-            const nomorInetPelanggan = document.getElementById('nomor_inet_pelanggan').value.trim();
-            const passwordInetPelanggan = document.getElementById('password_inet_pelanggan').value.trim();
+            const nomorInet = document.getElementById('nomor_inet').value.trim();
+            const passwordInet = document.getElementById('password_inet').value.trim();
             const status = document.getElementById('status').value.trim();
             const keterangan = document.getElementById('keterangan').value.trim();
 
             if (
-                namaPaketLayanan === '' ||
-                kecepatanBandwidth === '' ||
-                hargaLayanan === '' ||
-                nomorInetPelanggan === '' ||
-                passwordInetPelanggan === '' ||
-
-                status === '' ||
-                keterangan === ''
+                layananVendorId === '' || kecepatanBandwidth === '' || hargaLayanan === '' ||
+                nomorInet === '' || passwordInet === '' || status === '' || keterangan === ''
             ) {
 
                 e.preventDefault();
@@ -1063,6 +1063,12 @@
             if (e.key === 'F12') e.preventDefault(); // F12
             if (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) e.preventDefault();
             if (e.ctrlKey && e.key.toUpperCase() === 'U') e.preventDefault(); // view-source
+        });
+
+        document.getElementById('layanan_vendor_id').addEventListener('change', function() {
+            const opt = this.options[this.selectedIndex];
+            document.getElementById('nama_vendor_display').value = opt.getAttribute('data-vendor') || '';
+            document.getElementById('nama_layanan_display').value = opt.getAttribute('data-layanan') || '';
         });
     </script>
     <?php if (!session()->get('logged_in')) : ?>

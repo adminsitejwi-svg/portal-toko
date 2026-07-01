@@ -10,12 +10,11 @@ class NomerInetModel extends BaseModel
     protected $primaryKey       = 'id';
 
     protected $allowedFields = [
-        'vendor_id',
-        'nama_paket_layanan',
+        'layanan_vendor_id',
         'kecepatan_bandwidth',
         'harga_layanan',
-        'nomor_inet_pelanggan',
-        'password_inet_pelanggan',
+        'nomor_inet',
+        'password_inet',
         'status',
         'keterangan',
         'created_at'

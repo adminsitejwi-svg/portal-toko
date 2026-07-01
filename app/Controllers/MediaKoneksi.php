@@ -26,18 +26,21 @@ class MediaKoneksi extends BaseController
 
         $model = new \App\Models\MediaKoneksiModel();
 
-        // ── Cegah data ganda ──
-        $cekDup = trim((string) $this->request->getPost('media_koneksi'));
-        if ($cekDup !== '' && $model->where('media_koneksi', $cekDup)->first()) {
+        $kode = trim((string) $this->request->getPost('kode_media_koneksi'));
+
+        // ── Cegah kode ganda (kode dijadikan index) ──
+        if ($kode !== '' && $model->where('kode_media_koneksi', $kode)->first()) {
             return redirect()->back()->withInput()
-                ->with('error', 'Data Media Koneksi "' . $cekDup . '" sudah ada. Data tidak boleh ganda.');
+                ->with('error', 'Kode "' . $kode . '" sudah digunakan. Kode tidak boleh ganda.');
         }
 
         $model->save([
-            'media_koneksi' => $this->request->getPost('media_koneksi'),
-            'status'        => $this->request->getPost('status'),
-            'keterangan'    => $this->request->getPost('keterangan'),
-            'created_at'    => date('Y-m-d H:i:s')
+            'kode_media_koneksi' => $kode,
+            'status_link'        => $this->request->getPost('status_link'),
+            'media_koneksi'      => $this->request->getPost('media_koneksi'),
+            'status'             => $this->request->getPost('status'),
+            'keterangan'         => $this->request->getPost('keterangan'),
+            'created_at'         => date('Y-m-d H:i:s'),
         ]);
 
         return redirect()->to('/MediaKoneksi')
@@ -61,23 +64,23 @@ class MediaKoneksi extends BaseController
     }
     public function update()
     {
-        $id = $this->request->getPost('id');
-
+        $id    = $this->request->getPost('id');
         $model = new \App\Models\MediaKoneksiModel();
 
-        // ── Cegah data ganda (kecuali baris ini sendiri) ──
-        $cekDup = trim((string) $this->request->getPost('media_koneksi'));
-        if ($cekDup !== '' && $model->where('media_koneksi', $cekDup)->where('id !=', $id)->first()) {
+        $kode = trim((string) $this->request->getPost('kode_media_koneksi'));
+
+        // ── Cegah kode ganda (kecuali baris ini) ──
+        if ($kode !== '' && $model->where('kode_media_koneksi', $kode)->where('id !=', $id)->first()) {
             return redirect()->back()->withInput()
-                ->with('error', 'Data Media Koneksi "' . $cekDup . '" sudah ada. Data tidak boleh ganda.');
+                ->with('error', 'Kode "' . $kode . '" sudah digunakan. Kode tidak boleh ganda.');
         }
 
         $model->update($id, [
-
-            'media_koneksi'    => $this->request->getPost('media_koneksi'),
-            'status'     => $this->request->getPost('status'),
-            'keterangan' => $this->request->getPost('keterangan'),
-
+            'kode_media_koneksi' => $kode,
+            'status_link'        => $this->request->getPost('status_link'),
+            'media_koneksi'      => $this->request->getPost('media_koneksi'),
+            'status'             => $this->request->getPost('status'),
+            'keterangan'         => $this->request->getPost('keterangan'),
         ]);
 
         return redirect()->to('/MediaKoneksi')
