@@ -822,18 +822,20 @@
                         <div class="grid-2">
 
                             <div class="form-group">
-                                <label>Nama Paket Layanan <span class="req">*</span></label>
-                                <select name="nomor_inet_id" id="nomor_inet_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
-                                    <option value="">— Pilih Paket Layanan —</option>
+                                <label>Kode Layanan Vendor <span class="req">*</span></label>
+                                <select name="nomor_inet_id" id="nomor_inet_id" required
+                                    class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
+                                    <option value="">— Pilih Kode Layanan Vendor —</option>
                                     <?php foreach ($md_nomer_inet as $ni): ?>
                                         <option value="<?= $ni['id'] ?>"
                                             data-vendor="<?= esc($ni['nama_vendor'] ?? '-', 'attr') ?>"
+                                            data-layanan="<?= esc($ni['nama_paket_layanan'] ?? '-', 'attr') ?>"
                                             data-bw="<?= esc($ni['kecepatan_bandwidth'] ?? '-', 'attr') ?>"
                                             data-harga="<?= esc($ni['harga_layanan'] ?? '', 'attr') ?>"
-                                            data-nomor="<?= esc($ni['nomor_inet_pelanggan'] ?? '-', 'attr') ?>"
-                                            data-haspass="<?= !empty($ni['password_inet_pelanggan']) ? '1' : '0' ?>"
-                                            <?= $inet['nomor_inet_id'] == $ni['id'] ? 'selected' : '' ?>>
-                                            <?= esc($ni['nama_paket_layanan']) ?>
+                                            data-nomor="<?= esc($ni['nomor_inet'] ?? '-', 'attr') ?>"
+                                            data-haspass="<?= !empty($ni['password_inet']) ? '1' : '0' ?>"
+                                            <?= $inet['nomer_inet_id'] == $ni['id'] ? 'selected' : '' ?>>
+                                            <?= esc($ni['kode_layanan_vendor'] ?? '-') ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
@@ -843,7 +845,10 @@
                                 <label>Nama Vendor / Penyedia Layanan</label>
                                 <div class="readonly-box" id="vendor_display" class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">—</div>
                             </div>
-
+                            <div class="form-group">
+                                <label>Nama Layanan</label>
+                                <div class="readonly-box" id="layanan_display">—</div>
+                            </div>
                             <div class="form-group">
                                 <label>Kecepatan / Bandwidth</label>
                                 <div class="readonly-box" id="bw_display" class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">—</div>
@@ -876,7 +881,7 @@
                                     <?php foreach ($md_pelanggan as $p): ?>
                                         <option value="<?= $p['id'] ?>"
                                             data-kategori="<?= esc($p['kategori_pelanggan'] ?? '', 'attr') ?>"
-                                            <?= $inet['pelanggan_id'] == $p['id'] ? 'selected' : '' ?>>
+                                            <?= $inet['kategori_pelanggan_id'] == $p['id'] ? 'selected' : '' ?>>
                                             <?= esc($p['kategori_pelanggan'] ?? '-') ?>
                                         </option>
                                     <?php endforeach; ?>
@@ -987,13 +992,14 @@
         feather.replace();
 
         function toRupiah(angka) {
-            if (angka === '' || angka === null || isNaN(angka)) return '—';
-            return 'Rp ' + String(angka).replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            if (angka === '' || angka === null || angka === undefined || isNaN(angka)) return '—';
+            const num = Math.round(parseFloat(angka));
+            return 'Rp ' + String(num).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
         }
 
-        /* Isi field read-only dari master Nomor INET */
         const inetSel = document.getElementById('nomor_inet_id');
         const vendorBox = document.getElementById('vendor_display');
+        const layananBox = document.getElementById('layanan_display'); // TAMBAHKAN
         const bwBox = document.getElementById('bw_display');
         const hargaBox = document.getElementById('harga_display');
         const nomorBox = document.getElementById('nomor_display');
@@ -1002,11 +1008,12 @@
         function refreshInet() {
             const opt = inetSel.options[inetSel.selectedIndex];
             if (!opt || !opt.value) {
-                vendorBox.textContent = bwBox.textContent = hargaBox.textContent =
-                    nomorBox.textContent = passBox.textContent = '—';
+                vendorBox.textContent = layananBox.textContent = bwBox.textContent =
+                    hargaBox.textContent = nomorBox.textContent = passBox.textContent = '—';
                 return;
             }
             vendorBox.textContent = opt.dataset.vendor || '—';
+            layananBox.textContent = opt.dataset.layanan || '—'; // TAMBAHKAN
             bwBox.textContent = opt.dataset.bw || '—';
             hargaBox.textContent = opt.dataset.harga ? toRupiah(opt.dataset.harga) : '—';
             nomorBox.textContent = opt.dataset.nomor || '—';

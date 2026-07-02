@@ -823,8 +823,9 @@
                             <!-- Pilih master nomor inet (paket layanan) -->
                             <div class="form-group">
                                 <label for="nomor_inet_id">Kode Layanan Vendor</label>
-                                <select name="nomor_inet_id" id="nomor_inet_id" required class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
-                                    <option value="">— Pilih Paket Layanan —</option>
+                                <select name="nomor_inet_id" id="nomor_inet_id" required
+                                    class="w-full min-h-[46px] px-4 py-3 text-sm border border-[#e3e8ee] rounded-lg text-[#3b4754] bg-white focus:border-primary-500 outline-none">
+                                    <option value="">— Pilih Kode Layanan Vendor —</option>
                                     <?php foreach ($md_nomer_inet as $ni): ?>
                                         <option value="<?= $ni['id'] ?>"
                                             data-vendor="<?= esc($ni['nama_vendor'] ?? '-') ?>"
@@ -833,12 +834,11 @@
                                             data-harga="<?= esc($ni['harga_layanan'] ?? '') ?>"
                                             data-nomor="<?= esc($ni['nomor_inet'] ?? '-') ?>"
                                             data-haspass="<?= !empty($ni['password_inet']) ? '1' : '0' ?>">
-                                            <?= esc($ni['nama_paket_layanan']) ?>
+                                            <?= esc($ni['kode_layanan_vendor'] ?? '-') ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-
                             <!-- Vendor (read-only) -->
                             <div class="form-group">
                                 <label>Nama Vendor / Penyedia Layanan</label>
@@ -996,7 +996,11 @@
         /* ============ HELPER: FORMAT RUPIAH ============ */
         function toRupiah(angka) {
             if (angka === '' || angka === null || angka === undefined || isNaN(angka)) return '—';
-            return 'Rp ' + String(angka).replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+            // parse sebagai float dulu supaya desimal .00 dihitung benar, lalu bulatkan
+            const num = Math.round(parseFloat(angka));
+
+            return 'Rp ' + num.toLocaleString('id-ID');
         }
 
         /* ============ ELEMEN: DATA LAYANAN ============ */

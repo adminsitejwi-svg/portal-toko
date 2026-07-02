@@ -651,6 +651,7 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
+                                    <th>Kode Layanan Vendor</th>
                                     <th>Nama Vendor</th>
                                     <th>Nama Layanan</th>
                                     <th>Bandwidth</th>
@@ -674,7 +675,7 @@
                                         <tr>
 
                                             <td><?= $no++; ?></td>
-
+                                            <td><?= esc($row['kode_layanan_vendor'] ?? '-'); ?></td>
                                             <td><?= esc($row['nama_vendor']); ?></td>
 
                                             <td><?= esc($row['nama_paket_layanan']); ?></td>
